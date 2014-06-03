@@ -62,50 +62,48 @@ void MotorColStop(int Col)
 	switch (Col) 
 	{
 		case 1:
-				GPIO_SetBits(GPIOD, GPIO_Pin_8);//Col 1st
+				GPIO_SetBits(GPIOC, GPIO_Pin_12);//Col 1st
 				GPIO_SetBits(GPIOA, GPIO_Pin_4);
 			break;
 		case 2:
-				GPIO_SetBits(GPIOD, GPIO_Pin_10);//Col 2nd
+				GPIO_SetBits(GPIOC, GPIO_Pin_10);//Col 2nd
 				GPIO_SetBits(GPIOE, GPIO_Pin_7);
 			break;
 		case 3:
-				GPIO_SetBits(GPIOD, GPIO_Pin_12);//Col 3rd
+				GPIO_SetBits(GPIOA, GPIO_Pin_15);//Col 3rd
 				GPIO_SetBits(GPIOE, GPIO_Pin_8);
 			break;
 		case 4:
-				GPIO_SetBits(GPIOD, GPIO_Pin_14);//Col 4th
+				GPIO_SetBits(GPIOA, GPIO_Pin_11);//Col 4th
 				GPIO_SetBits(GPIOE, GPIO_Pin_9);
 			break;
 		case 5:
-				GPIO_SetBits(GPIOC, GPIO_Pin_6);//Col 5th
+				GPIO_SetBits(GPIOA, GPIO_Pin_9);//Col 5th
 				GPIO_SetBits(GPIOE, GPIO_Pin_10);
 			break;
 		case 6:
-				GPIO_SetBits(GPIOC, GPIO_Pin_8);//Col 6th
+				GPIO_SetBits(GPIOC, GPIO_Pin_9);//Col 6th
 				GPIO_SetBits(GPIOB, GPIO_Pin_10);
 			break;
 		case 7:
-				GPIO_SetBits(GPIOA, GPIO_Pin_8);//Col 7th
+				GPIO_SetBits(GPIOC, GPIO_Pin_7);//Col 7th
 				GPIO_SetBits(GPIOB, GPIO_Pin_11);
 			break;
 		case 8:
-				GPIO_SetBits(GPIOA, GPIO_Pin_10);//Col 8th
+				GPIO_SetBits(GPIOD, GPIO_Pin_15);//Col 8th
 				GPIO_SetBits(GPIOB, GPIO_Pin_13);
 			break;
 		case 9:
-				GPIO_SetBits(GPIOA, GPIO_Pin_12);//Col 9th
+				GPIO_SetBits(GPIOD, GPIO_Pin_13);//Col 9th
 				GPIO_SetBits(GPIOB, GPIO_Pin_15);
 			break;
 		case 10:
+				GPIO_SetBits(GPIOD, GPIO_Pin_11);//Col 10th
 				GPIO_SetBits(GPIOB, GPIO_Pin_12);
-				I2CValue2 &= 0x7F;
-				I2C_PCF8574_BufferWrite(I2CValue2, 0x42 );//Col 10th
 			break;
 		case 11:
+				GPIO_SetBits(GPIOD, GPIO_Pin_9);//Col 10th
 				GPIO_SetBits(GPIOB, GPIO_Pin_14);
-				I2CValue2 &=0xBF;
-				I2C_PCF8574_BufferWrite(I2CValue2, 0x42 );//Col 10th
 		break;
 		default:
 			break;
@@ -115,9 +113,9 @@ void MotorColStop(int Col)
 // 			GPIO_ReadOutputDataBit(GPIOC,GPIO_Pin_6 & GPIO_Pin_8) & \
 // 			GPIO_ReadOutputDataBit(GPIOD,GPIO_Pin_8 & GPIO_Pin_10 & GPIO_Pin_12 & GPIO_Pin_14) & \
 // 			GPIO_ReadOutputDataBit(GPIOE,GPIO_Pin_7 & GPIO_Pin_8 & GPIO_Pin_9 & GPIO_Pin_10))
-		if(! (((GPIO_ReadOutputData(GPIOA)&0x1510)<0x1510) | ((GPIO_ReadOutputData(GPIOB)&0xAC00)<0xAC00)\
-		| ((GPIO_ReadOutputData(GPIOC)&0x140)<0x140) | ((GPIO_ReadOutputData(GPIOD)&0x5500)<0x5500)\
-		| ((GPIO_ReadOutputData(GPIOE)&0x0780)<0x0780)) )
+		if(! (((GPIO_ReadOutputData(GPIOA)&0x8A10)<0x8A10) | ((GPIO_ReadOutputData(GPIOB)&0xAC00)<0xAC00)\
+		| ((GPIO_ReadOutputData(GPIOC)&0x1680)<0x1680) | ((GPIO_ReadOutputData(GPIOD)&0xA000)<0xA000)\
+		| ((GPIO_ReadOutputData(GPIOE)&0x780)<0x780)) )
 		{
 			for(i = 1; i <=9; i++)
 			{
@@ -132,47 +130,49 @@ void MotorRowStop(int Row)
 	switch (Row) //
 	{
 		case 1:
-				GPIO_SetBits(GPIOC, GPIO_Pin_12);//Row 1st
+				GPIO_SetBits(GPIOD, GPIO_Pin_8);//Row 1st
 				GPIO_SetBits(GPIOC, GPIO_Pin_11);
 			break;
 		case 2:
-				GPIO_SetBits(GPIOC, GPIO_Pin_10);//Row 2nd
+				GPIO_SetBits(GPIOD, GPIO_Pin_10);//Row 2nd
 				GPIO_SetBits(GPIOD, GPIO_Pin_4);
 			break;
 		case 3:
-				GPIO_SetBits(GPIOA, GPIO_Pin_15);//Row 3rd
+				GPIO_SetBits(GPIOD, GPIO_Pin_12);//Row 3rd
 				GPIO_SetBits(GPIOE, GPIO_Pin_3);
 			break;
 		case 4:
-				GPIO_SetBits(GPIOA, GPIO_Pin_11);//Row 4th
+				GPIO_SetBits(GPIOD, GPIO_Pin_14);//Row 4th
 				GPIO_SetBits(GPIOE, GPIO_Pin_2);
 			break;
 		case 5:
-				GPIO_SetBits(GPIOA, GPIO_Pin_9);//Row 5th
+				GPIO_SetBits(GPIOC, GPIO_Pin_6);//Row 5th
 				GPIO_SetBits(GPIOE, GPIO_Pin_5);
 			break;
 		case 6:
-				GPIO_SetBits(GPIOC, GPIO_Pin_9);//Row 6th
+				GPIO_SetBits(GPIOC, GPIO_Pin_8);//Row 6th
 				GPIO_SetBits(GPIOE, GPIO_Pin_4);
 			break;
 		case 7:
-				GPIO_SetBits(GPIOC, GPIO_Pin_7);//Row 7th
+				GPIO_SetBits(GPIOA, GPIO_Pin_8);//Row 7th
 				GPIO_SetBits(GPIOC, GPIO_Pin_13);
 			break;
 		case 8:
-				GPIO_SetBits(GPIOD, GPIO_Pin_15);//Row 8th
+				GPIO_SetBits(GPIOA, GPIO_Pin_10);//Row 8th
 				GPIO_SetBits(GPIOE, GPIO_Pin_6);
 			break;
 		case 9:
-				GPIO_SetBits(GPIOD, GPIO_Pin_13);//Row 9th
+				GPIO_SetBits(GPIOA, GPIO_Pin_12);//Row 9th
 				GPIO_SetBits(GPIOC, GPIO_Pin_15);
 			break;
 		case 10:
-				GPIO_SetBits(GPIOD, GPIO_Pin_11);//Row 10th
+				I2CValue2 &= 0x7F;
+				I2C_PCF8574_BufferWrite(I2CValue2, 0x42 );//Row 10th
 				GPIO_SetBits(GPIOC, GPIO_Pin_14);
 			break;
 		case 11:
-				GPIO_SetBits(GPIOD, GPIO_Pin_9);//Row 11th
+				I2CValue2 &=0xBF;
+				I2C_PCF8574_BufferWrite(I2CValue2, 0x42 );//Row 11th
 				GPIO_SetBits(GPIOA, GPIO_Pin_0);
 			break;
 		default:
@@ -187,41 +187,44 @@ void MotorRowDrive(int Dir, int Row)
 	case 0:
 		switch (Row) //
 			{
-			case 1:
-					GPIO_ResetBits(GPIOC, GPIO_Pin_12);//Row 1st
-				break;
-			case 2:
-					GPIO_ResetBits(GPIOC, GPIO_Pin_10);//Row 2nd
-				break;
-			case 3:
-					GPIO_ResetBits(GPIOA, GPIO_Pin_15);//Row 3rd
-				break;
-			case 4:
-					GPIO_ResetBits(GPIOA, GPIO_Pin_11);//Row 4th
-				break;
-			case 5:
-					GPIO_ResetBits(GPIOA, GPIO_Pin_9);//Row 5th
-				break;
-			case 6:
-					GPIO_ResetBits(GPIOC, GPIO_Pin_9);//Row 6th
-				break;
-			case 7:
-					GPIO_ResetBits(GPIOC, GPIO_Pin_7);//Row 7th
-				break;
-			case 8:
-					GPIO_ResetBits(GPIOD, GPIO_Pin_15);//Row 8th
-				break;
-			case 9:
-					GPIO_ResetBits(GPIOD, GPIO_Pin_13);//Row 9th
-				break;
-			case 10:
-					GPIO_ResetBits(GPIOD, GPIO_Pin_11);//Row 10th
-				break;
-			case 11:
-					GPIO_ResetBits(GPIOD, GPIO_Pin_9);//Row 11th
-				break;
-			default:
-				break;
+				case 1:
+						GPIO_ResetBits(GPIOD, GPIO_Pin_8);//Row 1st
+					break;
+				case 2:
+						GPIO_ResetBits(GPIOD, GPIO_Pin_10);//Row 2nd
+					break;
+				case 3:
+						GPIO_ResetBits(GPIOD, GPIO_Pin_12);//Row 3rd
+					break;
+				case 4:
+						GPIO_ResetBits(GPIOD, GPIO_Pin_14);//Row 4th
+					break;
+				case 5:
+						GPIO_ResetBits(GPIOC, GPIO_Pin_6);//Row 5th
+					break;
+				case 6:
+						GPIO_ResetBits(GPIOC, GPIO_Pin_8);//Row 6th
+					break;
+				case 7:
+						GPIO_ResetBits(GPIOA, GPIO_Pin_8);//Row 7th
+					break;
+				case 8:
+						GPIO_ResetBits(GPIOA, GPIO_Pin_10);//Row 8th
+					break;
+				case 9:
+						GPIO_ResetBits(GPIOA, GPIO_Pin_12);//Row 9th
+					break;
+				case 10:
+						I2CValue2 &= 0xBF;
+						I2C_PCF8574_BufferWrite(I2CValue2, 0x42 );//Row 10th
+					break;
+				case 11:
+						I2CValue2 &=0x7F;
+						I2C_PCF8574_BufferWrite(I2CValue2, 0x42 );//Row 10th
+					break;
+				default:
+					break;
+			
 			}
 	break;
 	case 1:
@@ -277,43 +280,41 @@ void MotorColDrive(int Dir, int Col)
 			
 			switch (Col)  //
 				{
-				case 1:
-						GPIO_ResetBits(GPIOD, GPIO_Pin_8);//Col 1st
-					break;
-				case 2:
-						GPIO_ResetBits(GPIOD, GPIO_Pin_10);//Col 2nd
-					break;
-				case 3:
-						GPIO_ResetBits(GPIOD, GPIO_Pin_12);//Col 3rd
-					break;
-				case 4:
-						GPIO_ResetBits(GPIOD, GPIO_Pin_14);//Col 4th
-					break;
-				case 5:
-						GPIO_ResetBits(GPIOC, GPIO_Pin_6);//Col 5th
-					break;
-				case 6:
-						GPIO_ResetBits(GPIOC, GPIO_Pin_8);//Col 6th
-					break;
-				case 7:
-						GPIO_ResetBits(GPIOA, GPIO_Pin_8);//Col 7th
-					break;
-				case 8:
-						GPIO_ResetBits(GPIOA, GPIO_Pin_10);//Col 8th
-					break;
-				case 9:
-						GPIO_ResetBits(GPIOA, GPIO_Pin_12);//Col 9th
-					break;
-				case 10:
-						I2CValue2 &= 0xBF;
-						I2C_PCF8574_BufferWrite(I2CValue2, 0x42 );//Col 10th
-					break;
-				case 11:
-						I2CValue2 &=0x7F;
-						I2C_PCF8574_BufferWrite(I2CValue2, 0x42 );//Col 10th
-					break;
-				default:
-					break;
+			case 1:
+					GPIO_ResetBits(GPIOC, GPIO_Pin_12);//Col 1st
+				break;
+			case 2:
+					GPIO_ResetBits(GPIOC, GPIO_Pin_10);//Col 2nd
+				break;
+			case 3:
+					GPIO_ResetBits(GPIOA, GPIO_Pin_15);//Col 3rd
+				break;
+			case 4:
+					GPIO_ResetBits(GPIOA, GPIO_Pin_11);//Col 4th
+				break;
+			case 5:
+					GPIO_ResetBits(GPIOA, GPIO_Pin_9);//Col 5th
+				break;
+			case 6:
+					GPIO_ResetBits(GPIOC, GPIO_Pin_9);//Col 6th
+				break;
+			case 7:
+					GPIO_ResetBits(GPIOC, GPIO_Pin_7);//Col 7th
+				break;
+			case 8:
+					GPIO_ResetBits(GPIOD, GPIO_Pin_15);//Col 8th
+				break;
+			case 9:
+					GPIO_ResetBits(GPIOD, GPIO_Pin_13);//Col 9th
+				break;
+			case 10:
+					GPIO_ResetBits(GPIOD, GPIO_Pin_11);//Col 10th
+				break;
+			case 11:
+					GPIO_ResetBits(GPIOD, GPIO_Pin_9);//Col 11th
+				break;
+			default:
+				break;
 				}
 			break;
 					
