@@ -10,7 +10,7 @@ void GPIO_Config(void)
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO,ENABLE);// start AFIO clock
 	GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);//enable SWJ and disable JTAG
 	
-	//光电开关以及电机驱动IO口配置为高电平，开漏输出，except ELS11, RankContry10, RankContry11
+	//光电开关以及电机驱动IO口配置为高电平，开漏输出，except ELS11, RankContry10, RankContry11(connected to I2C Bus IO extended chip)
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_All & (~(GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 \
 																									| GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7 |GPIO_Pin_13 | GPIO_Pin_14)) ;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD; 
@@ -57,5 +57,17 @@ void GPIO_Config(void)
 	GPIO_SetBits(GPIOC, GPIO_Pin_All & ( ~ (GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5) )); 
 	GPIO_SetBits(GPIOD, GPIO_Pin_All & ( ~ (GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3) ) );
 	GPIO_SetBits(GPIOE, GPIO_Pin_All & ( ~ (GPIO_Pin_11 | GPIO_Pin_12 | GPIO_Pin_13 | GPIO_Pin_14| GPIO_Pin_15 ) ) );
-	//光电开关以及电机驱动IO口配置为高电平，开漏输出, except ELS11, RankContry10, RankContry11
+	//光电开关以及电机驱动IO口配置为高电平，开漏输出, except ELS11, RankContry10, RankContry11(connected to I2C Bus IO extended chip)
+	
+	//PtoEtcSW detect IO is configured as the input and low as default
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2 | GPIO_Pin_3;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;       
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(GPIOD, &GPIO_InitStructure);
+	
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13 | GPIO_Pin_14;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;       
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(GPIOE, &GPIO_InitStructure);
+	//PtoEtcSW detect IO is configured as the input and high as default	
 }

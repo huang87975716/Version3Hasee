@@ -59,7 +59,7 @@ void USART2_Config(void)
 	/* Configure one bit for preemption priority */
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
   NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=1 ;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0;
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;	
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;			
 	NVIC_Init(&NVIC_InitStructure);	

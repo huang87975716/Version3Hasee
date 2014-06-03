@@ -15,6 +15,8 @@ int main(void)
 	USART2_Config(); 
 	ADC1_Config();
 	//CAN_Config();
+	TIM2_NVIC_Configuration();
+  TIM2_Configuration();
 	
 	printf("\r\n´®¿Ú²âÊÔ\r\n\r\n");
 	

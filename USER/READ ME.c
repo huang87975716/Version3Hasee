@@ -1,15 +1,15 @@
 /*when MotorRowStop() and MotorColStop() are used, Delay_us(500) is needed after.
 */
 /*Motor--GPIO
-	RankRight_1 -- PA4  
-	RankRight_2 -- PE7
-	RankRight_3 -- PE8
-	RankRight_4 -- PE9
-	RankRight_5 -- PE10
-	RankRight_6 -- PB10
-	RankRight_7 -- PB11
-	RankRight_8 -- PB13
-	RankRight_9 -- PB15
+	RankRight_1 -- PA4-
+	RankRight_2 -- PE7-
+	RankRight_3 -- PE8-
+	RankRight_4 -- PE9-
+	RankRight_5 -- PE10-
+	RankRight_6 -- PB10-
+	RankRight_7 -- PB11-
+	RankRight_8 -- PB13-
+	RankRight_9 -- PB15-
 	RankRight_10 -- PB12
 	RankRight_11 -- PB14
 	
@@ -25,15 +25,15 @@
 	LineRight_10 -- PC14
 	LineRight_11 -- PA0
 
-	RankContrary_1 -- PD8
-	RankContrary_2 -- PD10
-	RankContrary_3 -- PD12
-	RankContrary_4 -- PD14
-	RankContrary_5 -- PC6
-	RankContrary_6 -- PC8
-	RankContrary_7 -- PA8
-	RankContrary_8 -- PA10
-	RankContrary_9 -- PA12
+	RankContrary_1 -- PD8-
+	RankContrary_2 -- PD10-
+	RankContrary_3 -- PD12-
+	RankContrary_4 -- PD14-
+	RankContrary_5 -- PC6-
+	RankContrary_6 -- PC8-
+	RankContrary_7 -- PA8-
+	RankContrary_8 -- PA10-
+	RankContrary_9 -- PA12-
 	RankContrary_10 -- P7 of I2C addressed at 0x42
 	RankContrary_11 -- P6 of I2C addressed at 0x42
 	
@@ -71,13 +71,15 @@
 /*protocol for master
 AA(header) XX(command) XX(data0) XX(data1) XX(data2) XX(data3) XX(checksum)
 command from master to slave
-0x01: upload PCB ID 
-0x02: check photoelectric switch
-0x03: motor start forward 
-0x04: motor start but backward
-0x05: stop all motor
-0x07：start photoelectric switch
-0x08: stop photoelectric switch
+	#define UploadPCBID 		0x01 		//upload PCB ID 
+	#define CheckPtoElcSW		0x02		//check photoelectric switch
+	#define MotorForward 		0x03 		
+	#define MotorBackward 	0x04
+	#define	StopAllMotor		0x05		//stop all motor
+	#define ReverseRowMotor 0x06
+	#define StartPtoEtcSW		0x07		//start photoelectric switch
+	#define StopPtoEtcSW		0x08		//stop photoelectric switch
+	#define CheckPtoEtcSW 	0x09
 
 command from slave to master
 0x21: PCB ID 

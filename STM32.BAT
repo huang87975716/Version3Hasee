@@ -1,4 +1,4 @@
-SET PATH=C:\Keil\ARM\ARMCC\bin\;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\Program Files\Altium Designer 6\System
+SET PATH=C:\Keil\ARM\ARMCC\bin\;C:\Program Files\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\Program Files\Altium Designer 6\System
 SET CPU_TYPE=STM32F103VE
 SET CPU_VENDOR=STMicroelectronics
 SET UV2_TARGET=STM32
@@ -15,18 +15,17 @@ SET CPU_CLOCK=0x007A1200
 "C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\stm32f10x_can.__i"
 "C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\stm32f10x_adc.__i"
 "C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\stm32f10x_dma.__i"
-"C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\main.__i"
 "C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\stm32f10x_it.__i"
 "C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\gpio.__i"
 "C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\systick.__i"
-"C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\exti.__i"
-"C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\pwm_output.__i"
 "C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\matrix_motor.__i"
 "C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\usart.__i"
 "C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\adc.__i"
 "C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\pcf8574_i2c.__i"
 "C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\read me.__i"
 "C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\ptoetcsw_check.__i"
+"C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\copy_main.__i"
+"C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\timer2.__i"
 "C:\Keil\ARM\ARMCC\bin\ArmAsm" --Via ".\output\startup_stm32f10x_md._ia"
 "C:\Keil\ARM\ARMCC\bin\ArmLink" --Via ".\Output\GPIO.lnp"
 C:\Keil\ARM\ARMCC\bin\fromelf.exe ".\Output\GPIO.axf" --i32combined --output ".\Output\GPIO.hex"

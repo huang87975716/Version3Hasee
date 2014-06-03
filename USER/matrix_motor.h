@@ -7,6 +7,5 @@
 	void MotorDriveResverse(int Row);
 	void MotorColStop(int Col);
 	void MotorRowStop(int Row);
-	extern unsigned char I2CValue2;
 #endif
 

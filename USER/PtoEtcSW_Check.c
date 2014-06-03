@@ -3,12 +3,9 @@
 #include "PCF8574_I2C.h"
 #include "SysTick.h"
 
+void OnlyStop_PtoEtcSW(unsigned char ColValue);
 
-static unsigned int i;
-static int PtoEtcSWStatus;
-	
-void StartAllPtoEtcSW(void);
-void OnlyStop_PtoEtcSW(int ColValue);
+extern unsigned char I2CValue2;	
 
 /*
  *name:ELSCheck
@@ -19,14 +16,17 @@ void OnlyStop_PtoEtcSW(int ColValue);
  */
 unsigned short int ELSCheck(void)
 {
-	 for(i = 1; i <= 11;i++)
+	unsigned char i; 
+	unsigned int PtoEtcSWStatus = 0;
+	for(i = 1; i <= 10;i++)
 	{
 		StartAllPtoEtcSW();
 		OnlyStop_PtoEtcSW(i);
 		Delay_us(100);//it should be modefied according to the reality.
-		if(GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_13)) PtoEtcSWStatus |= (1<<i);
-		else PtoEtcSWStatus &= ( ~(1<<i) );
+		if(GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_13)) PtoEtcSWStatus |= (1<<(i-1));
+		else PtoEtcSWStatus &= ( ~(1<<(i-1) ) );
 	}
+	StopAllPtoEtcSW();
 	return PtoEtcSWStatus;
 }
 /*
@@ -34,7 +34,7 @@ unsigned short int ELSCheck(void)
  *description: open all photoelectric SW
  *input: none
  *output: none
- *call relationship: intern 
+ *call relationship: extern 
  */	
 
 void StartAllPtoEtcSW(void)
@@ -53,7 +53,7 @@ void StartAllPtoEtcSW(void)
  *output: none
  *call relationship: intern
  */
-void OnlyStop_PtoEtcSW(int ColValue)
+void OnlyStop_PtoEtcSW(unsigned char ColValue)
 {
 switch (ColValue)
 	{
@@ -95,3 +95,13 @@ switch (ColValue)
 			break;
 	}
 }
+
+void StopAllPtoEtcSW(void)
+{
+	unsigned char i;
+	for (i=0; i<11; i++)
+	{
+		OnlyStop_PtoEtcSW(i+1);
+	}
+}
+

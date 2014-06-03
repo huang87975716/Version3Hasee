@@ -6,37 +6,43 @@
 
 
 extern volatile u16 ADC_ConvertedValue[11];
-static unsigned int i;//used for for-loop, should be initialized before using.
+extern unsigned char I2CValue2;
+
 	/**/
 void MotorDrive(int Dir, int Row, int Col)
 {
-		for (i = 0; i < 5; i++ )
+	unsigned char i;
+	for (i = 0; i < 7; i++ )
+	{
+		MotorRowDrive (Dir , Row);
+		MotorColDrive (Dir , Col);
+		
+		Delay_us(150);//
+		if (ADC_ConvertedValue[Col-1] > 1540) //1540/4096*2.66=1A
 		{
-			MotorRowDrive (Dir , Row);
-			MotorColDrive (Dir , Col);
-			
-			Delay_us(100);//
-			if (ADC_ConvertedValue[Col-1] > 1540) //1540/4096*2.66
-			{
-				MotorColStop(Col);
-				Delay_us(500);
-				printf("start %d",i);
-			}
-			else break;
+			MotorColStop(Col);
+			Delay_us(750);				
 		}
+		else break;	
+		if (i==4) printf("start failed Row:%d Col:%d. \r \n", Row, Col);
+	}
+	if(i<5) printf("start successeded Row:%d Col:%d %d times. \r \n",Row,Col,i);
 }
 /**/
 void MotorDriveResverse(int Row)
 	{
+		unsigned char i;
 		MotorRowDrive(0,Row);
 		for (i = 1; i <= 11; i++ )
 		{
-		MotorColDrive(0,i);
+		MotorColDrive(0,i);//
+		Delay_us(200);
 		}
 	}
 /**/
 void MotorStopAll(void)
 {
+	unsigned char i;
 	for (i = 1; i <= 11; i++)
 	{
 	MotorRowStop(i);
@@ -51,6 +57,8 @@ void MotorStopAll(void)
 /**/
 void MotorColStop(int Col)
 {
+	
+	unsigned char i;
 	switch (Col) 
 	{
 		case 1:
@@ -102,17 +110,20 @@ void MotorColStop(int Col)
 		default:
 			break;
 	}
-// 	if (GPIO_ReadOutputDataBit(GPIOA,GPIO_Pin_4 & GPIO_Pin_8 & GPIO_Pin_10 & GPIO_Pin_12) & \
+// 		if (GPIO_ReadOutputDataBit(GPIOA,GPIO_Pin_4 & GPIO_Pin_8 & GPIO_Pin_10 & GPIO_Pin_12) & \
 // 			GPIO_ReadOutputDataBit(GPIOB,GPIO_Pin_10 & GPIO_Pin_11 & GPIO_Pin_13 & GPIO_Pin_15) & \
 // 			GPIO_ReadOutputDataBit(GPIOC,GPIO_Pin_6 & GPIO_Pin_8) & \
 // 			GPIO_ReadOutputDataBit(GPIOD,GPIO_Pin_8 & GPIO_Pin_10 & GPIO_Pin_12 & GPIO_Pin_14) & \
 // 			GPIO_ReadOutputDataBit(GPIOE,GPIO_Pin_7 & GPIO_Pin_8 & GPIO_Pin_9 & GPIO_Pin_10))
-// 		{
-// 			for(a = 1; a <=9; a++)
-// 			{
-// 			MotorRowStop(a);
-// 			}
-// 		}
+		if(! (((GPIO_ReadOutputData(GPIOA)&0x1510)<0x1510) | ((GPIO_ReadOutputData(GPIOB)&0xAC00)<0xAC00)\
+		| ((GPIO_ReadOutputData(GPIOC)&0x140)<0x140) | ((GPIO_ReadOutputData(GPIOD)&0x5500)<0x5500)\
+		| ((GPIO_ReadOutputData(GPIOE)&0x0780)<0x0780)) )
+		{
+			for(i = 1; i <=9; i++)
+			{
+				MotorRowStop(i);
+			}
+		}
 }
 
 /**/

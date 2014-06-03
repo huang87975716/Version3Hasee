@@ -24,10 +24,13 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_it.h"
 #include "protocol.h"
+#include "stdio.h"
+#include "timer2.h"
+
 extern void TimingDelay_Decrement(void);
 extern PROTOCOL_t gU2RecvBuff;
-#define USART_REC_LEN  			200  	//定义最大接收字节数 200
-
+extern unsigned char WaitPtoEtcSW;
+extern volatile u32 step_timer2;
 /** @addtogroup STM32F10x_StdPeriph_Template
   * @{
   */
@@ -138,17 +141,12 @@ void PendSV_Handler(void)
   */
 void SysTick_Handler(void)
 {
-	TimingDelay_Decrement();	
+	TimingDelay_Decrement();
 }
 
 
 void EXTI15_10_IRQHandler(void)
 {
-  if(EXTI_GetITStatus(EXTI_Line15) != RESET) //确保是否产生了EXTI Line中断
-  {
-		//do something
-    EXTI_ClearITPendingBit(EXTI_Line15);     //清除中断标志位
-  }  
 }
 
 /******************************************************************************/
@@ -171,6 +169,20 @@ void EXTI15_10_IRQHandler(void)
   * @}
   */ 
 
+/**
+  * @brief  This function handles TIM2 interrupt request.
+  * @param  None
+  * @retval : None
+  */
+void TIM2_IRQHandler(void)
+{
+	if ( TIM_GetITStatus(TIM2 , TIM_IT_Update) != RESET ) 
+	{	
+		TIM_ClearITPendingBit(TIM2 , TIM_FLAG_Update);    
+  	step_timer2++;
+		//printf(" %d ",step_timer2);
+	}
+}
 
 /********************************************************************************
  * FunctionName: USART2_IRQHandler
@@ -186,8 +198,6 @@ void USART2_IRQHandler(void)
 	static uint8_t u2StaMach = 0;
 	uint8_t u2RecvCh = 0;               // 存储接收到的字符
 	PROTOCOL_t *u2p = &gU2RecvBuff;  		// 指示缓存地址
-	unsigned char i = 0;
-	unsigned char InfoBackForMaster[7] = {0xAA, 0xBB, 0x00, 0x00, 0x00, 0x00, 0x00};
 	
   // 如果存在数据
 	if (USART_GetITStatus(USART2, USART_IT_RXNE) != RESET)
@@ -225,7 +235,6 @@ void USART2_IRQHandler(void)
 			// 判断校验和
 			if (u2p->checksum == u2RecvCh)
 			{
-				for( i=0; i<7;i++) USART_SendData(USART2, InfoBackForMaster[i]);//send AABB00...to MasterPC
 				u2p->protocol_ok = 1;
 			}
 			u2StaMach = 0;
