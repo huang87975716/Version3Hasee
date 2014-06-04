@@ -5,8 +5,6 @@ void MosTest(void);
 void I2CSoftwareTest(void);
 void EchoToMaster(unsigned char *ptr);
 void ClearProtocol(void);
-// void SetInfoToMaster(unsigned char *ptr,unsigned char command, unsigned char data0,unsigned char data1,\
-// 													unsigned char data2, unsigned char data3);
 
 unsigned char temp_readbyte, readbyte,sucess;
 
@@ -63,7 +61,7 @@ int main(void)
 							}
 						}
 					}
-					START_TIME2;//StartAllPtoEtcSW timer 2 for PtoEtcSWCheck WaitPtoEtcSW period
+					START_TIME2;//Start timer 2 for PtoEtcSWCheck WaitPtoEtcSW period
 					WaitPtoEtcSW = 1;
 					Delay_us(500);
 					break;
@@ -106,12 +104,16 @@ int main(void)
 					StopAllPtoEtcSW();
 					break;
 				case StartLED:
-					I2CValue2 |=0x10;
-					I2C_PCF8574_BufferWrite(I2CValue2, 0x42 );
+					MotorColDrive(0,10);					
+					//I2CValue2 |=0x10;//code was commentted as the PCF8574 output 
+														//current is too low to driver the 8050 triode
+					//I2C_PCF8574_BufferWrite(I2CValue2, 0x42 );
 					break;
 				case StopLED:
-					I2CValue2 &=0xEF;
-					I2C_PCF8574_BufferWrite(I2CValue2, 0x42 );
+					MotorColStop(10);
+					//I2CValue2 &=0xEF;//code was commentted as the PCF8574 output 
+														//current is too low to driver the 8050 triode
+					//I2C_PCF8574_BufferWrite(I2CValue2, 0x42 );
 					break;
 				default:
 					break;
