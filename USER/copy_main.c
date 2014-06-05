@@ -18,22 +18,7 @@ int main(void)
 	//CAN_Config();
 	TIM2_NVIC_Configuration();
 	TIM2_Configuration();
-		
-	if ( I2C_PCF8574_BufferRead( &IDOfPCB, 0x40 ) ) 	
-	{
-		PCBID[2] = IDOfPCB & 0x0F;
-		PCBID[3] = ( (IDOfPCB & 0xF0)>>4 );
-		PCBID[6] = ( 0xAB+PCBID[2]+PCBID[3] );
-		EchoToMaster(&PCBID[0]);
-	}
-	else 
-	{
-		PCBID[2] = 0xFF;
-		PCBID[3] = 0xFF;
-		PCBID[6] = 0xA9;
-		EchoToMaster(&PCBID[0]);
-	}
-		
+	
 	while (1)
 	{
 		switch (TchScrSltStatus)
@@ -156,6 +141,25 @@ int main(void)
 				case StopLED:
 					MotorColStop(10);
 					EchoToMaster(&StopLEDSuccedded[0]);	
+					break;
+				case UploadPCBID:
+					if ( I2C_PCF8574_BufferRead( &IDOfPCB, 0x40 ) ) 	
+					{
+						PCBID[2] = IDOfPCB & 0x0F;
+						for(i=0; i<4;i++)
+						{
+							PCBID[3] |= (IDOfPCB & (0x01<<(i+4))) >> (2*i+1);
+						}
+						PCBID[6] = ( 0xAB+PCBID[2]+PCBID[3] );
+						EchoToMaster(&PCBID[0]);
+					}
+					else 
+					{
+						PCBID[2] = 0xFF;
+						PCBID[3] = 0xFF;
+						PCBID[6] = 0xA9;
+						EchoToMaster(&PCBID[0]);
+					}
 					break;
 				default:
 					break;
