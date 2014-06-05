@@ -219,4 +219,13 @@ void USART2_printf(USART_TypeDef* USARTx, uint8_t *Data,...)
 		while( USART_GetFlagStatus(USARTx, USART_FLAG_TC) == RESET );
 	}
 }
-/******************* (C) COPYRIGHT 2011 野火嵌入式开发工作室 *****END OF FILE****/
+
+void EchoToMaster(unsigned char *ptr)
+{
+	unsigned char i;
+	for(i=0; i<7; i++)	
+	{
+		USART_SendData(USART2, *ptr++);	
+		while (!(USART2->SR & USART_FLAG_TXE));
+	}
+}

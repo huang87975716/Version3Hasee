@@ -12,13 +12,12 @@
 	unsigned char 	IDOfPCB = 0;
 	unsigned char 	RunMode = 0;
 	unsigned char 	I2CStatus = 0;
-	unsigned int 	PtoEtcSWCheckResult = 0;
+	unsigned int 		PtoEtcSWCheckResult = 0;
 	
 	PROTOCOL_t gU2RecvBuff;//usart information
 	
 
 	#define UploadPCBID 		0x01 		//upload PCB ID 
-	#define CheckPtoElcSW		0x02		//check photoelectric switch
 	#define MotorForward 		0x03 		
 	#define MotorBackward 	0x04
 	#define	StopAllMotor		0x05		//stop all motor
@@ -35,10 +34,37 @@
 	unsigned int motor_row = 0;
 	unsigned int MeanRunningCurrent = 0;
 	
-	unsigned char HandShakeToMaster[7] = {0xAA, 0xBB, 00, 00, 00, 00, 00};
-	//unsigned char StarLEDBack[7] = {0xAA, 0x....};
-	//unsigned char StopLEDBack[7] = {};
+	unsigned char HandShakeToMaster[7] = 			{0xAA, 0xBB, 00, 00, 00, 00, 0x65};//
+	unsigned char PCBID[7] = 						{0xAA, 0x01, 00, 00, 00, 00, 0xAB};//
+	unsigned char MedecineFailed[7] = 				{0xAA, 0x02, 00, 00, 00, 00, 0xAC};//
+	unsigned char MedecineSuccedded[7] = 			{0xAA, 0x03, 00, 00, 00, 00, 0xAD};//
+	unsigned char StarLEDSuccedded[7] = 			{0xAA, 0x04, 00, 00, 00, 00, 0xAE};//
+	unsigned char StopLEDSuccedded[7] = 			{0xAA, 0x05, 00, 00, 00, 00, 0xAF};//
+	unsigned char StartPtoEtcSWSuccedded[7]= 		{0xAA, 0x06, 00, 00, 00, 00, 0xB0};//
+	unsigned char StopPtoEtcSWSuccedded[7] = 		{0xAA, 0x07, 00, 00, 00, 00, 0xB1};//
+	unsigned char PtoEtcSWCheckResInfo[7] = 		{0xAA, 0x08, 00, 00, 00, 00, 0xB2};//
+	unsigned char AllMotorStopped[7] = 				{0xAA, 0x09, 00, 00, 00, 00, 0xB3};//
+	unsigned char ColCurrentOverRange[7] = 			{0xAA, 0x0A, 00, 00, 00, 00, 0xB4};//
+	unsigned char MotorStartInfo[7] = 				{0xAA, 0x0B, 00, 00, 00, 00, 0xB5};//
+	
+	
+	
 	
 	volatile u32 step_timer2;
 	unsigned char WaitPtoEtcSW = 0;
+	
+	typedef enum
+	{
+		MotorStoppedTop = 1,
+		KeyPushed,
+		MotorStartDown,
+		DownLimSW,
+		MotorStoppedBottom,
+		InfraredSensorStatus,
+		TimerStarted,
+		TimerTerminated,
+		MotorstartUp,
+		UpLimSW,
+	}TchScrSltStatus_TypeDef;
+	TchScrSltStatus_TypeDef TchScrSltStatus = MotorStoppedTop;
 #endif

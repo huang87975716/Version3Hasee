@@ -7,5 +7,6 @@
 void USART2_Config(void);
 int fputc(int ch, FILE *f);
 void USART2_printf(USART_TypeDef* USARTx, uint8_t *Data,...);
+void EchoToMaster(unsigned char *ptr);
 
 #endif /* __USART_H */

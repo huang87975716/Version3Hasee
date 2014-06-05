@@ -3,7 +3,6 @@
 void ADC1_Test(void);
 void MosTest(void);
 void I2CSoftwareTest(void);
-void EchoToMaster(unsigned char *ptr);
 void ClearProtocol(void);
 
 unsigned char temp_readbyte, readbyte,sucess;
@@ -17,58 +16,61 @@ int main(void)
 	USART2_Config(); 
 	ADC1_Config();
 	//CAN_Config();
-	TIM2_NVIC_Configuration();e
+	TIM2_NVIC_Configuration();
 	TIM2_Configuration();
-	
-	printf("\r\n´®¿Ú²âÊÔ\r\n\r\n");
-	
+		
 	if ( I2C_PCF8574_BufferRead( &IDOfPCB, 0x40 ) ) 	
 	{
-		IDOfPCB &= 0x0F;
-		printf("IDOfPCB is %d \r \n" , IDOfPCB) ;
+		PCBID[2] = IDOfPCB & 0x0F;
+		PCBID[3] = ( (IDOfPCB & 0xF0)>>4 );
+		PCBID[6] = ( 0xAB+PCBID[2]+PCBID[3] );
+		EchoToMaster(&PCBID[0]);
 	}
-	else printf("an error occurred while reading IDOfPCB\r \n");
-	
-	if ( I2C_PCF8574_BufferRead( &RunMode, 0x40 ) ) 	
+	else 
 	{
-		RunMode = ( RunMode & 0xF0 ) >> 4;
-		printf("RunMode is %d \r \n" , RunMode) ;
+		PCBID[2] = 0xFF;
+		PCBID[3] = 0xFF;
+		PCBID[6] = 0xA9;
+		EchoToMaster(&PCBID[0]);
 	}
-	else printf("an error occurred while reading RunMode\r \n"); 	
 		
 	while (1)
 	{
-		if(keypushed)
+		switch (TchScrSltStatus)
 		{
-			start motor to drive the door down;
-			DownLimitSWFlag = 1;
+			case MotorStoppedTop:
+				//check key
+				break;
+			case KeyPushed:
+				break;
+			case MotorStartDown:
+				break;
+			case DownLimSW:
+				break;
+			case MotorStoppedBottom:
+				break;		
+			case InfraredSensorStatus:
+				break;
+			case TimerStarted:
+				break;
+			case TimerTerminated:
+				break;
+			case MotorstartUp:
+				break;
+			case UpLimSW:
+				break;
+			default:
+				break;			
 		}
-		if(DownLimitSWFlag == 1)
-		{
-			DownLimitSWFlag = 0;
-			check down limitSW, if 1 then DownLimitSWFlag = 0 and also InfraredCheckFlag = 1;
-		}
-		if(InfraredCheckFlag == 1)
-		{
-			check infrared sensor
-			if 1
-			start timerofinfrard like 10s
-		}
-		if(timer2 up)
-		{
-		start motor to drive the motor down;
-		CheckLimitSW Flag ==1
-		}
-		
 		if (gU2RecvBuff.protocol_ok)
 		{
 			gU2RecvBuff.protocol_ok = 0;
-			EchoToMaster(&HandShakeToMaster[0]);//Echo to master to claim that slave have received the infomatino correctly;
-			
+			EchoToMaster(&HandShakeToMaster[0]);//Echo to master to claim 
+												//that slave have received the information correctly;
 			
 			switch (gU2RecvBuff.command)
 			{	
-				case MotorForward:
+				case MotorForward: 
 					MotorStopAll();
 					motor_row =( (gU2RecvBuff.data[0]<<8) | gU2RecvBuff.data[1] );
 					motor_col =( (gU2RecvBuff.data[2]<<8) | gU2RecvBuff.data[3] );			
@@ -79,11 +81,17 @@ int main(void)
 							for (j = 0; j<11;j++)
 							{
 								if (( (motor_col >>j) & 0x01 ) == 0x01) 
-									MotorDrive( 1, i+1, j+1);//should tell master maybe the motor could not start																													
+								{
+									MotorStartInfo[2] = (i+1);
+									MotorStartInfo[3] = (j+1);
+									MotorStartInfo[4] = MotorDrive( 1, i+1, j+1) ;
+									MotorStartInfo[6] = (0xB7+i+j+MotorStartInfo[4]);									
+									EchoToMaster(&MotorStartInfo[0]);
+								}
 							}
 						}
 					}
-					START_TIME2;//Start timer 2 for PtoEtcSWCheck WaitPtoEtcSW period
+					START_TIME2;
 					WaitPtoEtcSW = 1;
 					Delay_us(500);
 					break;
@@ -98,7 +106,13 @@ int main(void)
 							for (j = 0; j<11;j++)
 							{
 								if (( (motor_col >>j) & 0x01 ) == 0x01) 
-									MotorDrive( 0, i+1, j+1);//should tell master maybe the motor could not start																													
+								{
+									MotorStartInfo[2] = (i+1);
+									MotorStartInfo[3] = (j+1);
+									MotorStartInfo[4] = MotorDrive( 0, i+1, j+1) ;
+									MotorStartInfo[6] = (0xB7+i+j+MotorStartInfo[4]);									
+									EchoToMaster(&MotorStartInfo[0]);
+								}
 							}
 						}
 					}
@@ -106,30 +120,42 @@ int main(void)
 					break;
 				case StopAllMotor:
 					MotorStopAll();
+					if(! (((GPIO_ReadOutputData(GPIOA)&0x8A10)<0x8A10) | ((GPIO_ReadOutputData(GPIOB)&0xAC00)<0xAC00)\
+					| ((GPIO_ReadOutputData(GPIOC)&0x1680)<0x1680) | ((GPIO_ReadOutputData(GPIOD)&0xA000)<0xA000)\
+					| ((GPIO_ReadOutputData(GPIOE)&0x780)<0x780)) )
+					{
+						EchoToMaster(&AllMotorStopped[0]);
+					}
 					break;
 				case ReverseRowMotor:
-					MotorDriveResverse(gU2RecvBuff.data[0]);
+					MotorDriveResverse(gU2RecvBuff.data[0]);//**************************echo back to master not finished
 					break;
 				case CheckPtoEtcSW:
 					PtoEtcSWCheckResult = ELSCheck();
-					USART_SendData(USART2, PtoEtcSWCheckResult);
-					while (!(USART2->SR & USART_FLAG_TXE));
-					USART_SendData(USART2, PtoEtcSWCheckResult >> 8);
-					while (!(USART2->SR & USART_FLAG_TXE));
+					PtoEtcSWCheckResInfo[3] = (unsigned char)(PtoEtcSWCheckResult);
+					PtoEtcSWCheckResInfo[2] = (unsigned char)(PtoEtcSWCheckResult>>8); 
+					PtoEtcSWCheckResInfo[6] = 0xAA+0x08+PtoEtcSWCheckResInfo[2]+PtoEtcSWCheckResInfo[3];
+					EchoToMaster(&PtoEtcSWCheckResInfo[0]);
 					PtoEtcSWCheckResult = 0;
-					//EchoToMaster(&HandShakeToMaster[0]);
+					PtoEtcSWCheckResInfo[3] = 0;
+					PtoEtcSWCheckResInfo[2] = 0; 
+					PtoEtcSWCheckResInfo[6] = 0xB2;
 					break;
 				case StartPtoEtcSW:
 					StartAllPtoEtcSW();
+					EchoToMaster(&StartPtoEtcSWSuccedded[0]);
 					break;
 				case StopPtoEtcSW:
 					StopAllPtoEtcSW();
+					EchoToMaster(&StopPtoEtcSWSuccedded[0]);
 					break;
 				case StartLED:
-					MotorColDrive(0,10);					
+					MotorColDrive(0,10);
+					EchoToMaster(&StarLEDSuccedded[0]);				
 					break;
 				case StopLED:
 					MotorColStop(10);
+					EchoToMaster(&StopLEDSuccedded[0]);	
 					break;
 				default:
 					break;
@@ -146,7 +172,7 @@ int main(void)
 					MotorStopAll();
 					WaitPtoEtcSW = 0;	
 					STOP_TIME2;
-					printf("Medicine_ok\r\n");
+					EchoToMaster(&MedecineSuccedded[0]);
 				}							
 			}
 			//11 Col current check
@@ -161,7 +187,11 @@ int main(void)
 					MotorColStop(i+1);
 					WaitPtoEtcSW = 0;	
 					STOP_TIME2;
-					printf("Col:%d current over range, stopped \r \n", i+1);
+					ColCurrentOverRange[2] = (i+1);
+					ColCurrentOverRange[6] = (i+1)+0xB4;
+					EchoToMaster(&ColCurrentOverRange[0]);
+					ColCurrentOverRange[2] = 0;
+					ColCurrentOverRange[6] = 0xB4;
 				}
 				MeanRunningCurrent = 0;
 				for(j=0;j<250;j++);//just for time Delay_us;
@@ -171,14 +201,13 @@ int main(void)
 			{
 				WaitPtoEtcSW = 0;
 				step_timer2 = 0;
-				printf("failed to get the medicine");
+				EchoToMaster(&MedecineFailed[0]);
 				STOP_TIME2;
 				MotorStopAll();
 			}
 		}
 	}
 }
-
 void ADC1_Test(void)
 {
 		for(i=0;i<11;i++)
@@ -228,46 +257,18 @@ void I2CSoftwareTest(void)
 		}
 }
 
-// void I2C_Test(void)
-// {
-// 	uint8_t I2CInput;
-// 	uint8_t Write_Buffer = 0xFF;
-// 	uint8_t PCF8574Address = 0x40;
-// 	I2C_PCF8574_Init();
-// 	I2C_PCF8574_ByteWrite(Write_Buffer , PCF8574Address);
-// 	I2CInput = I2C_PCF8574_ByteRead(PCF8574Address);
-// 	printf("%d", I2CInput);
-// }
-
-// 			TIM_SetCompare1(TIM3,TIM_GetCapture1(TIM3)+100);
-// 			if(TIM_GetCapture1(TIM3)==900)TIM_SetCompare1(TIM3,600);	
-			
-			//for(i=0;i<=399;i++)
-			//{
-				//CCR1_Val = 600 + i;
-				//TIM3_PWM_Init ();
-				//for(j=0;j<10000;j++);
-			//}
-			//for(i=0;i<=399;i++)
-			//{
-				//CCR1_Val = 999 - i;
-				//TIM3_PWM_Init ();
-				//for(j=0;j<10000;j++);
-			//}		
-
-			//printf("\r\n this is a printf demo \r\n");
-			//USART1_printf(USART1, "\r\n This is a USART1_printf demo \r\n");
-			//USART1_printf(USART1, "\r\n ("__DATE__ " - " __TIME__ ") \r\n");
-			
-void EchoToMaster(unsigned char *ptr)
+/*
+void I2C_Test(void)
 {
-	unsigned char i;
-	for(i=0; i<7; i++)	
-	{
-		USART_SendData(USART2, *ptr++);	
-		while (!(USART2->SR & USART_FLAG_TXE));
-	}
+	uint8_t I2CInput;
+	uint8_t Write_Buffer = 0xFF;
+	uint8_t PCF8574Address = 0x40;
+	I2C_PCF8574_Init();
+	I2C_PCF8574_ByteWrite(Write_Buffer , PCF8574Address);
+	I2CInput = I2C_PCF8574_ByteRead(PCF8574Address);
+	printf("%d", I2CInput);
 }
+*/			
 
 void ClearProtocol(void)
 {

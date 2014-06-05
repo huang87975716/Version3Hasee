@@ -19,4 +19,5 @@
 .\Output\matrix_motor.o: USER\PCF8574_I2C.h
 .\Output\matrix_motor.o: C:\Keil\ARM\ARMCC\bin\..\include\stdbool.h
 .\Output\matrix_motor.o: USER\SysTick.h
+.\Output\matrix_motor.o: USER\usart.h
 .\Output\matrix_motor.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h

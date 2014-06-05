@@ -2,14 +2,13 @@
 #include "stm32f10x.h"
 #include "PCF8574_I2C.h"
 #include "SysTick.h"
-#include "stdio.h"
-
+#include "usart.h"
 
 extern volatile u16 ADC_ConvertedValue[11];
 extern unsigned char I2CValue2;
 
 /**/
-void MotorDrive(int Dir, int Row, int Col)
+unsigned char MotorDrive(int Dir, int Row, int Col)
 {
 	unsigned char i;
 	for (i = 0; i < 7; i++ )
@@ -24,9 +23,8 @@ void MotorDrive(int Dir, int Row, int Col)
 			Delay_us(750);				
 		}
 		else break;	
-		if (i==4) printf("start failed Row:%d Col:%d. \r \n", Row, Col);
 	}
-	if(i<5) printf("start successeded Row:%d Col:%d %d times. \r \n",Row,Col,i);
+	return i;
 }
 /**/
 void MotorDriveResverse(int Row)
@@ -102,17 +100,12 @@ void MotorColStop(int Col)
 				GPIO_SetBits(GPIOB, GPIO_Pin_12);
 			break;
 		case 11:
-				GPIO_SetBits(GPIOD, GPIO_Pin_9);//Col 10th
+				GPIO_SetBits(GPIOD, GPIO_Pin_9);//Col 11th
 				GPIO_SetBits(GPIOB, GPIO_Pin_14);
 		break;
 		default:
 			break;
 	}
-// 		if (GPIO_ReadOutputDataBit(GPIOA,GPIO_Pin_4 & GPIO_Pin_8 & GPIO_Pin_10 & GPIO_Pin_12) & \
-// 			GPIO_ReadOutputDataBit(GPIOB,GPIO_Pin_10 & GPIO_Pin_11 & GPIO_Pin_13 & GPIO_Pin_15) & \
-// 			GPIO_ReadOutputDataBit(GPIOC,GPIO_Pin_6 & GPIO_Pin_8) & \
-// 			GPIO_ReadOutputDataBit(GPIOD,GPIO_Pin_8 & GPIO_Pin_10 & GPIO_Pin_12 & GPIO_Pin_14) & \
-// 			GPIO_ReadOutputDataBit(GPIOE,GPIO_Pin_7 & GPIO_Pin_8 & GPIO_Pin_9 & GPIO_Pin_10))
 		if(! (((GPIO_ReadOutputData(GPIOA)&0x8A10)<0x8A10) | ((GPIO_ReadOutputData(GPIOB)&0xAC00)<0xAC00)\
 		| ((GPIO_ReadOutputData(GPIOC)&0x1680)<0x1680) | ((GPIO_ReadOutputData(GPIOD)&0xA000)<0xA000)\
 		| ((GPIO_ReadOutputData(GPIOE)&0x780)<0x780)) )
