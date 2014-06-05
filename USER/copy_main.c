@@ -17,27 +17,49 @@ int main(void)
 	USART2_Config(); 
 	ADC1_Config();
 	//CAN_Config();
-	TIM2_NVIC_Configuration();
+	TIM2_NVIC_Configuration();e
 	TIM2_Configuration();
 	
 	printf("\r\n´®¿Ú²âÊÔ\r\n\r\n");
 	
-// 	if ( I2C_PCF8574_BufferRead( &IDOfPCB, 0x40 ) ) 	
-// 	{
-// 		IDOfPCB &= 0x0F;
-// 		printf("%d" , IDOfPCB) ;
-// 	}
-// 	else printf("an error occurred while reading IDOfPCB");
-// 	
-// 	if ( I2C_PCF8574_BufferRead( &RunMode, 0x40 ) ) 	
-// 	{
-// 		RunMode = ( RunMode & 0xF0 ) >> 4;
-// 		printf("%d" , RunMode) ;
-// 	}
-// 	else printf("an error occurred while reading RunMode"); 	
+	if ( I2C_PCF8574_BufferRead( &IDOfPCB, 0x40 ) ) 	
+	{
+		IDOfPCB &= 0x0F;
+		printf("IDOfPCB is %d \r \n" , IDOfPCB) ;
+	}
+	else printf("an error occurred while reading IDOfPCB\r \n");
+	
+	if ( I2C_PCF8574_BufferRead( &RunMode, 0x40 ) ) 	
+	{
+		RunMode = ( RunMode & 0xF0 ) >> 4;
+		printf("RunMode is %d \r \n" , RunMode) ;
+	}
+	else printf("an error occurred while reading RunMode\r \n"); 	
 		
 	while (1)
 	{
+		if(keypushed)
+		{
+			start motor to drive the door down;
+			DownLimitSWFlag = 1;
+		}
+		if(DownLimitSWFlag == 1)
+		{
+			DownLimitSWFlag = 0;
+			check down limitSW, if 1 then DownLimitSWFlag = 0 and also InfraredCheckFlag = 1;
+		}
+		if(InfraredCheckFlag == 1)
+		{
+			check infrared sensor
+			if 1
+			start timerofinfrard like 10s
+		}
+		if(timer2 up)
+		{
+		start motor to drive the motor down;
+		CheckLimitSW Flag ==1
+		}
+		
 		if (gU2RecvBuff.protocol_ok)
 		{
 			gU2RecvBuff.protocol_ok = 0;
@@ -105,15 +127,9 @@ int main(void)
 					break;
 				case StartLED:
 					MotorColDrive(0,10);					
-					//I2CValue2 |=0x10;//code was commentted as the PCF8574 output 
-														//current is too low to driver the 8050 triode
-					//I2C_PCF8574_BufferWrite(I2CValue2, 0x42 );
 					break;
 				case StopLED:
 					MotorColStop(10);
-					//I2CValue2 &=0xEF;//code was commentted as the PCF8574 output 
-														//current is too low to driver the 8050 triode
-					//I2C_PCF8574_BufferWrite(I2CValue2, 0x42 );
 					break;
 				default:
 					break;
