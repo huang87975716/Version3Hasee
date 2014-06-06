@@ -507,14 +507,14 @@
               <FilePath>.\USER\PtoEtcSW_Check.c</FilePath>
             </File>
             <File>
-              <FileName>copy_main.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\copy_main.c</FilePath>
-            </File>
-            <File>
               <FileName>timer2.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\USER\timer2.c</FilePath>
+            </File>
+            <File>
+              <FileName>main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\main.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -16,7 +16,7 @@ unsigned char MotorDrive(int Dir, int Row, int Col)
 		MotorRowDrive (Dir , Row);
 		MotorColDrive (Dir , Col);
 		
-		Delay_us(150);//
+		Delay_us(150);
 		if (ADC_ConvertedValue[Col-1] > 1540) //1540/4096*2.66=1A
 		{
 			MotorColStop(Col);
@@ -25,6 +25,7 @@ unsigned char MotorDrive(int Dir, int Row, int Col)
 		else break;	
 	}
 	return i;
+	Delay_us(10);//just for safety, sometimes two cols need to be start together
 }
 /**/
 void MotorDriveResverse(int Row)

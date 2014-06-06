@@ -7,6 +7,9 @@ void ClearProtocol(void);
 
 unsigned char temp_readbyte, readbyte,sucess;
 
+unsigned char i_testloop = 0, j_testloop = 0;
+unsigned char StartTimes = 0;
+
 int main(void)
 {
 	SysTick_Init();	
@@ -19,8 +22,172 @@ int main(void)
 	TIM2_NVIC_Configuration();
 	TIM2_Configuration();
 	
-	while (1)
+	if ( I2C_PCF8574_BufferRead( &IDOfPCB, 0x40 ) ) 	
 	{
+		for(i=0; i<4;i++)
+		{
+			RunMode |= (IDOfPCB & (0x01<<(i+4))) >> (2*i+1);
+		}
+		printf("RunMode is %d.\r\n", RunMode);
+	}
+
+	if ( RunMode == RunModeTest )
+	{
+		for (j_testloop = 1; j_testloop<10; j_testloop++ )
+		{
+			for (i_testloop =1 ; i_testloop<10;i_testloop++ )
+			{
+				MotorStopAll();
+				StartTimes = MotorDrive( 0, j_testloop, i_testloop );
+				printf("Row %d, Col %d, StartTimes %d, Backward\r\n",j_testloop,i_testloop,StartTimes);
+				if (StartTimes < 7) MotorStatus = Backward;			
+				else StartTimes = Stopped;
+				Delay_us(500);			
+				while(MotorStatus == Backward)
+				{
+					for (j = 0; j<3; j++)
+					{
+						MeanRunningCurrent += ADC_ConvertedValue[i_testloop-1];
+					}
+					if (MeanRunningCurrent > 3234) 
+					{
+						MotorColStop(i_testloop);
+						MotorStatus = Stopped;
+						printf("Motor Stopped\r\n");
+					}
+					MeanRunningCurrent = 0;
+					Delay_us(1);
+				}
+				Delay_us(1000);
+				
+				StartTimes = MotorDrive( 1, j_testloop, i_testloop );
+				printf("Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop,StartTimes);
+				if (StartTimes < 7) MotorStatus = Forward;			
+				else StartTimes = Stopped;		
+				Delay_us(500);
+				while(MotorStatus == Forward)
+				{
+					for (j = 0; j<3; j++)
+					{
+						MeanRunningCurrent += ADC_ConvertedValue[i_testloop-1];
+					}
+					if (MeanRunningCurrent > 3234) 
+					{
+						MotorColStop(i_testloop);
+						MotorStatus = Stopped;
+						printf("Motor Stopped\r\n");
+					}
+					MeanRunningCurrent = 0;
+					Delay_us(1);
+				}
+				Delay_us(1000);
+
+				MotorStopAll();
+				StartTimes = MotorDrive( 0, j_testloop, i_testloop );
+				printf("Row %d, Col %d, StartTimes %d, Backward\r\n",j_testloop,i_testloop,StartTimes);
+				if (StartTimes < 7) MotorStatus = Backward;			
+				else StartTimes = Stopped;		
+				Delay_us(500);			
+				while(MotorStatus == Backward)
+				{
+					for (j = 0; j<3; j++)
+					{
+						MeanRunningCurrent += ADC_ConvertedValue[i_testloop-1];
+					}
+					if (MeanRunningCurrent > 3234) 
+					{
+						MotorColStop(i_testloop);
+						MotorStatus = Stopped;
+						printf("Motor Stopped\r\n");
+					}
+					MeanRunningCurrent = 0;
+					Delay_us(1);
+				}
+				Delay_us(1000);
+			}
+		}	
+	}
+	
+	if ( RunMode == 0x05 )
+	{
+		for (j_testloop = 1; j_testloop<10; j_testloop++ )
+		{
+			for (i_testloop =1 ; i_testloop<10;i_testloop++ )
+			{
+				StartTimes = MotorDrive( 1, j_testloop, i_testloop );
+				printf("Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop,StartTimes);
+				if (StartTimes < 7) MotorStatus = Forward;			
+				else StartTimes = Stopped;		
+				Delay_us(500);
+				while(MotorStatus == Forward)
+				{
+					for (j = 0; j<3; j++)
+					{
+						MeanRunningCurrent += ADC_ConvertedValue[i_testloop-1];
+					}
+					if (MeanRunningCurrent > 3234) 
+					{
+						MotorColStop(i_testloop);
+						MotorStatus = Stopped;
+						printf("Motor Stopped\r\n");
+					}
+					MeanRunningCurrent = 0;
+					Delay_us(1);
+				}
+				Delay_us(1000);
+				
+				MotorStopAll();
+				StartTimes = MotorDrive( 0, j_testloop, i_testloop );
+				printf("Row %d, Col %d, StartTimes %d, Backward\r\n",j_testloop,i_testloop,StartTimes);
+				if (StartTimes < 7) MotorStatus = Backward;			
+				else StartTimes = Stopped;
+				Delay_us(500);			
+				while(MotorStatus == Backward)
+				{
+					for (j = 0; j<3; j++)
+					{
+						MeanRunningCurrent += ADC_ConvertedValue[i_testloop-1];
+					}
+					if (MeanRunningCurrent > 3234) 
+					{
+						MotorColStop(i_testloop);
+						MotorStatus = Stopped;
+						printf("Motor Stopped\r\n");
+					}
+					MeanRunningCurrent = 0;
+					Delay_us(1);
+				}
+				Delay_us(1000);
+				
+				StartTimes = MotorDrive( 1, j_testloop, i_testloop );
+				printf("Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop,StartTimes);
+				if (StartTimes < 7) MotorStatus = Forward;			
+				else StartTimes = Stopped;		
+				Delay_us(500);
+				while(MotorStatus == Forward)
+				{
+					for (j = 0; j<3; j++)
+					{
+						MeanRunningCurrent += ADC_ConvertedValue[i_testloop-1];
+					}
+					if (MeanRunningCurrent > 3234) 
+					{
+						MotorColStop(i_testloop);
+						MotorStatus = Stopped;
+						printf("Motor Stopped\r\n");
+					}
+					MeanRunningCurrent = 0;
+					Delay_us(1);
+				}
+				Delay_us(1000);
+			}
+		}	
+	}
+	
+	
+	printf("entering normal mode\r\n");
+	while (1)
+	{		
 		switch (TchScrSltStatus)
 		{
 			case MotorStoppedTop:
@@ -52,7 +219,6 @@ int main(void)
 			gU2RecvBuff.protocol_ok = 0;
 			EchoToMaster(&HandShakeToMaster[0]);//Echo to master to claim 
 												//that slave have received the information correctly;
-			
 			switch (gU2RecvBuff.command)
 			{	
 				case MotorForward: 
@@ -201,7 +367,7 @@ int main(void)
 				for(j=0;j<250;j++);//just for time Delay_us;
 			}			
 			//PtoEtcSW wait time terminated
-			if (step_timer2 > 1000) 
+			if (step_timer2 > DelayTimeOfTimer2) 
 			{
 				WaitPtoEtcSW = 0;
 				step_timer2 = 0;
