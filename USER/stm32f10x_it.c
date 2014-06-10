@@ -25,12 +25,13 @@
 #include "stm32f10x_it.h"
 #include "protocol.h"
 #include "stdio.h"
-#include "timer2.h"
+#include "timer.h"
 
 extern void TimingDelay_Decrement(void);
 extern PROTOCOL_t gU2RecvBuff;
 extern unsigned char WaitPtoEtcSW;
 extern volatile u32 step_timer2;
+extern volatile u32 step_timer3;
 /** @addtogroup STM32F10x_StdPeriph_Template
   * @{
   */
@@ -180,6 +181,16 @@ void TIM2_IRQHandler(void)
 	{	
 		TIM_ClearITPendingBit(TIM2 , TIM_FLAG_Update);    
   	step_timer2++;
+		//printf(" %d ",step_timer2);
+	}
+}
+
+void TIM3_IRQHandler(void)
+{
+	if ( TIM_GetITStatus(TIM3 , TIM_IT_Update) != RESET ) 
+	{	
+		TIM_ClearITPendingBit(TIM3 , TIM_FLAG_Update);    
+  	step_timer3++;
 		//printf(" %d ",step_timer2);
 	}
 }

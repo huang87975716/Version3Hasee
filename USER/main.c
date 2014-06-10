@@ -184,32 +184,54 @@ int main(void)
 		}	
 	}
 	
-	
 	printf("entering normal mode\r\n");
 	while (1)
 	{		
 		switch (TchScrSltStatus)
 		{
 			case MotorStoppedTop:
-				//check key
+				I2C_PCF8574_BufferRead(&I2CTouchKey, 0x42);
+				if( ~(I2CTouchKey |= 1<<3) ) 
+				{
+					Delay_us(50);
+					I2C_PCF8574_BufferRead(&I2CTouchKey, 0x42);
+					if( ~(I2CTouchKey |= 1<<3) )  TchScrSltStatus = KeyPushed;
+				}
 				break;
 			case KeyPushed:
+				MotorDrive(0,9,10);
+				TchScrSltStatus = MotorStartDown;
 				break;
 			case MotorStartDown:
+				//check the limit switch
+				TchScrSltStatus = DownLimSW;
 				break;
 			case DownLimSW:
+				MotorStopAll();
+				TchScrSltStatus = MotorStoppedBottom;
 				break;
 			case MotorStoppedBottom:
+				I2C_PCF8574_BufferRead(&I2CInfaraedSsr, 0x42);
+				if ( ~(I2CInfaraedSsr != 1<<2) ) TchScrSltStatus = InfraredSensorFirst;
 				break;		
-			case InfraredSensorStatus:
+			case InfraredSensorFirst:
+				START_TIME3;
+				if(step_timer3 == 100) TchScrSltStatus = InfraredSensorSecond;
 				break;
-			case TimerStarted:
+			case InfraredSensorSecond:
+				step_timer3 = 0;
+				if(step_timer3 == 500) TchScrSltStatus = TimerTerminated;
 				break;
 			case TimerTerminated:
+				MotorDrive(1,9,10);
+				TchScrSltStatus = MotorstartUp;
 				break;
 			case MotorstartUp:
+				//check the limit switch
+				TchScrSltStatus = UpLimSW;
 				break;
 			case UpLimSW:
+				TchScrSltStatus = MotorStoppedTop;
 				break;
 			default:
 				break;			
@@ -269,11 +291,11 @@ int main(void)
 					}
 					Delay_us(400);
 					break;
-				case StopAllMotor:
+				case StopAllMotor: 
 					MotorStopAll();
 					if(! (((GPIO_ReadOutputData(GPIOA)&0x8A10)<0x8A10) | ((GPIO_ReadOutputData(GPIOB)&0xAC00)<0xAC00)\
 					| ((GPIO_ReadOutputData(GPIOC)&0x1680)<0x1680) | ((GPIO_ReadOutputData(GPIOD)&0xA000)<0xA000)\
-					| ((GPIO_ReadOutputData(GPIOE)&0x780)<0x780)) )
+					| ((GPIO_ReadOutputData(GPIOE)&0x780)<0x780)) )//need to be verfied
 					{
 						EchoToMaster(&AllMotorStopped[0]);
 					}
@@ -331,7 +353,7 @@ int main(void)
 					break;
 			}
 			ClearProtocol();		
-}
+		}
 		if(1)
 		{
 			//check photoelectric switch

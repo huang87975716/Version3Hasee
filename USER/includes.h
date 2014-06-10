@@ -5,7 +5,7 @@
 	#include "SysTick.h"
 	#include "usart.h"
 	#include "stdio.h"
-	#include "timer2.h"
+	#include "timer.h"
 	#include "matrix_motor.h"
 	#include "protocol.h"
 	#include "adc.h"

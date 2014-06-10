@@ -20,7 +20,7 @@
 .\Output\main.o: USER\SysTick.h
 .\Output\main.o: USER\usart.h
 .\Output\main.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
-.\Output\main.o: USER\timer2.h
+.\Output\main.o: USER\timer.h
 .\Output\main.o: USER\matrix_motor.h
 .\Output\main.o: USER\protocol.h
 .\Output\main.o: USER\adc.h

@@ -12,7 +12,9 @@
 	unsigned char 	IDOfPCB = 0;
 	unsigned char 	RunMode = 0;
 	unsigned char 	I2CStatus = 0;
-	unsigned int 		PtoEtcSWCheckResult = 0;
+	unsigned char 	I2CTouchKey = 0;
+	unsigned char 	I2CInfaraedSsr = 0;
+	unsigned int 	PtoEtcSWCheckResult = 0;
 	
 	PROTOCOL_t gU2RecvBuff;//usart information
 	
@@ -47,6 +49,7 @@
 	unsigned int MeanRunningCurrent = 0;
 		
 	volatile u32 step_timer2;
+	volatile u32 step_timer3;
 	unsigned char WaitPtoEtcSW = 0;
 	unsigned int DelayTimeOfTimer2 = 1000; 
 	
@@ -57,8 +60,8 @@
 		MotorStartDown,
 		DownLimSW,
 		MotorStoppedBottom,
-		InfraredSensorStatus,
-		TimerStarted,
+		InfraredSensorFirst,
+		InfraredSensorSecond,
 		TimerTerminated,
 		MotorstartUp,
 		UpLimSW,

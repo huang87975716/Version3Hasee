@@ -24,8 +24,8 @@ unsigned char MotorDrive(int Dir, int Row, int Col)
 		}
 		else break;	
 	}
-	return i;
 	Delay_us(10);//just for safety, sometimes two cols need to be start together
+	return i;
 }
 /**/
 void MotorDriveResverse(int Row)
