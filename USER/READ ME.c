@@ -69,22 +69,22 @@
 	ELS11 -- P5 of I2C addressed at 0x42
 */
 /*protocol for master
-AA(header) XX(command) XX(data0) XX(data1) XX(data2) XX(data3) XX(checksum)
-command from master to slave
-	#define UploadPCBID 		0x01 		//upload PCB ID 
-	#define CheckPtoElcSW		0x02		//check photoelectric switch
-	#define MotorForward 		0x03 		
-	#define MotorBackward 	0x04
-	#define	StopAllMotor		0x05		//stop all motor
-	#define ReverseRowMotor 0x06
-	#define StartPtoEtcSW		0x07		//start photoelectric switch
-	#define StopPtoEtcSW		0x08		//stop photoelectric switch
-	#define CheckPtoEtcSW 	0x09
+AA(header) XX(command) XX(data0) XX(data1) XX(data2) XX(data3) XX(checksum)	
+*/
 
-command from slave to master
-0x21: PCB ID 
-0x22: result of photoelectric switch
-0x23: motor start forward failed
-0x24: motor start backward failed
-		
+/*Optical Coupler Interface and L298 drive interface
+PE13	SW1		S_SEN1
+PD2		SW4		S_SEN2
+PE14	SW2		S_SEN3
+PD3		SW3		S_SEN4
+
+PE12	TC_S1
+PE11	TC_S2
+PA1		TC_EN
+*/
+
+/*
+For PCF8574 addressed 0x42, p7~p4 is pulled up as hign volatage, becasue of the exitance of triode, the readout is 0;
+the optical coupler receive occupy about 258-79 about 160mA
+the main problem is the relay controlled by triode, which is now solved by the MOSFET
 */

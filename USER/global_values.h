@@ -21,7 +21,7 @@
 	#define RunModeNormal 	0x00
 	#define RunModeTest 		0x0A
 	
-	#define UploadPCBID 		0x01 		//not available 
+	#define UploadPCBID 		0x01 		//
 	#define MotorForward 		0x03 		//
 	#define MotorBackward 		0x04		//
 	#define	StopAllMotor		0x05		//
@@ -31,6 +31,11 @@
 	#define CheckPtoEtcSW 		0x09
 	#define StartLED			0x0A        //
 	#define StopLED				0x0B	    //
+	#define ReadI2C2			0x0C
+	#define ReadOptCplr		0x0D
+	#define L298Driver		0x0E
+	#define WaitPtoEtcSW	0x0F
+	#define StopWaitPtoEtcSW	0x10
 	unsigned char HandShakeToMaster[7] = 			{0xAA, 0xBB, 00, 00, 00, 00, 0x65};//
 	unsigned char PCBID[7] = 						{0xAA, 0x01, 00, 00, 00, 00, 0xAB};//
 	unsigned char MedecineFailed[7] = 				{0xAA, 0x02, 00, 00, 00, 00, 0xAC};//

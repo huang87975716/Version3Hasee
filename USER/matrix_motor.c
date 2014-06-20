@@ -20,11 +20,10 @@ unsigned char MotorDrive(int Dir, int Row, int Col)
 		if (ADC_ConvertedValue[Col-1] > 1540) //1540/4096*2.66=1A
 		{
 			MotorColStop(Col);
-			Delay_us(750);				
+			Delay_us(500);				
 		}
 		else break;	
 	}
-	Delay_us(10);//just for safety, sometimes two cols need to be start together
 	return i;
 }
 /**/
@@ -160,12 +159,12 @@ void MotorRowStop(int Row)
 				GPIO_SetBits(GPIOC, GPIO_Pin_15);
 			break;
 		case 10:
-				I2CValue2 &= 0x7F;
+				I2CValue2 |= 0x40;
 				I2C_PCF8574_BufferWrite(I2CValue2, 0x42 );//Row 10th
 				GPIO_SetBits(GPIOC, GPIO_Pin_14);
 			break;
 		case 11:
-				I2CValue2 &=0xBF;
+				I2CValue2 |=0x80;
 				I2C_PCF8574_BufferWrite(I2CValue2, 0x42 );//Row 11th
 				GPIO_SetBits(GPIOA, GPIO_Pin_0);
 			break;
@@ -214,7 +213,7 @@ void MotorRowDrive(int Dir, int Row)
 					break;
 				case 11:
 						I2CValue2 &=0x7F;
-						I2C_PCF8574_BufferWrite(I2CValue2, 0x42 );//Row 10th
+						I2C_PCF8574_BufferWrite(I2CValue2, 0x42 );//Row 11th
 					break;
 				default:
 					break;

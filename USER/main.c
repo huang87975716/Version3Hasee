@@ -30,7 +30,7 @@ int main(void)
 		}
 		printf("RunMode is %d.\r\n", RunMode);
 	}
-
+	
 	if ( RunMode == RunModeTest )
 	{
 		for (j_testloop = 1; j_testloop<10; j_testloop++ )
@@ -187,55 +187,55 @@ int main(void)
 	printf("entering normal mode\r\n");
 	while (1)
 	{		
-		switch (TchScrSltStatus)
-		{
-			case MotorStoppedTop:
-				I2C_PCF8574_BufferRead(&I2CTouchKey, 0x42);
-				if( ~(I2CTouchKey |= 1<<3) ) 
-				{
-					Delay_us(50);
-					I2C_PCF8574_BufferRead(&I2CTouchKey, 0x42);
-					if( ~(I2CTouchKey |= 1<<3) )  TchScrSltStatus = KeyPushed;
-				}
-				break;
-			case KeyPushed:
-				MotorDrive(0,9,10);
-				TchScrSltStatus = MotorStartDown;
-				break;
-			case MotorStartDown:
-				//check the limit switch
-				TchScrSltStatus = DownLimSW;
-				break;
-			case DownLimSW:
-				MotorStopAll();
-				TchScrSltStatus = MotorStoppedBottom;
-				break;
-			case MotorStoppedBottom:
-				I2C_PCF8574_BufferRead(&I2CInfaraedSsr, 0x42);
-				if ( ~(I2CInfaraedSsr != 1<<2) ) TchScrSltStatus = InfraredSensorFirst;
-				break;		
-			case InfraredSensorFirst:
-				START_TIME3;
-				if(step_timer3 == 100) TchScrSltStatus = InfraredSensorSecond;
-				break;
-			case InfraredSensorSecond:
-				step_timer3 = 0;
-				if(step_timer3 == 500) TchScrSltStatus = TimerTerminated;
-				break;
-			case TimerTerminated:
-				MotorDrive(1,9,10);
-				TchScrSltStatus = MotorstartUp;
-				break;
-			case MotorstartUp:
-				//check the limit switch
-				TchScrSltStatus = UpLimSW;
-				break;
-			case UpLimSW:
-				TchScrSltStatus = MotorStoppedTop;
-				break;
-			default:
-				break;			
-		}
+// 		switch (TchScrSltStatus)
+// 		{
+// 			case MotorStoppedTop:
+// 				I2C_PCF8574_BufferRead(&I2CTouchKey, 0x42);
+// 				if( ~(I2CTouchKey |= 1<<3) ) 
+// 				{
+// 					Delay_us(50);
+// 					I2C_PCF8574_BufferRead(&I2CTouchKey, 0x42);
+// 					if( ~(I2CTouchKey |= 1<<3) )  TchScrSltStatus = KeyPushed;
+// 				}
+// 				break;
+// 			case KeyPushed:
+// 				MotorDrive(0,9,10);
+// 				TchScrSltStatus = MotorStartDown;
+// 				break;
+// 			case MotorStartDown:
+// 				//check the limit switch
+// 				TchScrSltStatus = DownLimSW;
+// 				break;
+// 			case DownLimSW:
+// 				MotorStopAll();
+// 				TchScrSltStatus = MotorStoppedBottom;
+// 				break;
+// 			case MotorStoppedBottom:
+// 				I2C_PCF8574_BufferRead(&I2CInfaraedSsr, 0x42);
+// 				if ( ~(I2CInfaraedSsr != 1<<2) ) TchScrSltStatus = InfraredSensorFirst;
+// 				break;		
+// 			case InfraredSensorFirst:
+// 				START_TIME3;
+// 				if(step_timer3 == 100) TchScrSltStatus = InfraredSensorSecond;
+// 				break;
+// 			case InfraredSensorSecond:
+// 				step_timer3 = 0;
+// 				if(step_timer3 == 500) TchScrSltStatus = TimerTerminated;
+// 				break;
+// 			case TimerTerminated:
+// 				MotorDrive(1,9,10);
+// 				TchScrSltStatus = MotorstartUp;
+// 				break;
+// 			case MotorstartUp:
+// 				//check the limit switch
+// 				TchScrSltStatus = UpLimSW;
+// 				break;
+// 			case UpLimSW:
+// 				TchScrSltStatus = MotorStoppedTop;
+// 				break;
+// 			default:
+// 				break;			
+// 		}
 		if (gU2RecvBuff.protocol_ok)
 		{
 			gU2RecvBuff.protocol_ok = 0;
@@ -264,7 +264,7 @@ int main(void)
 							}
 						}
 					}
-					START_TIME2;
+					//START_TIME2;
 					WaitPtoEtcSW = 1;
 					Delay_us(500);
 					break;
@@ -293,6 +293,7 @@ int main(void)
 					break;
 				case StopAllMotor: 
 					MotorStopAll();
+					WaitPtoEtcSW = 0;
 					if(! (((GPIO_ReadOutputData(GPIOA)&0x8A10)<0x8A10) | ((GPIO_ReadOutputData(GPIOB)&0xAC00)<0xAC00)\
 					| ((GPIO_ReadOutputData(GPIOC)&0x1680)<0x1680) | ((GPIO_ReadOutputData(GPIOD)&0xA000)<0xA000)\
 					| ((GPIO_ReadOutputData(GPIOE)&0x780)<0x780)) )//need to be verfied
@@ -349,6 +350,44 @@ int main(void)
 						EchoToMaster(&PCBID[0]);
 					}
 					break;
+				case ReadI2C2:
+					I2C_PCF8574_BufferRead(&I2CTouchKey, 0x42);
+					printf(" I2C addressed 0x42 is %d\r\n",I2CTouchKey);
+					break;
+				case ReadOptCplr:
+					printf(" S_SEN1 is %d\r\n",GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_13));
+					printf(" S_SEN2 is %d\r\n",GPIO_ReadInputDataBit(GPIOD,GPIO_Pin_2));
+					printf(" S_SEN3 is %d\r\n",GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_14));
+					printf(" S_SEN4 is %d\r\n",GPIO_ReadInputDataBit(GPIOD,GPIO_Pin_3));
+					break;
+				case L298Driver:
+					if (gU2RecvBuff.data[0]==1)
+					{
+						GPIO_ResetBits(GPIOE,GPIO_Pin_11);
+						GPIO_SetBits(GPIOE,GPIO_Pin_12);
+						GPIO_SetBits(GPIOA,GPIO_Pin_1);
+						printf(" Enable L298, TC_S1=1, TC_S2=0 \r\n");
+					}
+					else if (gU2RecvBuff.data[0]==2)
+					{
+						GPIO_ResetBits(GPIOE,GPIO_Pin_12);
+						GPIO_SetBits(GPIOE,GPIO_Pin_11);
+						GPIO_SetBits(GPIOA,GPIO_Pin_1);
+						printf(" Enable L298, TC_S1=0, TC_S2=1 \r\n");
+					}
+					else if (gU2RecvBuff.data[0]==3)
+					{
+						GPIO_SetBits(GPIOE,GPIO_Pin_11 | GPIO_Pin_12);
+						GPIO_SetBits(GPIOA,GPIO_Pin_1);
+						printf(" Enable L298, TC_S1=1, TC_S2=1 \r\n");
+					}
+					else 
+					{
+						GPIO_ResetBits(GPIOE,GPIO_Pin_11 | GPIO_Pin_12);
+						GPIO_ResetBits(GPIOA,GPIO_Pin_1);
+						printf("Disable L298 and All control port is set zero \r\n");
+					}
+					break;
 				default:
 					break;
 			}
@@ -388,15 +427,15 @@ int main(void)
 				MeanRunningCurrent = 0;
 				for(j=0;j<250;j++);//just for time Delay_us;
 			}			
-			//PtoEtcSW wait time terminated
-			if (step_timer2 > DelayTimeOfTimer2) 
-			{
-				WaitPtoEtcSW = 0;
-				step_timer2 = 0;
-				EchoToMaster(&MedecineFailed[0]);
-				STOP_TIME2;
-				MotorStopAll();
-			}
+// 			//PtoEtcSW wait time terminated
+// 			if (step_timer2 > DelayTimeOfTimer2) 
+// 			{
+// 				WaitPtoEtcSW = 0;
+// 				step_timer2 = 0;
+// 				EchoToMaster(&MedecineFailed[0]);
+// 				STOP_TIME2;
+// 				MotorStopAll();
+// 			}
 		}
 	}
 }

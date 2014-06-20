@@ -59,7 +59,7 @@ void GPIO_Config(void)
 	GPIO_SetBits(GPIOE, GPIO_Pin_All & ( ~ (GPIO_Pin_11 | GPIO_Pin_12 | GPIO_Pin_13 | GPIO_Pin_14| GPIO_Pin_15 ) ) );
 	//光电开关以及电机驱动IO口配置为高电平，开漏输出, except ELS11, RankContry10, RankContry11(connected to I2C Bus IO extended chip)
 	
-	//PtoEtcSW detect IO is configured as the input and low as default
+	//OptCplr detect IO is configured as the input and low as default
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2 | GPIO_Pin_3;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;       
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
@@ -69,5 +69,20 @@ void GPIO_Config(void)
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;       
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOE, &GPIO_InitStructure);
-	//PtoEtcSW detect IO is configured as the input and high as default	
+	//OptCplr detect IO is configured as the input and low as default	
+	
+	//298 Driver interface
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11 | GPIO_Pin_12;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;       
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(GPIOE, &GPIO_InitStructure);
+	
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;       
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+	
+	GPIO_ResetBits(GPIOE,GPIO_Pin_11 |GPIO_Pin_12);
+	GPIO_ResetBits(GPIOA,GPIO_Pin_1);
+	//298 Driver interface
 }
