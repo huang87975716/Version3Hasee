@@ -34,8 +34,7 @@
 	#define ReadI2C2			0x0C
 	#define ReadOptCplr		0x0D
 	#define L298Driver		0x0E
-	#define WaitPtoEtcSW	0x0F
-	#define StopWaitPtoEtcSW	0x10
+	
 	unsigned char HandShakeToMaster[7] = 			{0xAA, 0xBB, 00, 00, 00, 00, 0x65};//
 	unsigned char PCBID[7] = 						{0xAA, 0x01, 00, 00, 00, 00, 0xAB};//
 	unsigned char MedecineFailed[7] = 				{0xAA, 0x02, 00, 00, 00, 00, 0xAC};//

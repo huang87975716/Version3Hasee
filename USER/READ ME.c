@@ -87,4 +87,6 @@ PA1		TC_EN
 For PCF8574 addressed 0x42, p7~p4 is pulled up as hign volatage, becasue of the exitance of triode, the readout is 0;
 the optical coupler receive occupy about 258-79 about 160mA
 the main problem is the relay controlled by triode, which is now solved by the MOSFET
+
+alert: 24V directly addding to diode( H bridge) was forbidden;
 */

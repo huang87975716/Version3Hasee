@@ -264,8 +264,6 @@ int main(void)
 							}
 						}
 					}
-					//START_TIME2;
-					WaitPtoEtcSW = 1;
 					Delay_us(500);
 					break;
 				case MotorBackward:
@@ -293,7 +291,6 @@ int main(void)
 					break;
 				case StopAllMotor: 
 					MotorStopAll();
-					WaitPtoEtcSW = 0;
 					if(! (((GPIO_ReadOutputData(GPIOA)&0x8A10)<0x8A10) | ((GPIO_ReadOutputData(GPIOB)&0xAC00)<0xAC00)\
 					| ((GPIO_ReadOutputData(GPIOC)&0x1680)<0x1680) | ((GPIO_ReadOutputData(GPIOD)&0xA000)<0xA000)\
 					| ((GPIO_ReadOutputData(GPIOE)&0x780)<0x780)) )//need to be verfied
@@ -317,10 +314,12 @@ int main(void)
 					break;
 				case StartPtoEtcSW:
 					StartAllPtoEtcSW();
+					WaitPtoEtcSW = 1;
 					EchoToMaster(&StartPtoEtcSWSuccedded[0]);
 					break;
 				case StopPtoEtcSW:
 					StopAllPtoEtcSW();
+					WaitPtoEtcSW = 0;
 					EchoToMaster(&StopPtoEtcSWSuccedded[0]);
 					break;
 				case StartLED:
@@ -401,8 +400,6 @@ int main(void)
 				if ((GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_13) == 1)) 
 				{
 					MotorStopAll();
-					WaitPtoEtcSW = 0;	
-					STOP_TIME2;
 					EchoToMaster(&MedecineSuccedded[0]);
 				}							
 			}
@@ -416,8 +413,6 @@ int main(void)
 				if (MeanRunningCurrent > 3234) //if anything wrong during running(current feedback), stop all the motors;
 				{
 					MotorColStop(i+1);
-					WaitPtoEtcSW = 0;	
-					STOP_TIME2;
 					ColCurrentOverRange[2] = (i+1);
 					ColCurrentOverRange[6] = (i+1)+0xB4;
 					EchoToMaster(&ColCurrentOverRange[0]);

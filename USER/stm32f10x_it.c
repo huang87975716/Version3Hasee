@@ -29,7 +29,6 @@
 
 extern void TimingDelay_Decrement(void);
 extern PROTOCOL_t gU2RecvBuff;
-extern unsigned char WaitPtoEtcSW;
 extern volatile u32 step_timer2;
 extern volatile u32 step_timer3;
 /** @addtogroup STM32F10x_StdPeriph_Template
