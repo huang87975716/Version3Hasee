@@ -187,55 +187,55 @@ int main(void)
 	printf("entering normal mode\r\n");
 	while (1)
 	{		
-// 		switch (TchScrSltStatus)
-// 		{
-// 			case MotorStoppedTop:
-// 				I2C_PCF8574_BufferRead(&I2CTouchKey, 0x42);
-// 				if( ~(I2CTouchKey |= 1<<3) ) 
-// 				{
-// 					Delay_us(50);
-// 					I2C_PCF8574_BufferRead(&I2CTouchKey, 0x42);
-// 					if( ~(I2CTouchKey |= 1<<3) )  TchScrSltStatus = KeyPushed;
-// 				}
-// 				break;
-// 			case KeyPushed:
-// 				MotorDrive(0,9,10);
-// 				TchScrSltStatus = MotorStartDown;
-// 				break;
-// 			case MotorStartDown:
-// 				//check the limit switch
-// 				TchScrSltStatus = DownLimSW;
-// 				break;
-// 			case DownLimSW:
-// 				MotorStopAll();
-// 				TchScrSltStatus = MotorStoppedBottom;
-// 				break;
-// 			case MotorStoppedBottom:
-// 				I2C_PCF8574_BufferRead(&I2CInfaraedSsr, 0x42);
-// 				if ( ~(I2CInfaraedSsr != 1<<2) ) TchScrSltStatus = InfraredSensorFirst;
-// 				break;		
-// 			case InfraredSensorFirst:
-// 				START_TIME3;
-// 				if(step_timer3 == 100) TchScrSltStatus = InfraredSensorSecond;
-// 				break;
-// 			case InfraredSensorSecond:
-// 				step_timer3 = 0;
-// 				if(step_timer3 == 500) TchScrSltStatus = TimerTerminated;
-// 				break;
-// 			case TimerTerminated:
-// 				MotorDrive(1,9,10);
-// 				TchScrSltStatus = MotorstartUp;
-// 				break;
-// 			case MotorstartUp:
-// 				//check the limit switch
-// 				TchScrSltStatus = UpLimSW;
-// 				break;
-// 			case UpLimSW:
-// 				TchScrSltStatus = MotorStoppedTop;
-// 				break;
-// 			default:
-// 				break;			
-// 		}
+		switch (TchScrSltStatus)
+		{
+			case MotorStoppedTop:
+				I2C_PCF8574_BufferRead(&I2CTouchKey, 0x42);
+				if( ~(I2CTouchKey |= 1<<3) ) 
+				{
+					Delay_us(50);
+					I2C_PCF8574_BufferRead(&I2CTouchKey, 0x42);
+					if( ~(I2CTouchKey |= 1<<3) )  TchScrSltStatus = KeyPushed;
+				}
+				break;
+			case KeyPushed:
+				MotorDrive(0,9,10);
+				TchScrSltStatus = MotorStartDown;
+				break;
+			case MotorStartDown:
+				//check the limit switch
+				TchScrSltStatus = DownLimSW;
+				break;
+			case DownLimSW:
+				MotorStopAll();
+				TchScrSltStatus = MotorStoppedBottom;
+				break;
+			case MotorStoppedBottom:
+				I2C_PCF8574_BufferRead(&I2CInfaraedSsr, 0x42);
+				if ( ~(I2CInfaraedSsr != 1<<2) ) TchScrSltStatus = InfraredSensorFirst;
+				break;		
+			case InfraredSensorFirst:
+				START_TIME3;
+				if(step_timer3 == 100) TchScrSltStatus = InfraredSensorSecond;
+				break;
+			case InfraredSensorSecond:
+				step_timer3 = 0;
+				if(step_timer3 == 500) TchScrSltStatus = TimerTerminated;
+				break;
+			case TimerTerminated:
+				MotorDrive(1,9,10);
+				TchScrSltStatus = MotorstartUp;
+				break;
+			case MotorstartUp:
+				//check the limit switch
+				TchScrSltStatus = UpLimSW;
+				break;
+			case UpLimSW:
+				TchScrSltStatus = MotorStoppedTop;
+				break;
+			default:
+				break;			
+		}
 		if (gU2RecvBuff.protocol_ok)
 		{
 			gU2RecvBuff.protocol_ok = 0;

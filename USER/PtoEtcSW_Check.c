@@ -22,11 +22,16 @@ unsigned short int ELSCheck(void)
 	{
 		StartAllPtoEtcSW();
 		OnlyStop_PtoEtcSW(i);
-		Delay_us(100);//it should be modefied according to the reality.
+		Delay_us(50);
 		if(GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_13)) PtoEtcSWStatus |= (1<<(i-1));
 		else PtoEtcSWStatus &= ( ~(1<<(i-1) ) );
 	}
 	StopAllPtoEtcSW();
+	
+	StartAllPtoEtcSW();
+	Delay_us(50);
+	if(!(GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_13))) PtoEtcSWStatus |= (1<<(11-1));//the 11th bit stands for the receive port faliure
+	
 	return PtoEtcSWStatus;
 }
 /*
