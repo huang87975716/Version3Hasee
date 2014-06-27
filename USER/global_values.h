@@ -20,6 +20,10 @@
 	
 	#define RunModeNormal 	0x00
 	#define RunModeTest 		0x0A
+	#define LimitCurrent 		3696 	// 3234/3/4096*2.66 = 0.7A
+																// 3696/3/4096*2.66 = 0.8A
+	#define	DownLimSWCheck	GPIO_ReadInputDataBit(GPIOD,GPIO_Pin_2)
+	#define UpLimSWCheck 		GPIO_ReadInputDataBit(GPIOD,GPIO_Pin_3)
 	
 	#define UploadPCBID 		0x01 		//
 	#define MotorForward 		0x03 		//
@@ -47,6 +51,8 @@
 	unsigned char AllMotorStopped[7] = 				{0xAA, 0x09, 00, 00, 00, 00, 0xB3};//
 	unsigned char ColCurrentOverRange[7] = 			{0xAA, 0x0A, 00, 00, 00, 00, 0xB4};//
 	unsigned char MotorStartInfo[7] = 				{0xAA, 0x0B, 00, 00, 00, 00, 0xB5};//
+	unsigned char ShelterOpened[7] =				{0xAA, 0x0C, 00, 00, 00, 00, 0xB6};//
+	unsigned char ShelterClosed[7] =				{0xAA, 0x0D, 00, 00, 00, 00, 0xB7};//
 	
 	unsigned int motor_col = 0;
 	unsigned int motor_row = 0;

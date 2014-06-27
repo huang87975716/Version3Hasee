@@ -8,10 +8,18 @@ extern volatile u16 ADC_ConvertedValue[11];
 extern unsigned char I2CValue2;
 
 /**/
-unsigned char MotorDrive(int Dir, int Row, int Col)
+unsigned char MotorDrive(int Dir, int Row, int Col, int TryTimes)
 {
-	unsigned char i;
-	for (i = 0; i < 7; i++ )
+	unsigned char i= 0;
+	if( (Row==9) && (Col==11) )
+	{
+		MotorRowDrive (Dir , Row);
+		MotorColDrive (Dir , Col);
+		Delay_us(1000);
+		return i;
+	}
+	
+	for (i = 0; i < TryTimes; i++ )
 	{
 		MotorRowDrive (Dir , Row);
 		MotorColDrive (Dir , Col);
@@ -19,6 +27,7 @@ unsigned char MotorDrive(int Dir, int Row, int Col)
 		Delay_us(150);
 		if (ADC_ConvertedValue[Col-1] > 1540) //1540/4096*2.66=1A
 		{
+			printf("\r\n start current is %d \r\n",ADC_ConvertedValue[Col-1]);
 			MotorColStop(Col);
 			Delay_us(500);				
 		}
@@ -28,15 +37,25 @@ unsigned char MotorDrive(int Dir, int Row, int Col)
 }
 /**/
 void MotorDriveResverse(int Row)
-	{
+{
 		unsigned char i;
+		unsigned int current = 0;
 		MotorRowDrive(0,Row);
-		for (i = 1; i <= 11; i++ )
+	
+		for (i = 1; i <= 9; i++ )
 		{
-		MotorColDrive(0,i);//
-		Delay_us(200);
+			MotorColDrive(0,i);//
+			Delay_us(200);			
+			if (ADC_ConvertedValue[i-1] > 1540) //1540/4096*2.66=1A
+			{
+				MotorColStop(i);
+				Delay_us(500);				
+			}
 		}
-	}
+		
+		for(i = 0; i <9; i++) current += ADC_ConvertedValue[i];
+		printf("\r\ntotal current is %d \r\n",current);
+}
 /**/
 void MotorStopAll(void)
 {

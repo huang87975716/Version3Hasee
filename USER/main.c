@@ -21,6 +21,8 @@ int main(void)
 	//CAN_Config();
 	TIM2_NVIC_Configuration();
 	TIM2_Configuration();
+	TIM3_NVIC_Configuration();
+	TIM3_Configuration();
 	
 	if ( I2C_PCF8574_BufferRead( &IDOfPCB, 0x40 ) ) 	
 	{
@@ -38,10 +40,10 @@ int main(void)
 			for (i_testloop =1 ; i_testloop<10;i_testloop++ )
 			{
 				MotorStopAll();
-				StartTimes = MotorDrive( 0, j_testloop, i_testloop );
-				printf("Row %d, Col %d, StartTimes %d, Backward\r\n",j_testloop,i_testloop,StartTimes);
-				if (StartTimes < 7) MotorStatus = Backward;			
-				else StartTimes = Stopped;
+				StartTimes = MotorDrive( 0, j_testloop, i_testloop, 2 );
+				printf("\r\n Row %d, Col %d, StartTimes %d, Backward\r\n",j_testloop,i_testloop,StartTimes);
+				if (StartTimes < 2) MotorStatus = Backward;			
+				else MotorStatus = Stopped;
 				Delay_us(500);			
 				while(MotorStatus == Backward)
 				{
@@ -49,7 +51,7 @@ int main(void)
 					{
 						MeanRunningCurrent += ADC_ConvertedValue[i_testloop-1];
 					}
-					if (MeanRunningCurrent > 3234) 
+					if (MeanRunningCurrent > LimitCurrent) 
 					{
 						MotorColStop(i_testloop);
 						MotorStatus = Stopped;
@@ -60,50 +62,50 @@ int main(void)
 				}
 				Delay_us(1000);
 				
-				StartTimes = MotorDrive( 1, j_testloop, i_testloop );
-				printf("Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop,StartTimes);
-				if (StartTimes < 7) MotorStatus = Forward;			
-				else StartTimes = Stopped;		
-				Delay_us(500);
-				while(MotorStatus == Forward)
-				{
-					for (j = 0; j<3; j++)
-					{
-						MeanRunningCurrent += ADC_ConvertedValue[i_testloop-1];
-					}
-					if (MeanRunningCurrent > 3234) 
-					{
-						MotorColStop(i_testloop);
-						MotorStatus = Stopped;
-						printf("Motor Stopped\r\n");
-					}
-					MeanRunningCurrent = 0;
-					Delay_us(1);
-				}
-				Delay_us(1000);
+				// StartTimes = MotorDrive( 1, j_testloop, i_testloop );
+				// printf("Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop,StartTimes);
+				// if (StartTimes < 7) MotorStatus = Forward;			
+				// else MotorStatus = Stopped;		
+				// Delay_us(500);
+				// while(MotorStatus == Forward)
+				// {
+					// for (j = 0; j<3; j++)
+					// {
+						// MeanRunningCurrent += ADC_ConvertedValue[i_testloop-1];
+					// }
+					// if (MeanRunningCurrent > LimitCurrent) 
+					// {
+						// MotorColStop(i_testloop);
+						// MotorStatus = Stopped;
+						// printf("Motor Stopped\r\n");
+					// }
+					// MeanRunningCurrent = 0;
+					// Delay_us(1);
+				// }
+				// Delay_us(1000);
 
-				MotorStopAll();
-				StartTimes = MotorDrive( 0, j_testloop, i_testloop );
-				printf("Row %d, Col %d, StartTimes %d, Backward\r\n",j_testloop,i_testloop,StartTimes);
-				if (StartTimes < 7) MotorStatus = Backward;			
-				else StartTimes = Stopped;		
-				Delay_us(500);			
-				while(MotorStatus == Backward)
-				{
-					for (j = 0; j<3; j++)
-					{
-						MeanRunningCurrent += ADC_ConvertedValue[i_testloop-1];
-					}
-					if (MeanRunningCurrent > 3234) 
-					{
-						MotorColStop(i_testloop);
-						MotorStatus = Stopped;
-						printf("Motor Stopped\r\n");
-					}
-					MeanRunningCurrent = 0;
-					Delay_us(1);
-				}
-				Delay_us(1000);
+				// MotorStopAll();
+				// StartTimes = MotorDrive( 0, j_testloop, i_testloop );
+				// printf("Row %d, Col %d, StartTimes %d, Backward\r\n",j_testloop,i_testloop,StartTimes);
+				// if (StartTimes < 7) MotorStatus = Backward;			
+				// else MotorStatus = Stopped;		
+				// Delay_us(500);			
+				// while(MotorStatus == Backward)
+				// {
+					// for (j = 0; j<3; j++)
+					// {
+						// MeanRunningCurrent += ADC_ConvertedValue[i_testloop-1];
+					// }
+					// if (MeanRunningCurrent > LimitCurrent) 
+					// {
+						// MotorColStop(i_testloop);
+						// MotorStatus = Stopped;
+						// printf("Motor Stopped\r\n");
+					// }
+					// MeanRunningCurrent = 0;
+					// Delay_us(1);
+				// }
+				// Delay_us(1000);
 			}
 		}	
 	}
@@ -114,10 +116,10 @@ int main(void)
 		{
 			for (i_testloop =1 ; i_testloop<10;i_testloop++ )
 			{
-				StartTimes = MotorDrive( 1, j_testloop, i_testloop );
-				printf("Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop,StartTimes);
+				StartTimes = MotorDrive( 1, j_testloop, i_testloop, 7 );
+				printf("\r\n Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop,StartTimes);
 				if (StartTimes < 7) MotorStatus = Forward;			
-				else StartTimes = Stopped;		
+				else MotorStatus = Stopped;		
 				Delay_us(500);
 				while(MotorStatus == Forward)
 				{
@@ -125,7 +127,7 @@ int main(void)
 					{
 						MeanRunningCurrent += ADC_ConvertedValue[i_testloop-1];
 					}
-					if (MeanRunningCurrent > 3234) 
+					if (MeanRunningCurrent > LimitCurrent) 
 					{
 						MotorColStop(i_testloop);
 						MotorStatus = Stopped;
@@ -136,50 +138,50 @@ int main(void)
 				}
 				Delay_us(1000);
 				
-				MotorStopAll();
-				StartTimes = MotorDrive( 0, j_testloop, i_testloop );
-				printf("Row %d, Col %d, StartTimes %d, Backward\r\n",j_testloop,i_testloop,StartTimes);
-				if (StartTimes < 7) MotorStatus = Backward;			
-				else StartTimes = Stopped;
-				Delay_us(500);			
-				while(MotorStatus == Backward)
-				{
-					for (j = 0; j<3; j++)
-					{
-						MeanRunningCurrent += ADC_ConvertedValue[i_testloop-1];
-					}
-					if (MeanRunningCurrent > 3234) 
-					{
-						MotorColStop(i_testloop);
-						MotorStatus = Stopped;
-						printf("Motor Stopped\r\n");
-					}
-					MeanRunningCurrent = 0;
-					Delay_us(1);
-				}
-				Delay_us(1000);
+				// MotorStopAll();
+				// StartTimes = MotorDrive( 0, j_testloop, i_testloop );
+				// printf("Row %d, Col %d, StartTimes %d, Backward\r\n",j_testloop,i_testloop,StartTimes);
+				// if (StartTimes < 7) MotorStatus = Backward;			
+				// else MotorStatus = Stopped;
+				// Delay_us(500);			
+				// while(MotorStatus == Backward)
+				// {
+					// for (j = 0; j<3; j++)
+					// {
+						// MeanRunningCurrent += ADC_ConvertedValue[i_testloop-1];
+					// }
+					// if (MeanRunningCurrent > LimitCurrent) 
+					// {
+						// MotorColStop(i_testloop);
+						// MotorStatus = Stopped;
+						// printf("Motor Stopped\r\n");
+					// }
+					// MeanRunningCurrent = 0;
+					// Delay_us(1);
+				// }
+				// Delay_us(1000);
 				
-				StartTimes = MotorDrive( 1, j_testloop, i_testloop );
-				printf("Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop,StartTimes);
-				if (StartTimes < 7) MotorStatus = Forward;			
-				else StartTimes = Stopped;		
-				Delay_us(500);
-				while(MotorStatus == Forward)
-				{
-					for (j = 0; j<3; j++)
-					{
-						MeanRunningCurrent += ADC_ConvertedValue[i_testloop-1];
-					}
-					if (MeanRunningCurrent > 3234) 
-					{
-						MotorColStop(i_testloop);
-						MotorStatus = Stopped;
-						printf("Motor Stopped\r\n");
-					}
-					MeanRunningCurrent = 0;
-					Delay_us(1);
-				}
-				Delay_us(1000);
+				// StartTimes = MotorDrive( 1, j_testloop, i_testloop );
+				// printf("Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop,StartTimes);
+				// if (StartTimes < 7) MotorStatus = Forward;			
+				// else MotorStatus = Stopped;		
+				// Delay_us(500);
+				// while(MotorStatus == Forward)
+				// {
+					// for (j = 0; j<3; j++)
+					// {
+						// MeanRunningCurrent += ADC_ConvertedValue[i_testloop-1];
+					// }
+					// if (MeanRunningCurrent > LimitCurrent) 
+					// {
+						// MotorColStop(i_testloop);
+						// MotorStatus = Stopped;
+						// printf("Motor Stopped\r\n");
+					// }
+					// MeanRunningCurrent = 0;
+					// Delay_us(1);
+				// }
+				// Delay_us(1000);
 			}
 		}	
 	}
@@ -189,53 +191,84 @@ int main(void)
 	{		
 		switch (TchScrSltStatus)
 		{
-			case MotorStoppedTop:
+			case MotorStoppedTop: 
+				//printf("\r\n MotorStoppedTop \r\n");	
 				I2C_PCF8574_BufferRead(&I2CTouchKey, 0x42);
-				if( ~(I2CTouchKey |= 1<<3) ) 
+				if( !(I2CTouchKey &= 1<<3) ) 
 				{
 					Delay_us(50);
 					I2C_PCF8574_BufferRead(&I2CTouchKey, 0x42);
-					if( ~(I2CTouchKey |= 1<<3) )  TchScrSltStatus = KeyPushed;
+					if( !(I2CTouchKey &= 1<<3) )  TchScrSltStatus = KeyPushed;
 				}
 				break;
 			case KeyPushed:
-				MotorDrive(0,9,10);
+				EchoToMaster(&ShelterOpened[0]);	
+				MotorDrive(0,9,11,7);//backforward
 				TchScrSltStatus = MotorStartDown;
 				break;
 			case MotorStartDown:
-				//check the limit switch
-				TchScrSltStatus = DownLimSW;
+				//printf("\r\n MotorStartDown \r\n");
+				if(DownLimSWCheck) 	TchScrSltStatus = DownLimSW;
 				break;
 			case DownLimSW:
+				//printf("\r\n DownLimSW and Motor Stopped \r\n");
 				MotorStopAll();
 				TchScrSltStatus = MotorStoppedBottom;
 				break;
 			case MotorStoppedBottom:
+				//printf("\r\n MotorStoppedBottom \r\n");
 				I2C_PCF8574_BufferRead(&I2CInfaraedSsr, 0x42);
-				if ( ~(I2CInfaraedSsr != 1<<2) ) TchScrSltStatus = InfraredSensorFirst;
+				if ( (I2CInfaraedSsr &= 1<<2) ) 
+				{
+					TchScrSltStatus = InfraredSensorFirst;//????
+					START_TIME3;
+				}
 				break;		
 			case InfraredSensorFirst:
-				START_TIME3;
-				if(step_timer3 == 100) TchScrSltStatus = InfraredSensorSecond;
+				//printf("\r\n InfraredSensorFirst \r\n");
+				if(step_timer3 >= 100) 
+				{
+					step_timer3 = 0;
+					STOP_TIME3;
+					I2C_PCF8574_BufferRead(&I2CInfaraedSsr, 0x42);
+					if ( (I2CInfaraedSsr &= 1<<2) ) 
+					{
+						TchScrSltStatus = InfraredSensorSecond;
+						START_TIME3;
+						EchoToMaster(&ShelterClosed[0]);
+					}
+					else 
+					{
+						TchScrSltStatus = MotorStoppedBottom;
+					}
+				}
 				break;
 			case InfraredSensorSecond:
-				step_timer3 = 0;
-				if(step_timer3 == 500) TchScrSltStatus = TimerTerminated;
+				//printf("\r\n InfraredSensorSecond \r\n");
+				if(step_timer3 >= 300) 
+				{
+					TchScrSltStatus = TimerTerminated;
+					STOP_TIME3;
+				}
 				break;
 			case TimerTerminated:
-				MotorDrive(1,9,10);
+				//printf("\r\n TimerTerminated Motor Up \r\n");
+				MotorDrive(1,9,11,7);
 				TchScrSltStatus = MotorstartUp;
 				break;
 			case MotorstartUp:
-				//check the limit switch
-				TchScrSltStatus = UpLimSW;
+				//printf("\r\n MotorstartUp \r\n");
+				if( !UpLimSWCheck ) TchScrSltStatus = UpLimSW;//check the limit switch
 				break;
 			case UpLimSW:
+				//printf("\r\n UpLimSW and Stopped\r\n");
+				MotorStopAll();
 				TchScrSltStatus = MotorStoppedTop;
 				break;
 			default:
 				break;			
 		}
+		
 		if (gU2RecvBuff.protocol_ok)
 		{
 			gU2RecvBuff.protocol_ok = 0;
@@ -257,7 +290,7 @@ int main(void)
 								{
 									MotorStartInfo[2] = (i+1);
 									MotorStartInfo[3] = (j+1);
-									MotorStartInfo[4] = MotorDrive( 1, i+1, j+1) ;
+									MotorStartInfo[4] = MotorDrive( 1, i+1, j+1,7) ;
 									MotorStartInfo[6] = (0xB7+i+j+MotorStartInfo[4]);									
 									EchoToMaster(&MotorStartInfo[0]);
 								}
@@ -280,7 +313,7 @@ int main(void)
 								{
 									MotorStartInfo[2] = (i+1);
 									MotorStartInfo[3] = (j+1);
-									MotorStartInfo[4] = MotorDrive( 0, i+1, j+1) ;
+									MotorStartInfo[4] = MotorDrive( 0, i+1, j+1,7) ;
 									MotorStartInfo[6] = (0xB7+i+j+MotorStartInfo[4]);									
 									EchoToMaster(&MotorStartInfo[0]);
 								}
@@ -404,13 +437,14 @@ int main(void)
 				}							
 			}
 			//11 Col current check
-			for(i=0;i<11;i++)
+			for(i=0;i<10;i++)
 			{
 				for (j = 0; j<3; j++)
 				{
 					MeanRunningCurrent += ADC_ConvertedValue[i];
+					Delay_us(1);
 				}
-				if (MeanRunningCurrent > 3234) //if anything wrong during running(current feedback), stop all the motors;
+				if (MeanRunningCurrent > LimitCurrent) //if anything wrong during running(current feedback), stop all the motors;
 				{
 					MotorColStop(i+1);
 					ColCurrentOverRange[2] = (i+1);
@@ -420,8 +454,20 @@ int main(void)
 					ColCurrentOverRange[6] = 0xB4;
 				}
 				MeanRunningCurrent = 0;
-				for(j=0;j<250;j++);//just for time Delay_us;
-			}			
+			}	
+
+			for (j = 0; j<3; j++)
+			{
+				MeanRunningCurrent += ADC_ConvertedValue[10];
+				Delay_us(1);
+			}
+			if (MeanRunningCurrent > 6930 ) //4620 -- 1A
+			{
+				printf("\r\n current of motor shelter is %d\r\n", MeanRunningCurrent);
+				MotorColStop(i+1);
+			}
+			MeanRunningCurrent = 0;
+			
 // 			//PtoEtcSW wait time terminated
 // 			if (step_timer2 > DelayTimeOfTimer2) 
 // 			{

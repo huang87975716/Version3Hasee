@@ -31,6 +31,7 @@ unsigned short int ELSCheck(void)
 	StartAllPtoEtcSW();
 	Delay_us(50);
 	if(!(GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_13))) PtoEtcSWStatus |= (1<<(11-1));//the 11th bit stands for the receive port faliure
+	StopAllPtoEtcSW();
 	
 	return PtoEtcSWStatus;
 }
