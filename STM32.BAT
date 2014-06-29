@@ -1,4 +1,4 @@
-SET PATH=C:\Keil\ARM\ARMCC\bin\;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\Program Files\Altium Designer 6\System
+SET PATH=C:\Keil\ARM\ARMCC\bin\;C:\Program Files\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\Program Files\Altium Designer 6\System
 SET CPU_TYPE=STM32F103VE
 SET CPU_VENDOR=STMicroelectronics
 SET UV2_TARGET=STM32

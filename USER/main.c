@@ -60,7 +60,7 @@ int main(void)
 					MeanRunningCurrent = 0;
 					Delay_us(1);
 				}
-				Delay_us(1000);
+				Delay_us(500);
 				
 				// StartTimes = MotorDrive( 1, j_testloop, i_testloop );
 				// printf("Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop,StartTimes);
@@ -136,7 +136,7 @@ int main(void)
 					MeanRunningCurrent = 0;
 					Delay_us(1);
 				}
-				Delay_us(1000);
+				Delay_us(500);
 				
 				// MotorStopAll();
 				// StartTimes = MotorDrive( 0, j_testloop, i_testloop );
