@@ -202,13 +202,17 @@ int main(void)
 				}
 				break;
 			case KeyPushed:
-				EchoToMaster(&ShelterOpened[0]);	
-				MotorDrive(0,9,11,7);//backforward
-				TchScrSltStatus = MotorStartDown;
+				if( (!DownLimSWCheck) && (!UpLimSWCheck) ) 
+				{
+					EchoToMaster(&ShelterOpened[0]);	
+					MotorDrive(1,9,11,7);//backforward
+					TchScrSltStatus = MotorStartDown;
+				}
+				else TchScrSltStatus = MotorStoppedTop;
 				break;
 			case MotorStartDown:
 				//printf("\r\n MotorStartDown \r\n");
-				if(DownLimSWCheck) 	TchScrSltStatus = DownLimSW;
+				if( DownLimSWCheck ) 	TchScrSltStatus = DownLimSW;
 				break;
 			case DownLimSW:
 				//printf("\r\n DownLimSW and Motor Stopped \r\n");
@@ -253,7 +257,7 @@ int main(void)
 				break;
 			case TimerTerminated:
 				//printf("\r\n TimerTerminated Motor Up \r\n");
-				MotorDrive(1,9,11,7);
+				MotorDrive(0,9,11,7);
 				TchScrSltStatus = MotorstartUp;
 				break;
 			case MotorstartUp:
@@ -420,6 +424,14 @@ int main(void)
 						printf("Disable L298 and All control port is set zero \r\n");
 					}
 					break;
+				case ShelterUpLimitSW:
+					ShelterUp = 1;
+					MotorDrive(0,9,11,7);//backforward
+					break;
+				case ShelterDownLimitSW:
+					ShelterDown = 1;
+					MotorDrive(1,9,11,7);//backforward
+					break;
 				default:
 					break;
 			}
@@ -442,7 +454,7 @@ int main(void)
 				for (j = 0; j<3; j++)
 				{
 					MeanRunningCurrent += ADC_ConvertedValue[i];
-					Delay_us(1);
+					//Delay_us(1);
 				}
 				if (MeanRunningCurrent > LimitCurrent) //if anything wrong during running(current feedback), stop all the motors;
 				{
@@ -454,20 +466,38 @@ int main(void)
 					ColCurrentOverRange[6] = 0xB4;
 				}
 				MeanRunningCurrent = 0;
+				for(j=0;j<150;j++);//just for time Delay_us;
 			}	
 
 			for (j = 0; j<3; j++)
 			{
 				MeanRunningCurrent += ADC_ConvertedValue[10];
-				Delay_us(1);
+				//Delay_us(1);
 			}
-			if (MeanRunningCurrent > 6930 ) //4620 -- 1A
+			if (MeanRunningCurrent > 8778 ) //4620 -- 1A
 			{
 				printf("\r\n current of motor shelter is %d\r\n", MeanRunningCurrent);
 				MotorColStop(i+1);
 			}
 			MeanRunningCurrent = 0;
+			for(j=0;j<150;j++);//just for time Delay_us;
 			
+			if (ShelterUp)
+			{
+				if ( (!UpLimSWCheck) && (!DownLimSWCheck) )
+				{
+					MotorStopAll();
+					ShelterUp = 0;
+				}
+			}
+			if (ShelterDown)
+			{
+				if ( (UpLimSWCheck) && (DownLimSWCheck) )
+				{
+					MotorStopAll();
+					ShelterDown = 0;
+				}
+			}
 // 			//PtoEtcSW wait time terminated
 // 			if (step_timer2 > DelayTimeOfTimer2) 
 // 			{

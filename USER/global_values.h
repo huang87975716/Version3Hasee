@@ -22,7 +22,7 @@
 	#define RunModeTest 		0x0A
 	#define LimitCurrent 		3696 	// 3234/3/4096*2.66 = 0.7A
 																// 3696/3/4096*2.66 = 0.8A
-	#define	DownLimSWCheck	GPIO_ReadInputDataBit(GPIOD,GPIO_Pin_2)
+	#define	DownLimSWCheck		GPIO_ReadInputDataBit(GPIOD,GPIO_Pin_2)
 	#define UpLimSWCheck 		GPIO_ReadInputDataBit(GPIOD,GPIO_Pin_3)
 	
 	#define UploadPCBID 		0x01 		//
@@ -36,8 +36,10 @@
 	#define StartLED			0x0A        //
 	#define StopLED				0x0B	    //
 	#define ReadI2C2			0x0C
-	#define ReadOptCplr		0x0D
-	#define L298Driver		0x0E
+	#define ReadOptCplr			0x0D
+	#define L298Driver			0x0E
+	#define ShelterUpLimitSW 	0x0F
+	#define ShelterDownLimitSW 	0x10
 	
 	unsigned char HandShakeToMaster[7] = 			{0xAA, 0xBB, 00, 00, 00, 00, 0x65};//
 	unsigned char PCBID[7] = 						{0xAA, 0x01, 00, 00, 00, 00, 0xAB};//
@@ -62,6 +64,8 @@
 	volatile u32 step_timer3;
 	unsigned char WaitPtoEtcSW = 0;
 	unsigned int DelayTimeOfTimer2 = 1000; 
+	unsigned char ShelterUp = 0;
+	unsigned char ShelterDown = 0;
 	
 	typedef enum
 	{
