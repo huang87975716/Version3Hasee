@@ -14,7 +14,7 @@
 	unsigned char 	I2CStatus = 0;
 	unsigned char 	I2CTouchKey = 0;
 	unsigned char 	I2CInfaraedSsr = 0;
-	unsigned int 	PtoEtcSWCheckResult = 0;
+	unsigned int 		PtoEtcSWCheckResult = 0;
 	
 	PROTOCOL_t gU2RecvBuff;//usart information
 	

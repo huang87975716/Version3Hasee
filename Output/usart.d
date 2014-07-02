@@ -18,3 +18,4 @@
 .\Output\usart.o: .\FWlib\inc\misc.h
 .\Output\usart.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
 .\Output\usart.o: C:\Keil\ARM\ARMCC\bin\..\include\stdarg.h
+.\Output\usart.o: USER\SysTick.h
