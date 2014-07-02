@@ -144,7 +144,7 @@ static char *itoa(int value, char *string, int radix)
 } /* NCL_Itoa */
 
 /*
- * 函数名：USART2_printf
+ * 函数名：USART_printf
  * 描述  ：格式化输出，类似于C库中的printf，但这里没有用到C库
  * 输入  ：-USARTx 串口通道，这里只用到了串口2，即USART2
  *		     -Data   要发送到串口的内容的指针
@@ -152,11 +152,11 @@ static char *itoa(int value, char *string, int radix)
  * 输出  ：无
  * 返回  ：无 
  * 调用  ：外部调用
- *         典型应用USART2_printf( USART2, "\r\n this is a demo \r\n" );
- *            		 USART2_printf( USART2, "\r\n %d \r\n", i );
- *            		 USART2_printf( USART2, "\r\n %s \r\n", j );
+ *         典型应用USART_printf( USART2, "\r\n this is a demo \r\n" );
+ *            		 USART_printf( USART2, "\r\n %d \r\n", i );
+ *            		 USART_printf( USART2, "\r\n %s \r\n", j );
  */
-void USART2_printf(USART_TypeDef* USARTx, uint8_t *Data,...)
+void USART_printf(USART_TypeDef* USARTx, uint8_t *Data,...)
 {
 	const char *s;
   int d;   
