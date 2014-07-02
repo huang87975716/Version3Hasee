@@ -30,7 +30,7 @@ int main(void)
 		{
 			RunMode |= (IDOfPCB & (0x01<<(i+4))) >> (2*i+1);
 		}
-		printf("RunMode is %d.\r\n", RunMode);
+		USART_printf( USART2,"RunMode is %d.\r\n", RunMode);
 	}
 	
 	if ( RunMode == RunModeTest )
@@ -41,7 +41,7 @@ int main(void)
 			{
 				MotorStopAll();
 				StartTimes = MotorDrive( 0, j_testloop, i_testloop, 2 );
-				printf("\r\n Row %d, Col %d, StartTimes %d, Backward\r\n",j_testloop,i_testloop,StartTimes);
+				USART_printf( USART2,"\r\n Row %d, Col %d, StartTimes %d, Backward\r\n",j_testloop,i_testloop,StartTimes);
 				if (StartTimes < 2) MotorStatus = Backward;			
 				else MotorStatus = Stopped;
 				Delay_us(500);			
@@ -55,7 +55,7 @@ int main(void)
 					{
 						MotorColStop(i_testloop);
 						MotorStatus = Stopped;
-						printf("Motor Stopped\r\n");
+						USART_printf( USART2,"Motor Stopped\r\n");
 					}
 					MeanRunningCurrent = 0;
 					Delay_us(1);
@@ -63,7 +63,7 @@ int main(void)
 				Delay_us(500);
 				
 				// StartTimes = MotorDrive( 1, j_testloop, i_testloop );
-				// printf("Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop,StartTimes);
+				// USART_printf( USART2,"Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop,StartTimes);
 				// if (StartTimes < 7) MotorStatus = Forward;			
 				// else MotorStatus = Stopped;		
 				// Delay_us(500);
@@ -77,7 +77,7 @@ int main(void)
 					// {
 						// MotorColStop(i_testloop);
 						// MotorStatus = Stopped;
-						// printf("Motor Stopped\r\n");
+						// USART_printf( USART2,"Motor Stopped\r\n");
 					// }
 					// MeanRunningCurrent = 0;
 					// Delay_us(1);
@@ -86,7 +86,7 @@ int main(void)
 
 				// MotorStopAll();
 				// StartTimes = MotorDrive( 0, j_testloop, i_testloop );
-				// printf("Row %d, Col %d, StartTimes %d, Backward\r\n",j_testloop,i_testloop,StartTimes);
+				// USART_printf( USART2,"Row %d, Col %d, StartTimes %d, Backward\r\n",j_testloop,i_testloop,StartTimes);
 				// if (StartTimes < 7) MotorStatus = Backward;			
 				// else MotorStatus = Stopped;		
 				// Delay_us(500);			
@@ -100,7 +100,7 @@ int main(void)
 					// {
 						// MotorColStop(i_testloop);
 						// MotorStatus = Stopped;
-						// printf("Motor Stopped\r\n");
+						// USART_printf( USART2,"Motor Stopped\r\n");
 					// }
 					// MeanRunningCurrent = 0;
 					// Delay_us(1);
@@ -117,7 +117,7 @@ int main(void)
 			for (i_testloop =1 ; i_testloop<10;i_testloop++ )
 			{
 				StartTimes = MotorDrive( 1, j_testloop, i_testloop, 7 );
-				printf("\r\n Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop,StartTimes);
+				USART_printf( USART2,"\r\n Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop,StartTimes);
 				if (StartTimes < 7) MotorStatus = Forward;			
 				else MotorStatus = Stopped;		
 				Delay_us(500);
@@ -131,7 +131,7 @@ int main(void)
 					{
 						MotorColStop(i_testloop);
 						MotorStatus = Stopped;
-						printf("Motor Stopped\r\n");
+						USART_printf( USART2,"Motor Stopped\r\n");
 					}
 					MeanRunningCurrent = 0;
 					Delay_us(1);
@@ -140,7 +140,7 @@ int main(void)
 				
 				// MotorStopAll();
 				// StartTimes = MotorDrive( 0, j_testloop, i_testloop );
-				// printf("Row %d, Col %d, StartTimes %d, Backward\r\n",j_testloop,i_testloop,StartTimes);
+				// USART_printf( USART2,"Row %d, Col %d, StartTimes %d, Backward\r\n",j_testloop,i_testloop,StartTimes);
 				// if (StartTimes < 7) MotorStatus = Backward;			
 				// else MotorStatus = Stopped;
 				// Delay_us(500);			
@@ -154,7 +154,7 @@ int main(void)
 					// {
 						// MotorColStop(i_testloop);
 						// MotorStatus = Stopped;
-						// printf("Motor Stopped\r\n");
+						// USART_printf( USART2,"Motor Stopped\r\n");
 					// }
 					// MeanRunningCurrent = 0;
 					// Delay_us(1);
@@ -162,7 +162,7 @@ int main(void)
 				// Delay_us(1000);
 				
 				// StartTimes = MotorDrive( 1, j_testloop, i_testloop );
-				// printf("Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop,StartTimes);
+				// USART_printf( USART2,"Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop,StartTimes);
 				// if (StartTimes < 7) MotorStatus = Forward;			
 				// else MotorStatus = Stopped;		
 				// Delay_us(500);
@@ -176,7 +176,7 @@ int main(void)
 					// {
 						// MotorColStop(i_testloop);
 						// MotorStatus = Stopped;
-						// printf("Motor Stopped\r\n");
+						// USART_printf( USART2,"Motor Stopped\r\n");
 					// }
 					// MeanRunningCurrent = 0;
 					// Delay_us(1);
@@ -186,13 +186,13 @@ int main(void)
 		}	
 	}
 	
-	printf("entering normal mode\r\n");
+	USART_printf( USART2,"entering normal mode\r\n");
 	while (1)
 	{		
 		switch (TchScrSltStatus)
 		{
 			case MotorStoppedTop: 
-				//printf("\r\n MotorStoppedTop \r\n");	
+				//USART_printf( USART2,"\r\n MotorStoppedTop \r\n");	
 				I2C_PCF8574_BufferRead(&I2CTouchKey, 0x42);
 				if( !(I2CTouchKey &= 1<<3) ) 
 				{
@@ -211,16 +211,16 @@ int main(void)
 				else TchScrSltStatus = MotorStoppedTop;
 				break;
 			case MotorStartDown:
-				//printf("\r\n MotorStartDown \r\n");
+				//USART_printf( USART2,"\r\n MotorStartDown \r\n");
 				if( DownLimSWCheck ) 	TchScrSltStatus = DownLimSW;
 				break;
 			case DownLimSW:
-				//printf("\r\n DownLimSW and Motor Stopped \r\n");
+				//USART_printf( USART2,"\r\n DownLimSW and Motor Stopped \r\n");
 				MotorStopAll();
 				TchScrSltStatus = MotorStoppedBottom;
 				break;
 			case MotorStoppedBottom:
-				//printf("\r\n MotorStoppedBottom \r\n");
+				//USART_printf( USART2,"\r\n MotorStoppedBottom \r\n");
 				I2C_PCF8574_BufferRead(&I2CInfaraedSsr, 0x42);
 				if ( (I2CInfaraedSsr &= 1<<2) ) 
 				{
@@ -229,7 +229,7 @@ int main(void)
 				}
 				break;		
 			case InfraredSensorFirst:
-				//printf("\r\n InfraredSensorFirst \r\n");
+				//USART_printf( USART2,"\r\n InfraredSensorFirst \r\n");
 				if(step_timer3 >= 100) 
 				{
 					step_timer3 = 0;
@@ -248,7 +248,7 @@ int main(void)
 				}
 				break;
 			case InfraredSensorSecond:
-				//printf("\r\n InfraredSensorSecond \r\n");
+				//USART_printf( USART2,"\r\n InfraredSensorSecond \r\n");
 				if(step_timer3 >= 300) 
 				{
 					TchScrSltStatus = TimerTerminated;
@@ -256,16 +256,16 @@ int main(void)
 				}
 				break;
 			case TimerTerminated:
-				//printf("\r\n TimerTerminated Motor Up \r\n");
+				//USART_printf( USART2,"\r\n TimerTerminated Motor Up \r\n");
 				MotorDrive(0,9,11,7);
 				TchScrSltStatus = MotorstartUp;
 				break;
 			case MotorstartUp:
-				//printf("\r\n MotorstartUp \r\n");
+				//USART_printf( USART2,"\r\n MotorstartUp \r\n");
 				if( !UpLimSWCheck ) TchScrSltStatus = UpLimSW;//check the limit switch
 				break;
 			case UpLimSW:
-				//printf("\r\n UpLimSW and Stopped\r\n");
+				//USART_printf( USART2,"\r\n UpLimSW and Stopped\r\n");
 				MotorStopAll();
 				TchScrSltStatus = MotorStoppedTop;
 				break;
@@ -388,13 +388,13 @@ int main(void)
 					break;
 				case ReadI2C2:
 					I2C_PCF8574_BufferRead(&I2CTouchKey, 0x42);
-					printf(" I2C addressed 0x42 is %d\r\n",I2CTouchKey);
+					USART_printf( USART2," I2C addressed 0x42 is %d\r\n",I2CTouchKey);
 					break;
 				case ReadOptCplr:
-					printf(" S_SEN1 is %d\r\n",GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_13));
-					printf(" S_SEN2 is %d\r\n",GPIO_ReadInputDataBit(GPIOD,GPIO_Pin_2));
-					printf(" S_SEN3 is %d\r\n",GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_14));
-					printf(" S_SEN4 is %d\r\n",GPIO_ReadInputDataBit(GPIOD,GPIO_Pin_3));
+					USART_printf( USART2," S_SEN1 is %d\r\n",GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_13));
+					USART_printf( USART2," S_SEN2 is %d\r\n",GPIO_ReadInputDataBit(GPIOD,GPIO_Pin_2));
+					USART_printf( USART2," S_SEN3 is %d\r\n",GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_14));
+					USART_printf( USART2," S_SEN4 is %d\r\n",GPIO_ReadInputDataBit(GPIOD,GPIO_Pin_3));
 					break;
 				case L298Driver:
 					if (gU2RecvBuff.data[0]==1)
@@ -402,26 +402,26 @@ int main(void)
 						GPIO_ResetBits(GPIOE,GPIO_Pin_11);
 						GPIO_SetBits(GPIOE,GPIO_Pin_12);
 						GPIO_SetBits(GPIOA,GPIO_Pin_1);
-						printf(" Enable L298, TC_S1=1, TC_S2=0 \r\n");
+						USART_printf( USART2," Enable L298, TC_S1=1, TC_S2=0 \r\n");
 					}
 					else if (gU2RecvBuff.data[0]==2)
 					{
 						GPIO_ResetBits(GPIOE,GPIO_Pin_12);
 						GPIO_SetBits(GPIOE,GPIO_Pin_11);
 						GPIO_SetBits(GPIOA,GPIO_Pin_1);
-						printf(" Enable L298, TC_S1=0, TC_S2=1 \r\n");
+						USART_printf( USART2," Enable L298, TC_S1=0, TC_S2=1 \r\n");
 					}
 					else if (gU2RecvBuff.data[0]==3)
 					{
 						GPIO_SetBits(GPIOE,GPIO_Pin_11 | GPIO_Pin_12);
 						GPIO_SetBits(GPIOA,GPIO_Pin_1);
-						printf(" Enable L298, TC_S1=1, TC_S2=1 \r\n");
+						USART_printf( USART2," Enable L298, TC_S1=1, TC_S2=1 \r\n");
 					}
 					else 
 					{
 						GPIO_ResetBits(GPIOE,GPIO_Pin_11 | GPIO_Pin_12);
 						GPIO_ResetBits(GPIOA,GPIO_Pin_1);
-						printf("Disable L298 and All control port is set zero \r\n");
+						USART_printf( USART2,"Disable L298 and All control port is set zero \r\n");
 					}
 					break;
 				case ShelterUpLimitSW:
@@ -476,7 +476,7 @@ int main(void)
 			}
 			if (MeanRunningCurrent > 8778 ) //4620 -- 1A
 			{
-				printf("\r\n current of motor shelter is %d\r\n", MeanRunningCurrent);
+				USART_printf( USART2,"\r\n current of motor shelter is %d\r\n", MeanRunningCurrent);
 				MotorColStop(i+1);
 			}
 			MeanRunningCurrent = 0;
@@ -516,10 +516,10 @@ void ADC1_Test(void)
 		{
 			ADC_ConvertedValueLocal = (float)ADC_ConvertedValue[i]/4096*2.5; // 读取转换的AD
 			Delay_us(100);                             // 延时 
-			//printf("0x%04X ", ADC_ConvertedValue[i]);  
-			printf("-->%fV", ADC_ConvertedValueLocal); ;
+			//USART_printf( USART2,"0x%04X ", ADC_ConvertedValue[i]);  
+			USART_printf( USART2,"-->%fV", ADC_ConvertedValueLocal); ;
 		}
-		printf("\r \n");
+		USART_printf( USART2,"\r \n");
 }
 
 void MosTest(void)
@@ -568,7 +568,7 @@ void I2C_Test(void)
 	I2C_PCF8574_Init();
 	I2C_PCF8574_ByteWrite(Write_Buffer , PCF8574Address);
 	I2CInput = I2C_PCF8574_ByteRead(PCF8574Address);
-	printf("%d", I2CInput);
+	USART_printf( USART2,"%d", I2CInput);
 }
 */			
 
