@@ -85,4 +85,11 @@ void GPIO_Config(void)
 	GPIO_ResetBits(GPIOE,GPIO_Pin_11 |GPIO_Pin_12);
 	GPIO_ResetBits(GPIOA,GPIO_Pin_1);
 	//298 Driver interface
+	
+	//485 driver
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;       
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(GPIOE, &GPIO_InitStructure);
+	GPIO_ResetBits(GPIOE,GPIO_Pin_15);
 }

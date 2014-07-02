@@ -16,7 +16,9 @@
 **********************************************************************************/
 #include "usart.h"
 #include <stdarg.h>
-
+#include "SysTick.h"
+#define Output485			GPIO_SetBits(GPIOE,GPIO_Pin_15);Delay_us(1)
+#define Input485 			GPIO_ResetBits(GPIOE,GPIO_Pin_15);Delay_us(1)
 /*
  * 函数名：USART2_Config
  * 描述  ：USART2 GPIO 配置,工作模式配置
@@ -164,7 +166,8 @@ void USART_printf(USART_TypeDef* USARTx, uint8_t *Data,...)
 
   va_list ap;
   va_start(ap, Data);
-
+	
+	Output485;	
 	while ( *Data != 0)     // 判断是否到达字符串结束符
 	{				                          
 		if ( *Data == 0x5c )  //'\'
@@ -218,14 +221,18 @@ void USART_printf(USART_TypeDef* USARTx, uint8_t *Data,...)
 		else USART_SendData(USARTx, *Data++);
 		while( USART_GetFlagStatus(USARTx, USART_FLAG_TC) == RESET );
 	}
+	
+	Input485;
 }
 
 void EchoToMaster(unsigned char *ptr)
 {
 	unsigned char i;
+	Output485;
 	for(i=0; i<7; i++)	
 	{
 		USART_SendData(USART2, *ptr++);	
 		while (!(USART2->SR & USART_FLAG_TXE));
 	}
+	Input485;
 }
