@@ -192,7 +192,6 @@ int main(void)
 		switch (TchScrSltStatus)
 		{
 			case MotorStoppedTop: 
-				//USART_printf( USART2,"\r\n MotorStoppedTop \r\n");	
 				I2C_PCF8574_BufferRead(&I2CTouchKey, 0x42);
 				if( !(I2CTouchKey &= 1<<3) ) 
 				{
@@ -202,7 +201,7 @@ int main(void)
 				}
 				break;
 			case KeyPushed:
-				if( (!DownLimSWCheck) && (!UpLimSWCheck) ) 
+				if( !DownLimSWCheck ) 
 				{
 					EchoToMaster(&ShelterOpened[0]);	
 					MotorDrive(1,9,11,7);//backforward
@@ -211,26 +210,22 @@ int main(void)
 				else TchScrSltStatus = MotorStoppedTop;
 				break;
 			case MotorStartDown:
-				//USART_printf( USART2,"\r\n MotorStartDown \r\n");
-				if( DownLimSWCheck ) 	TchScrSltStatus = DownLimSW;
-				break;
-			case DownLimSW:
-				//USART_printf( USART2,"\r\n DownLimSW and Motor Stopped \r\n");
-				MotorStopAll();
-				TchScrSltStatus = MotorStoppedBottom;
+				if( DownLimSWCheck )
+				{
+					MotorStopAll();
+					TchScrSltStatus = MotorStoppedBottom;
+				}
 				break;
 			case MotorStoppedBottom:
-				//USART_printf( USART2,"\r\n MotorStoppedBottom \r\n");
 				I2C_PCF8574_BufferRead(&I2CInfaraedSsr, 0x42);
 				if ( (I2CInfaraedSsr &= 1<<2) ) 
 				{
-					TchScrSltStatus = InfraredSensorFirst;//????
+					TchScrSltStatus = InfraredSensorFirst;//
 					START_TIME3;
 				}
 				break;		
 			case InfraredSensorFirst:
-				//USART_printf( USART2,"\r\n InfraredSensorFirst \r\n");
-				if(step_timer3 >= 100) 
+				if(step_timer3 >= 200) 
 				{
 					step_timer3 = 0;
 					STOP_TIME3;
@@ -248,26 +243,29 @@ int main(void)
 				}
 				break;
 			case InfraredSensorSecond:
-				//USART_printf( USART2,"\r\n InfraredSensorSecond \r\n");
-				if(step_timer3 >= 300) 
+				if(step_timer3 >= 200) 
 				{
 					TchScrSltStatus = TimerTerminated;
 					STOP_TIME3;
 				}
 				break;
 			case TimerTerminated:
-				//USART_printf( USART2,"\r\n TimerTerminated Motor Up \r\n");
-				MotorDrive(0,9,11,7);
-				TchScrSltStatus = MotorstartUp;
+				if( UpLimSWCheck )
+				{
+					MotorDrive(0,9,11,7);
+					TchScrSltStatus = MotorstartUp;
+				}
+				else TchScrSltStatus = MotorStoppedTop;
 				break;
 			case MotorstartUp:
-				//USART_printf( USART2,"\r\n MotorstartUp \r\n");
-				if( !UpLimSWCheck ) TchScrSltStatus = UpLimSW;//check the limit switch
+				if( !UpLimSWCheck ) 
+				{
+					Delay_us(100);
+					MotorStopAll();
+					TchScrSltStatus = MotorStoppedTop;
+				}
 				break;
-			case UpLimSW:
-				//USART_printf( USART2,"\r\n UpLimSW and Stopped\r\n");
-				MotorStopAll();
-				TchScrSltStatus = MotorStoppedTop;
+			case DoingNothing:
 				break;
 			default:
 				break;			
@@ -424,13 +422,13 @@ int main(void)
 						USART_printf( USART2,"Disable L298 and All control port is set zero \r\n");
 					}
 					break;
-				case ShelterUpLimitSW:
+				case ShelterUpToLimitSW:
 					ShelterUp = 1;
-					MotorDrive(0,9,11,7);//backforward
+					if (UpLimSWCheck)	MotorDrive(0,9,11,7);//Up
 					break;
-				case ShelterDownLimitSW:
+				case ShelterDownToLimitSW:
 					ShelterDown = 1;
-					MotorDrive(1,9,11,7);//backforward
+					if(!DownLimSWCheck)	MotorDrive(1,9,11,7);//Down
 					break;
 				case ReadAllCurrent:
 					for(i=0;i<11;i++)
@@ -480,9 +478,10 @@ int main(void)
 				MeanRunningCurrent += ADC_ConvertedValue[10];
 				//Delay_us(1);
 			}
-			if (MeanRunningCurrent > 8778 ) //4620 -- 1A
+			if (MeanRunningCurrent > 9500 ) //4620 -- 1A
 			{
-				USART_printf( USART2,"\r\n current of motor shelter is %d\r\n", MeanRunningCurrent);
+				USART_printf( USART2,"\r\n door stuck and current of motor shelter is %d\r\n", MeanRunningCurrent);
+				TchScrSltStatus = MotorStoppedTop;
 				MotorColStop(i+1);
 			}
 			MeanRunningCurrent = 0;
@@ -494,6 +493,7 @@ int main(void)
 				{
 					MotorStopAll();
 					ShelterUp = 0;
+					TchScrSltStatus = MotorStoppedTop;
 				}
 			}
 			if (ShelterDown)
@@ -502,6 +502,7 @@ int main(void)
 				{
 					MotorStopAll();
 					ShelterDown = 0;
+					TchScrSltStatus = DoingNothing;
 				}
 			}
 // 			//PtoEtcSW wait time terminated

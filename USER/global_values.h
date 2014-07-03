@@ -38,8 +38,8 @@
 	#define ReadI2C2			0x0C
 	#define ReadOptCplr			0x0D
 	#define L298Driver			0x0E
-	#define ShelterUpLimitSW 	0x0F
-	#define ShelterDownLimitSW 	0x10
+	#define ShelterUpToLimitSW 	0x0F
+	#define ShelterDownToLimitSW 	0x10
 	#define ReadAllCurrent		0x11
 	
 	unsigned char HandShakeToMaster[7] = 			{0xAA, 0xBB, 00, 00, 00, 00, 0x65};//
@@ -73,13 +73,12 @@
 		MotorStoppedTop = 1,
 		KeyPushed,
 		MotorStartDown,
-		DownLimSW,
 		MotorStoppedBottom,
 		InfraredSensorFirst,
 		InfraredSensorSecond,
 		TimerTerminated,
 		MotorstartUp,
-		UpLimSW,
+		DoingNothing,
 	}TchScrSltStatus_TypeDef;
 	TchScrSltStatus_TypeDef TchScrSltStatus = MotorStoppedTop;
 	

@@ -15,7 +15,7 @@ unsigned char MotorDrive(int Dir, int Row, int Col, int TryTimes)
 	{
 		MotorRowDrive (Dir , Row);
 		MotorColDrive (Dir , Col);
-		Delay_us(1000);
+		Delay_us(500);
 		return i;
 	}
 	
