@@ -432,6 +432,12 @@ int main(void)
 					ShelterDown = 1;
 					MotorDrive(1,9,11,7);//backforward
 					break;
+				case ReadAllCurrent:
+					for(i=0;i<11;i++)
+					{
+						USART_printf(USART2,"\r\n the current of Column %d is %d/4620A.\r\n",i+1,ADC_ConvertedValue[i]);
+					}
+					break;
 				default:
 					break;
 			}
