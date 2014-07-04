@@ -189,9 +189,10 @@ int main(void)
 	USART_printf( USART2,"entering normal mode\r\n");
 	while (1)
 	{		
+		//if (TchScrSltStatus != 1) USART_printf( USART2,"\r\n TchScrSltStatus %d \r\n",TchScrSltStatus);
 		switch (TchScrSltStatus)
 		{
-			case MotorStoppedTop: 
+			case MotorStoppedTop:			
 				I2C_PCF8574_BufferRead(&I2CTouchKey, 0x42);
 				if( !(I2CTouchKey &= 1<<3) ) 
 				{
@@ -207,7 +208,7 @@ int main(void)
 					MotorDrive(1,9,11,7);//backforward
 					TchScrSltStatus = MotorStartDown;
 				}
-				else TchScrSltStatus = MotorStoppedTop;
+				else TchScrSltStatus = MotorStoppedBottom;
 				break;
 			case MotorStartDown:
 				if( DownLimSWCheck )
@@ -247,10 +248,11 @@ int main(void)
 				{
 					TchScrSltStatus = TimerTerminated;
 					STOP_TIME3;
+					step_timer3 = 0;
 				}
 				break;
 			case TimerTerminated:
-				if( UpLimSWCheck )
+				if( DownLimSWCheck )
 				{
 					MotorDrive(0,9,11,7);
 					TchScrSltStatus = MotorstartUp;
@@ -258,7 +260,7 @@ int main(void)
 				else TchScrSltStatus = MotorStoppedTop;
 				break;
 			case MotorstartUp:
-				if( !UpLimSWCheck ) 
+				if( (!DownLimSWCheck) && (!UpLimSWCheck ) ) 
 				{
 					Delay_us(100);
 					MotorStopAll();
@@ -423,12 +425,18 @@ int main(void)
 					}
 					break;
 				case ShelterUpToLimitSW:
-					ShelterUp = 1;
-					if (UpLimSWCheck)	MotorDrive(0,9,11,7);//Up
+					if (DownLimSWCheck||UpLimSWCheck)	
+					{
+						MotorDrive(0,9,11,7);//Up
+						ShelterUp = 1;
+					}
 					break;
 				case ShelterDownToLimitSW:
-					ShelterDown = 1;
-					if(!DownLimSWCheck)	MotorDrive(1,9,11,7);//Down
+					if(!DownLimSWCheck)	
+					{
+						MotorDrive(1,9,11,7);//Down
+						ShelterDown = 1;
+					}
 					break;
 				case ReadAllCurrent:
 					for(i=0;i<11;i++)
@@ -452,7 +460,7 @@ int main(void)
 					EchoToMaster(&MedecineSuccedded[0]);
 				}							
 			}
-			//11 Col current check
+			//10 Col current check
 			for(i=0;i<10;i++)
 			{
 				for (j = 0; j<3; j++)
@@ -470,7 +478,7 @@ int main(void)
 					ColCurrentOverRange[6] = 0xB4;
 				}
 				MeanRunningCurrent = 0;
-				for(j=0;j<150;j++);//just for time Delay_us;
+				//for(j=0;j<50;j++);//just for time Delay_us;
 			}	
 
 			for (j = 0; j<3; j++)
@@ -478,19 +486,21 @@ int main(void)
 				MeanRunningCurrent += ADC_ConvertedValue[10];
 				//Delay_us(1);
 			}
-			if (MeanRunningCurrent > 9500 ) //4620 -- 1A
+			if (MeanRunningCurrent > 10000 ) //4620 -- 1A
 			{
 				USART_printf( USART2,"\r\n door stuck and current of motor shelter is %d\r\n", MeanRunningCurrent);
 				TchScrSltStatus = MotorStoppedTop;
 				MotorColStop(i+1);
 			}
 			MeanRunningCurrent = 0;
-			for(j=0;j<150;j++);//just for time Delay_us;
+			//for(j=0;j<50;j++);//just for time Delay_us;
 			
 			if (ShelterUp)
 			{
 				if ( (!UpLimSWCheck) && (!DownLimSWCheck) )
 				{
+					
+					Delay_us(100);
 					MotorStopAll();
 					ShelterUp = 0;
 					TchScrSltStatus = MotorStoppedTop;
@@ -498,7 +508,7 @@ int main(void)
 			}
 			if (ShelterDown)
 			{
-				if ( (UpLimSWCheck) && (DownLimSWCheck) )
+				if ( DownLimSWCheck )
 				{
 					MotorStopAll();
 					ShelterDown = 0;

@@ -71,16 +71,16 @@
 	typedef enum
 	{
 		MotorStoppedTop = 1,
-		KeyPushed,
-		MotorStartDown,
-		MotorStoppedBottom,
-		InfraredSensorFirst,
-		InfraredSensorSecond,
-		TimerTerminated,
-		MotorstartUp,
-		DoingNothing,
+		KeyPushed = 2,
+		MotorStartDown = 3,
+		MotorStoppedBottom = 4,
+		InfraredSensorFirst = 5,
+		InfraredSensorSecond = 6,
+		TimerTerminated = 7,
+		MotorstartUp = 8,
+		DoingNothing = 9,
 	}TchScrSltStatus_TypeDef;
-	TchScrSltStatus_TypeDef TchScrSltStatus = MotorStoppedTop;
+	volatile TchScrSltStatus_TypeDef TchScrSltStatus = MotorStoppedTop;
 	
 	
 	typedef enum
