@@ -114,10 +114,45 @@ int main(void)
 	{
 		for (j_testloop = 1; j_testloop<10; j_testloop++ )
 		{
-			for (i_testloop =1 ; i_testloop<10;i_testloop++ )
+			for (i_testloop =1 ; i_testloop<5;i_testloop++ )
 			{
-				StartTimes = MotorDrive( 1, j_testloop, i_testloop, 7 );
-				USART_printf( USART2,"\r\n Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop,StartTimes);
+				StartTimes = MotorDrive( 1, j_testloop, i_testloop*2-1, 7 );				
+				USART_printf( USART2,"\r\n Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop*2-1,StartTimes);
+				if (StartTimes < 7) MotorStatus = Forward;			
+				else MotorStatus |= Stopped;		
+				Delay_us(500);
+				
+				StartTimes = MotorDrive( 1, j_testloop, i_testloop*2, 7 );	
+				USART_printf( USART2,"\r\n Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop*2,StartTimes);				
+				if (StartTimes < 7) MotorStatus = Forward;			
+				else MotorStatus |= Stopped;		
+				Delay_us(500);
+				
+				while(MotorStatus == Forward)
+				{
+					for(i=i_testloop*2;i<(i_testloop*2+3);i++)
+					{
+						for (j = 0; j<3; j++)
+						{
+							MeanRunningCurrent += ADC_ConvertedValue[i];
+							//Delay_us(1);
+						}
+						if (MeanRunningCurrent > LimitCurrent) //if anything wrong during running(current feedback), stop all the motors;
+						{
+							MotorColStop(i);
+							if ( (i%2) == 0 ) OddCol = 1;
+							else EvenCol = 1;
+							USART_printf( USART2,"Motor Stopped\r\n");
+						}
+						MeanRunningCurrent = 0;
+						for(j=0;j<50;j++);//just for time Delay_us;
+					}
+					if ( (OddCol == 1) && (EvenCol == 1) ) MotorStatus = Stopped;
+				}
+				Delay_us(500);
+			}
+				StartTimes = MotorDrive( 1, j_testloop, 9, 7 );
+				USART_printf( USART2,"\r\n Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,9,StartTimes);
 				if (StartTimes < 7) MotorStatus = Forward;			
 				else MotorStatus = Stopped;		
 				Delay_us(500);
@@ -125,11 +160,11 @@ int main(void)
 				{
 					for (j = 0; j<3; j++)
 					{
-						MeanRunningCurrent += ADC_ConvertedValue[i_testloop-1];
+						MeanRunningCurrent += ADC_ConvertedValue[8];
 					}
 					if (MeanRunningCurrent > LimitCurrent) 
 					{
-						MotorColStop(i_testloop);
+						MotorColStop(9);
 						MotorStatus = Stopped;
 						USART_printf( USART2,"Motor Stopped\r\n");
 					}
@@ -137,52 +172,6 @@ int main(void)
 					Delay_us(1);
 				}
 				Delay_us(500);
-				
-				// MotorStopAll();
-				// StartTimes = MotorDrive( 0, j_testloop, i_testloop );
-				// USART_printf( USART2,"Row %d, Col %d, StartTimes %d, Backward\r\n",j_testloop,i_testloop,StartTimes);
-				// if (StartTimes < 7) MotorStatus = Backward;			
-				// else MotorStatus = Stopped;
-				// Delay_us(500);			
-				// while(MotorStatus == Backward)
-				// {
-					// for (j = 0; j<3; j++)
-					// {
-						// MeanRunningCurrent += ADC_ConvertedValue[i_testloop-1];
-					// }
-					// if (MeanRunningCurrent > LimitCurrent) 
-					// {
-						// MotorColStop(i_testloop);
-						// MotorStatus = Stopped;
-						// USART_printf( USART2,"Motor Stopped\r\n");
-					// }
-					// MeanRunningCurrent = 0;
-					// Delay_us(1);
-				// }
-				// Delay_us(1000);
-				
-				// StartTimes = MotorDrive( 1, j_testloop, i_testloop );
-				// USART_printf( USART2,"Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop,StartTimes);
-				// if (StartTimes < 7) MotorStatus = Forward;			
-				// else MotorStatus = Stopped;		
-				// Delay_us(500);
-				// while(MotorStatus == Forward)
-				// {
-					// for (j = 0; j<3; j++)
-					// {
-						// MeanRunningCurrent += ADC_ConvertedValue[i_testloop-1];
-					// }
-					// if (MeanRunningCurrent > LimitCurrent) 
-					// {
-						// MotorColStop(i_testloop);
-						// MotorStatus = Stopped;
-						// USART_printf( USART2,"Motor Stopped\r\n");
-					// }
-					// MeanRunningCurrent = 0;
-					// Delay_us(1);
-				// }
-				// Delay_us(1000);
-			}
 		}	
 	}
 	
