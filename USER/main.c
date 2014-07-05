@@ -116,6 +116,7 @@ int main(void)
 		{
 			for (i_testloop =1 ; i_testloop<10;i_testloop++ )
 			{
+				MotorStopAll();
 				StartTimes = MotorDrive( 1, j_testloop, i_testloop, 7 );
 				USART_printf( USART2,"\r\n Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop,StartTimes);
 				if (StartTimes < 7) MotorStatus = Forward;			
@@ -205,6 +206,7 @@ int main(void)
 				if( !DownLimSWCheck ) 
 				{
 					EchoToMaster(&ShelterOpened[0]);	
+					MotorStopAll();
 					MotorDrive(1,9,11,7);//backforward
 					TchScrSltStatus = MotorStartDown;
 				}
@@ -252,8 +254,9 @@ int main(void)
 				}
 				break;
 			case TimerTerminated:
-				if( DownLimSWCheck )
+				if( UpLimSWCheck )
 				{
+					MotorStopAll();
 					MotorDrive(0,9,11,7);
 					TchScrSltStatus = MotorstartUp;
 				}
@@ -336,6 +339,7 @@ int main(void)
 					}
 					break;
 				case ReverseRowMotor:
+					MotorStopAll();
 					MotorDriveResverse(gU2RecvBuff.data[0]);//**************************echo back to master not finished
 					break;
 				case CheckPtoEtcSW:
@@ -360,10 +364,12 @@ int main(void)
 					EchoToMaster(&StopPtoEtcSWSuccedded[0]);
 					break;
 				case StartLED:
+					MotorStopAll();
 					MotorColDrive(0,10);
 					EchoToMaster(&StarLEDSuccedded[0]);				
 					break;
 				case StopLED:
+					MotorStopAll();
 					MotorColStop(10);
 					EchoToMaster(&StopLEDSuccedded[0]);	
 					break;
@@ -425,8 +431,9 @@ int main(void)
 					}
 					break;
 				case ShelterUpToLimitSW:
-					if (DownLimSWCheck||UpLimSWCheck)	
+					if (UpLimSWCheck)	
 					{
+						MotorStopAll();
 						MotorDrive(0,9,11,7);//Up
 						ShelterUp = 1;
 					}
@@ -434,6 +441,7 @@ int main(void)
 				case ShelterDownToLimitSW:
 					if(!DownLimSWCheck)	
 					{
+						MotorStopAll();
 						MotorDrive(1,9,11,7);//Down
 						ShelterDown = 1;
 					}
@@ -486,11 +494,19 @@ int main(void)
 				MeanRunningCurrent += ADC_ConvertedValue[10];
 				//Delay_us(1);
 			}
-			if (MeanRunningCurrent > 10000 ) //4620 -- 1A
+
+			if (TchScrSltStatus == MotorStartDown)	ShelterCrtLim = 4620;
+			else ShelterCrtLim = 10000;
+			
+			if (MeanRunningCurrent > ShelterCrtLim ) //4620 -- 1A
 			{
-				USART_printf( USART2,"\r\n door stuck and current of motor shelter is %d\r\n", MeanRunningCurrent);
+				ColCurrentOverRange[2] = 0x0B;
+				ColCurrentOverRange[6] = (0x0B+0xB4);
+				EchoToMaster(&ColCurrentOverRange[0]);
+				ColCurrentOverRange[2] = 0;
+				ColCurrentOverRange[6] = 0xB4;
 				TchScrSltStatus = MotorStoppedTop;
-				MotorColStop(i+1);
+				MotorColStop(11);
 			}
 			MeanRunningCurrent = 0;
 			//for(j=0;j<50;j++);//just for time Delay_us;

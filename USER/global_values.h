@@ -60,6 +60,7 @@
 	unsigned int motor_col = 0;
 	unsigned int motor_row = 0;
 	unsigned int MeanRunningCurrent = 0;
+	unsigned int ShelterCrtLim = 0;
 		
 	volatile u32 step_timer2;
 	volatile u32 step_timer3;

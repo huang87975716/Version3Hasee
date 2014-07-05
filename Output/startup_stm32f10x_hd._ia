@@ -1,5 +1,5 @@
 --cpu Cortex-M3 -g --apcs=interwork --pd "__MICROLIB SETA 1" 
--I D:\Keil\ARM\RV31\INC 
--I D:\Keil\ARM\CMSIS\Include 
--I D:\Keil\ARM\Inc\ST\STM32F10x 
+-I C:\Keil\ARM\RV31\INC 
+-I C:\Keil\ARM\CMSIS\Include 
+-I C:\Keil\ARM\Inc\ST\STM32F10x 
 --list ".\Listing\startup_stm32f10x_hd.lst" --xref -o ".\Output\startup_stm32f10x_hd.o" --depend ".\Output\startup_stm32f10x_hd.d" "CMSIS\Startup\startup_stm32f10x_hd.s"

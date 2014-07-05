@@ -2,4 +2,4 @@
 -I C:\Keil\ARM\RV31\INC 
 -I C:\Keil\ARM\CMSIS\Include 
 -I C:\Keil\ARM\Inc\ST\STM32F10x 
--DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD -o ".\Output\systick.o" --omf_browse ".\Output\systick.crf" --depend ".\Output\systick.d" "USER\SysTick.c"
+-DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -o ".\Output\systick.o" --omf_browse ".\Output\systick.crf" --depend ".\Output\systick.d" "USER\SysTick.c"
