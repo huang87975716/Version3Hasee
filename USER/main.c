@@ -118,38 +118,51 @@ int main(void)
 			{
 				StartTimes = MotorDrive( 1, j_testloop, i_testloop*2-1, 7 );				
 				USART_printf( USART2,"\r\n Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop*2-1,StartTimes);
-				if (StartTimes < 7) MotorStatus = Forward;			
-				else MotorStatus |= Stopped;		
+				if ( EvenCol = 1;		
 				Delay_us(500);
 				
 				StartTimes = MotorDrive( 1, j_testloop, i_testloop*2, 7 );	
 				USART_printf( USART2,"\r\n Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop*2,StartTimes);				
-				if (StartTimes < 7) MotorStatus = Forward;			
-				else MotorStatus |= Stopped;		
+				if (StartTimes < 7) OddCol = 0;			
+				else OddCol = 1;		
 				Delay_us(500);
 				
-				while(MotorStatus == Forward)
+				while( (OddCol == 0) || (EvenCol == 0) )
 				{
-					for(i=i_testloop*2;i<(i_testloop*2+3);i++)
+					if (EvenCol == 0)
 					{
 						for (j = 0; j<3; j++)
 						{
-							MeanRunningCurrent += ADC_ConvertedValue[i];
+							MeanRunningCurrent += ADC_ConvertedValue[i_testloop*2-1];
 							//Delay_us(1);
 						}
 						if (MeanRunningCurrent > LimitCurrent) //if anything wrong during running(current feedback), stop all the motors;
 						{
-							MotorColStop(i);
-							if ( (i%2) == 0 ) OddCol = 1;
-							else EvenCol = 1;
+							MotorColStop(i_testloop*2-1);
+							EvenCol = 1;
 							USART_printf( USART2,"Motor Stopped\r\n");
 						}
 						MeanRunningCurrent = 0;
 						for(j=0;j<50;j++);//just for time Delay_us;
 					}
-					if ( (OddCol == 1) && (EvenCol == 1) ) MotorStatus = Stopped;
+					
+					if (OddCol == 0)
+					{
+						for (j = 0; j<3; j++)
+						{
+							MeanRunningCurrent += ADC_ConvertedValue[i_testloop*2];
+							//Delay_us(1);
+						}
+						if (MeanRunningCurrent > LimitCurrent) //if anything wrong during running(current feedback), stop all the motors;
+						{
+							MotorColStop(i_testloop*2);
+							OddCol = 1;
+							USART_printf( USART2,"Motor Stopped\r\n");
+						}
+						MeanRunningCurrent = 0;
+						for(j=0;j<50;j++);//just for time Delay_us;
+					}
 				}
-				Delay_us(500);
 			}
 				StartTimes = MotorDrive( 1, j_testloop, 9, 7 );
 				USART_printf( USART2,"\r\n Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,9,StartTimes);
