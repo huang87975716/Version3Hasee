@@ -191,6 +191,8 @@ int main(void)
 	while (1)
 	{		
 		//if (TchScrSltStatus != 1) USART_printf( USART2,"\r\n TchScrSltStatus %d \r\n",TchScrSltStatus);
+		/*
+		********************************************************************
 		switch (TchScrSltStatus)
 		{
 			case MotorStoppedTop:			
@@ -275,7 +277,8 @@ int main(void)
 			default:
 				break;			
 		}
-		
+		*****************************************************************
+		*/
 		if (gU2RecvBuff.protocol_ok)
 		{
 			gU2RecvBuff.protocol_ok = 0;
