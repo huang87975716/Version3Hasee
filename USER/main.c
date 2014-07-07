@@ -208,6 +208,7 @@ int main(void)
 				if( !DownLimSWCheck ) 
 				{
 					EchoToMaster(&ShelterOpened[0]);	
+					MotorStopAll();
 					MotorDrive(1,9,11,7);//backforward
 					TchScrSltStatus = MotorStartDown;
 				}
@@ -257,6 +258,7 @@ int main(void)
 			case TimerTerminated:
 				if( UpLimSWCheck )
 				{
+					MotorStopAll();
 					MotorDrive(0,9,11,7);
 					TchScrSltStatus = MotorstartUp;
 				}
