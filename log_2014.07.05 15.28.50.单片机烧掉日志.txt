@@ -1,0 +1,486 @@
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "00" 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "756e4d6f6465206973" 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "20302e0d0a" 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "656e746572696e6720" 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "6e6f726d616c206d" 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "6f64650d0a" 
+Debug: read billIn =  "808f" 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: ======================开始购药====================== 
+Debug: 交易编号: "397" 交易时间: QDateTime("星期六 七月 5 15:06:56 2014") 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: read coinOut1 =  "05010004000a" 
+Debug: 接收到纸币找零器数据： "0230307372303030d703" 
+Debug: comPortData: "aa0807ff0000b8" 
+Debug: ======================开始购药====================== 
+Debug: 交易编号: "397" 交易时间: QDateTime("星期六 七月 5 15:06:57 2014") 
+Debug: read billIn =  "3e" 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: ======================开始购药====================== 
+Debug: 交易编号: "397" 交易时间: QDateTime("星期六 七月 5 15:07:31 2014") 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: read coinOut1 =  "05010004000a" 
+Debug: 接收到纸币找零器数据： "0230307372303030d703" 
+Debug: comPortData: "aa0807ff0000b8" 
+Debug: ======================开始购药====================== 
+Debug: 交易编号: "397" 交易时间: QDateTime("星期六 七月 5 15:07:32 2014") 
+Debug: read billIn =  "3e" 
+Debug: read billIn =  "818f43" 
+Debug: read billIn =  "10" 
+Debug: 已接收：**** 20 ****元. 
+Debug: read billIn =  "818f42" 
+Debug: read billIn =  "10" 
+Debug: 已接收：**** 30 ****元. 
+Debug: 开始出药...... 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0600000000b0" 
+Debug: "L10101" "AA 03 00 01 00 01 af" 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0b01010000b7" 
+Debug: comPortData: "aa0300000000ad" 
+Debug: 出药成功! 
+Debug: "L10101" 出药成功 
+Debug: 购买成功药品: (("花红片", "薄膜衣片每片重0.29克", "广西壮族自治区花红药业股份有限公司", "批号xxx", "25", "1") )  
+Debug: =====================现在开始找零====================== 
+Debug: 药品总额: "25" 元,  投币: "30" 元,  共需找零: "5" 元; 
+Debug: read coinOut1 =  "050100aa05b5" 
+Debug: ================购药结束================= 时间: QDateTime("星期六 七月 5 15:07:45 2014") 
+Debug: comPortData: "aa0300000000ad" 
+Debug: 出药成功! 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0700000000b1" 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0b01010000b7" 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0900000000b3" 
+Debug: ======================开始购药====================== 
+Debug: 交易编号: "398" 交易时间: QDateTime("星期六 七月 5 15:08:26 2014") 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: read coinOut1 =  "05010004000a" 
+Debug: 接收到纸币找零器数据： "0230307372303030d703" 
+Debug: comPortData: "aa0807ff0000b8" 
+Debug: ======================开始购药====================== 
+Debug: 交易编号: "398" 交易时间: QDateTime("星期六 七月 5 15:08:27 2014") 
+Debug: read billIn =  "3e" 
+Debug: read billIn =  "818f43" 
+Debug: read billIn =  "10" 
+Debug: 已接收：**** 20 ****元. 
+Debug: 开始出药...... 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0600000000b0" 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: "L10102" "AA 03 00 01 00 02 b0" 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0b01020000b8" 
+Debug: comPortData: "aa0300000000ad" 
+Debug: 出药成功! 
+Debug: "L10102" 出药成功 
+Debug: 购买成功药品: (("布洛芬缓释胶囊", "", "", "批号xxx", "16", "1") )  
+Debug: =====================现在开始找零====================== 
+Debug: 药品总额: "16" 元,  投币: "20" 元,  共需找零: "4" 元; 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0700000000b1" 
+Debug: read coinOut1 =  "050100aa04b4" 
+Debug: ================购药结束================= 时间: QDateTime("星期六 七月 5 15:08:53 2014") 
+Debug: comPortData: "aa0d00000000b7" 
+Debug: 接收到纸币找零器数据： "02303045323030306903" 
+Debug: 纸币找零故障:  "卡币" 
+Debug: comPortData: "aa0c00000000b6" 
+Debug: 接收到纸币找零器数据： "02303045323030306903" 
+Debug: 纸币找零故障:  "卡币" 
+Debug: comPortData: "aa0d00000000b7" 
+Debug: 接收到纸币找零器数据： "02303045323030306903" 
+Debug: 纸币找零故障:  "卡币" 
+Debug: comPortData: "aa0a0b000000bf" 
+Debug: ======================开始购药====================== 
+Debug: 交易编号: "399" 交易时间: QDateTime("星期六 七月 5 15:11:54 2014") 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: read coinOut1 =  "05010004000a" 
+Debug: 接收到纸币找零器数据： "0230307372303030d703" 
+Debug: comPortData: "aa0807ff0000b8" 
+Debug: ======================开始购药====================== 
+Debug: 交易编号: "399" 交易时间: QDateTime("星期六 七月 5 15:11:55 2014") 
+Debug: read billIn =  "3e" 
+Debug: read billIn =  "818f41" 
+Debug: read billIn =  "10" 
+Debug: 已接收：**** 5 ****元. 
+Debug: read billIn =  "29" 
+Debug: 错误: 拒收! 
+Debug: read billIn =  "2f" 
+Debug: 收钞机异常恢复，设置其状态为可用! 
+Debug: read billIn =  "3e" 
+Debug: read billIn =  "818f41" 
+Debug: read billIn =  "10" 
+Debug: 已接收：**** 10 ****元. 
+Debug: 开始出药...... 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0600000000b0" 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: "L10201" "AA 03 00 02 00 01 b0" 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0b02010000b8" 
+Debug: comPortData: "aa0a01000000b5" 
+Debug: comPortData: "aa0300000000ad" 
+Debug: 出药成功! 
+Debug: "L10801" "AA 03 00 80 00 01 2e" 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: "L10801" 出药成功 
+Debug: 购买成功药品: (("阿莫西林颗粒", "", "", "批号xxx", "9", "1") )  
+Debug: =====================现在开始找零====================== 
+Debug: 药品总额: "9" 元,  投币: "10" 元,  共需找零: "1" 元; 
+Debug: read coinOut1 =  "050100aa01b1" 
+Debug: ================购药结束================= 时间: QDateTime("星期六 七月 5 15:13:01 2014") 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: ======================开始购药====================== 
+Debug: 交易编号: "400" 交易时间: QDateTime("星期六 七月 5 15:13:57 2014") 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: read coinOut1 =  "05010004000a" 
+Debug: 接收到纸币找零器数据： "0230307372303030d703" 
+Debug: comPortData: "aa0807ff0000b8" 
+Debug: ======================开始购药====================== 
+Debug: 交易编号: "400" 交易时间: QDateTime("星期六 七月 5 15:13:58 2014") 
+Debug: read billIn =  "3e" 
+Debug: 出药超时，1分钟未出药 
+Debug: read billIn =  "818f43" 
+Debug: read billIn =  "10" 
+Debug: 已接收：**** 20 ****元. 
+Debug: 开始出药...... 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0600000000b0" 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: "L10202" "AA 03 00 02 00 02 b1" 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0b02020000b9" 
+Debug: comPortData: "aa0300000000ad" 
+Debug: 出药成功! 
+Debug: "L10202" 出药成功 
+Debug: 购买成功药品: (("复方甲硝锉阴道栓", "", "", "批号xxx", "16", "1") )  
+Debug: =====================现在开始找零====================== 
+Debug: 药品总额: "16" 元,  投币: "20" 元,  共需找零: "4" 元; 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0700000000b1" 
+Debug: read coinOut1 =  "050100aa04b4" 
+Debug: ================购药结束================= 时间: QDateTime("星期六 七月 5 15:15:00 2014") 
+Debug: ======================开始购药====================== 
+Debug: 交易编号: "401" 交易时间: QDateTime("星期六 七月 5 15:15:26 2014") 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: read coinOut1 =  "05010004000a" 
+Debug: 接收到纸币找零器数据： "0230307372303030d703" 
+Debug: comPortData: "aa0807ff0000b8" 
+Debug: ======================开始购药====================== 
+Debug: 交易编号: "401" 交易时间: QDateTime("星期六 七月 5 15:15:27 2014") 
+Debug: read billIn =  "3e" 
+Debug: read billIn =  "818f43" 
+Debug: read billIn =  "10" 
+Debug: 已接收：**** 20 ****元. 
+Debug: read billIn =  "818f42" 
+Debug: read billIn =  "10" 
+Debug: 已接收：**** 30 ****元. 
+Debug: 开始出药...... 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0600000000b0" 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: "L10203" "AA 03 00 02 00 04 b3" 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0b02030000ba" 
+Debug: comPortData: "aa0300000000ad" 
+Debug: 出药成功! 
+Debug: "L10203" 出药成功 
+Debug: 购买成功药品: (("正柴胡饮颗粒", "", "江苏", "批号xxx", "22", "1") )  
+Debug: =====================现在开始找零====================== 
+Debug: 药品总额: "22" 元,  投币: "30" 元,  共需找零: "8" 元; 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0700000000b1" 
+Debug: read coinOut1 =  "050100aa08b8" 
+Debug: ================购药结束================= 时间: QDateTime("星期六 七月 5 15:16:25 2014") 
+Debug: ======================开始购药====================== 
+Debug: 交易编号: "402" 交易时间: QDateTime("星期六 七月 5 15:17:32 2014") 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: read coinOut1 =  "05010004000a" 
+Debug: 接收到纸币找零器数据： "0230307372303030d703" 
+Debug: comPortData: "aa0807ff0000b8" 
+Debug: ======================开始购药====================== 
+Debug: 交易编号: "402" 交易时间: QDateTime("星期六 七月 5 15:17:33 2014") 
+Debug: read billIn =  "3e" 
+Debug: read billIn =  "818f42" 
+Debug: read billIn =  "10" 
+Debug: 已接收：**** 10 ****元. 
+Debug: read billIn =  "818f42" 
+Debug: read billIn =  "10" 
+Debug: 已接收：**** 20 ****元. 
+Debug: 开始出药...... 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0600000000b0" 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: "L10204" "AA 03 00 02 00 08 b7" 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "756e4d6f64652069" 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "7320302e0d0a" 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "656e746572696e67" 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "206e6f726d616c20" 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "6d6f64650d0a" 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "0d0a20737461727420" 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "63757272656e7420" 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "69732033333232200d0a" 
+Debug: comPortData: "aa0b02040100bc" 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0b02040000bb" 
+Debug: comPortData: "aa0a04000000b8" 
+Debug: "L10804" "AA 03 00 80 00 08 35" 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "0d0a20737461727420" 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "63757272656e7420" 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "69732033333239200d0a" 
+Debug: comPortData: "aa0b08040100c2" 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0b08040000c1" 
+Debug: comPortData: "aa0a04000000b8" 
+Debug: 购买失败药品: (("头孢克亏片", "16", "1") )  
+Debug: =====================现在开始找零====================== 
+Debug: 药品总额: "16" 元,  投币: "20" 元,  共需找零: "20" 元; 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0700000000b1" 
+Debug: 出钞机正常 
+Debug: 接收到纸币找零器数据： "02303062303030328603" 
+Debug: ================购药结束================= 时间: QDateTime("星期六 七月 5 15:19:33 2014") 
+Debug: ================购药结束================= 时间: QDateTime("星期六 七月 5 15:19:33 2014") 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "00" 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "756e4d6f646520697320302e0d0a656e746572696e67206e6f726d616c206d6f64650d0a" 
+Debug: read billIn =  "808f" 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: ======================开始购药====================== 
+Debug: 交易编号: "403" 交易时间: QDateTime("星期六 七月 5 15:20:32 2014") 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: read coinOut1 =  "05010004000a" 
+Debug: 接收到纸币找零器数据： "0230307372303030d703" 
+Debug: comPortData: "aa0807ff0000b8" 
+Debug: ======================开始购药====================== 
+Debug: 交易编号: "403" 交易时间: QDateTime("星期六 七月 5 15:20:33 2014") 
+Debug: read billIn =  "3e" 
+Debug: read billIn =  "818f42" 
+Debug: read billIn =  "10" 
+Debug: 已接收：**** 10 ****元. 
+Debug: read billIn =  "818f42" 
+Debug: read billIn =  "10" 
+Debug: 已接收：**** 20 ****元. 
+Debug: 开始出药...... 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0600000000b0" 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: "L10205" "AA 03 00 02 00 10 bf" 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "0d0a207374617274" 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "2063757272656e74" 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "2069732032393432200d0a" 
+Debug: comPortData: "aa0b02050100bd" 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0b02050000bc" 
+Debug: comPortData: "aa0300000000ad" 
+Debug: 出药成功! 
+Debug: "L10205" 出药成功 
+Debug: 购买成功药品: (("宫血宁胶囊", "", "", "批号xxx", "15", "1") )  
+Debug: =====================现在开始找零====================== 
+Debug: 药品总额: "15" 元,  投币: "20" 元,  共需找零: "5" 元; 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0700000000b1" 
+Debug: read coinOut1 =  "050100aa05b5" 
+Debug: ================购药结束================= 时间: QDateTime("星期六 七月 5 15:21:31 2014") 
+Debug: ======================开始购药====================== 
+Debug: 交易编号: "404" 交易时间: QDateTime("星期六 七月 5 15:21:43 2014") 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: read coinOut1 =  "05010004000a" 
+Debug: 接收到纸币找零器数据： "0230307372303030d703" 
+Debug: comPortData: "aa0807ff0000b8" 
+Debug: ======================开始购药====================== 
+Debug: 交易编号: "404" 交易时间: QDateTime("星期六 七月 5 15:21:44 2014") 
+Debug: read billIn =  "3e" 
+Debug: read billIn =  "818f43" 
+Debug: read billIn =  "10" 
+Debug: 已接收：**** 20 ****元. 
+Debug: 开始出药...... 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0600000000b0" 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: "L10206" "AA 03 00 02 00 20 cf" 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "0d0a20737461727420" 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "63757272656e74206973203239353920" 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "0d0a" 
+Debug: comPortData: "aa0b02060100be" 
+Debug: comPortData: "aabb0000000065" 
+Debug: 握手回复，下位机收到命令! 
+Debug: comPortData: "aa0b02060000bd" 
+Debug: comPortData: "aa0d00000000b7" 
+Debug: 接收到纸币找零器数据： "02303045323030306903" 
+Debug: 纸币找零故障:  "卡币" 
+Debug: 出药超时，1分钟未出药 
+Debug: "L10806" "AA 03 00 80 00 20 4d" 
+Debug: read billIn =  "808f" 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "abfbffffffbf6d" 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "abfbffffffbf6d" 
+Debug: 通信超时, 12次通信错误 
+Debug: 购买失败药品: (("王氏保赤丸", "10", "1") )  
+Debug: =====================现在开始找零====================== 
+Debug: 药品总额: "10" 元,  投币: "20" 元,  共需找零: "20" 元; 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "abefffffffffbb" 
+Debug: 找零故障:  已找零:  0 元, 未找零:  20 元 
+Debug: ================购药结束================= 时间: QDateTime("星期六 七月 5 15:23:56 2014") 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "00" 
+Debug: read billIn =  "808f" 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "00" 
+Debug: read billIn =  "808f" 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "00" 
+Debug: read billIn =  "808f" 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "00" 
+Debug: read billIn =  "808f" 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "00" 
+Debug: read billIn =  "808f" 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: 接收到纸币找零器数据： "02303045323030306903" 
+Debug: 纸币找零故障:  "卡币" 
+Debug: read billIn =  "808f" 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: ======================开始购药====================== 
+Debug: 交易编号: "405" 交易时间: QDateTime("星期六 七月 5 15:26:33 2014") 
+Debug: read billIn =  "02f0" 
+Debug: 通信数据缺少数据头 
+Debug: comPortData: "abedffffffffbb" 
+Debug: read coinOut1 =  "0000e0" 
+Debug: 纸币接收器故障! "星期六 七月 5 15:26:34 2014" 
+Debug: ===============系统故障，暂时无法购药!============== QDateTime("星期六 七月 5 15:26:34 2014") 
+Debug: read billIn =  "808f" 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: read billIn =  "808f" 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: read billIn =  "808f" 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: 接收到纸币找零器数据： "02303045323030306903" 
+Debug: 纸币找零故障:  "卡币" 
+Debug: read billIn =  "808f" 
+Debug: read billIn =  "5e" 
+Debug: 设置纸钞接收器不可用! 
+Debug: 接收到纸币找零器数据： "02303045323030306903" 
+Debug: 纸币找零故障:  "卡币" 
