@@ -62,6 +62,7 @@ int main(void)
 				}
 				Delay_us(500);
 				
+				//MotorStopAll();
 				// StartTimes = MotorDrive( 1, j_testloop, i_testloop );
 				// USART_printf( USART2,"Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop,StartTimes);
 				// if (StartTimes < 7) MotorStatus = Forward;			
@@ -162,6 +163,7 @@ int main(void)
 				// }
 				// Delay_us(1000);
 				
+				// MotorStopAll();
 				// StartTimes = MotorDrive( 1, j_testloop, i_testloop );
 				// USART_printf( USART2,"Row %d, Col %d, StartTimes %d, Forward\r\n",j_testloop,i_testloop,StartTimes);
 				// if (StartTimes < 7) MotorStatus = Forward;			
@@ -190,9 +192,7 @@ int main(void)
 	USART_printf( USART2,"entering normal mode\r\n");
 	while (1)
 	{		
-		//if (TchScrSltStatus != 1) USART_printf( USART2,"\r\n TchScrSltStatus %d \r\n",TchScrSltStatus);
-		/*
-		********************************************************************
+		//if (TchScrSltStatus != 1) USART_printf( USART2,"\r\n TchScrSltStatus %d \r\n",TchScrSltStatus);	
 		switch (TchScrSltStatus)
 		{
 			case MotorStoppedTop:			
@@ -277,8 +277,6 @@ int main(void)
 			default:
 				break;			
 		}
-		*****************************************************************
-		*/
 		if (gU2RecvBuff.protocol_ok)
 		{
 			gU2RecvBuff.protocol_ok = 0;
@@ -287,7 +285,6 @@ int main(void)
 			switch (gU2RecvBuff.command)
 			{	
 				case MotorForward: 
-					MotorStopAll();
 					motor_row =( (gU2RecvBuff.data[0]<<8) | gU2RecvBuff.data[1] );
 					motor_col =( (gU2RecvBuff.data[2]<<8) | gU2RecvBuff.data[3] );			
 					for(i=0;i<11;i++)
@@ -300,6 +297,7 @@ int main(void)
 								{
 									MotorStartInfo[2] = (i+1);
 									MotorStartInfo[3] = (j+1);
+									MotorStopAll();
 									MotorStartInfo[4] = MotorDrive( 1, i+1, j+1,7) ;
 									MotorStartInfo[6] = (0xB7+i+j+MotorStartInfo[4]);									
 									EchoToMaster(&MotorStartInfo[0]);
@@ -310,7 +308,6 @@ int main(void)
 					Delay_us(500);
 					break;
 				case MotorBackward:
-					MotorStopAll();
 					motor_row =( (gU2RecvBuff.data[0]<<8) | gU2RecvBuff.data[1] );
 					motor_col =( (gU2RecvBuff.data[2]<<8) | gU2RecvBuff.data[3] );			
 					for(i=0;i<11;i++)
@@ -323,6 +320,7 @@ int main(void)
 								{
 									MotorStartInfo[2] = (i+1);
 									MotorStartInfo[3] = (j+1);
+									MotorStopAll();
 									MotorStartInfo[4] = MotorDrive( 0, i+1, j+1,7) ;
 									MotorStartInfo[6] = (0xB7+i+j+MotorStartInfo[4]);									
 									EchoToMaster(&MotorStartInfo[0]);
