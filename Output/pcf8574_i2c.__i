@@ -2,4 +2,4 @@
 -I C:\Keil\ARM\RV31\INC 
 -I C:\Keil\ARM\CMSIS\Include 
 -I C:\Keil\ARM\Inc\ST\STM32F10x 
--DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -o ".\Output\pcf8574_i2c.o" --omf_browse ".\Output\pcf8574_i2c.crf" --depend ".\Output\pcf8574_i2c.d" "USER\PCF8574_I2C.c"
+-DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD -o ".\Output\pcf8574_i2c.o" --omf_browse ".\Output\pcf8574_i2c.crf" --depend ".\Output\pcf8574_i2c.d" "USER\PCF8574_I2C.c"

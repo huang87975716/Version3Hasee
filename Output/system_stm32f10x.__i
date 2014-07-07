@@ -2,4 +2,4 @@
 -I C:\Keil\ARM\RV31\INC 
 -I C:\Keil\ARM\CMSIS\Include 
 -I C:\Keil\ARM\Inc\ST\STM32F10x 
--DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -o ".\Output\system_stm32f10x.o" --omf_browse ".\Output\system_stm32f10x.crf" --depend ".\Output\system_stm32f10x.d" "CMSIS\system_stm32f10x.c"
+-DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD -o ".\Output\system_stm32f10x.o" --omf_browse ".\Output\system_stm32f10x.crf" --depend ".\Output\system_stm32f10x.d" "CMSIS\system_stm32f10x.c"

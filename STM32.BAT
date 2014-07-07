@@ -1,5 +1,5 @@
-SET PATH=C:\Keil\ARM\ARMCC\bin\;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\Program Files\Altium Designer 6\System
-SET CPU_TYPE=STM32F103VE
+SET PATH=C:\Keil\ARM\ARMCC\bin\;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\Program Files\Altium Designer 6\System
+SET CPU_TYPE=STM32F103VB
 SET CPU_VENDOR=STMicroelectronics
 SET UV2_TARGET=STM32
 SET CPU_CLOCK=0x007A1200
@@ -26,6 +26,6 @@ SET CPU_CLOCK=0x007A1200
 "C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\ptoetcsw_check.__i"
 "C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\main.__i"
 "C:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\timer.__i"
-"C:\Keil\ARM\ARMCC\bin\ArmAsm" --Via ".\output\startup_stm32f10x_hd._ia"
+"C:\Keil\ARM\ARMCC\bin\ArmAsm" --Via ".\output\startup_stm32f10x_md._ia"
 "C:\Keil\ARM\ARMCC\bin\ArmLink" --Via ".\Output\GPIO.lnp"
 C:\Keil\ARM\ARMCC\bin\fromelf.exe ".\Output\GPIO.axf" --i32combined --output ".\Output\GPIO.hex"
