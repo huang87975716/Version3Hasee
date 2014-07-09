@@ -7,5 +7,6 @@
 	void MotorDriveResverse(int Row);
 	void MotorColStop(int Col);
 	void MotorRowStop(int Row);
+	unsigned char CheckMotorStatus(void);
 #endif
 

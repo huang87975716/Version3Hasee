@@ -27,7 +27,7 @@ unsigned char MotorDrive(int Dir, int Row, int Col, int TryTimes)
 		Delay_us(150);
 		if (ADC_ConvertedValue[Col-1] > 1540) //1540/4096*2.66=1A
 		{
-			printf("\r\n start current is %d \r\n",ADC_ConvertedValue[Col-1]);
+			//printf("\r\n start current is %d \r\n",ADC_ConvertedValue[Col-1]);
 			MotorColStop(Col);
 			Delay_us(500);				
 		}
@@ -60,15 +60,16 @@ void MotorDriveResverse(int Row)
 void MotorStopAll(void)
 {
 	unsigned char i;
-	for (i = 1; i <= 11; i++)
+	for (i = 1; i <= 9; i++)
 	{
 	MotorRowStop(i);
 	MotorColStop(i);
 	}
+	MotorRowStop(10);//col 10 was connected to LED, not included here
+	MotorRowStop(11);
+	MotorColStop(11);
 	/**************************************************************/
-	
 	Delay_us(500);//
-	
 	/**************************************************************/
 }
 /**/
@@ -125,9 +126,11 @@ void MotorColStop(int Col)
 		default:
 			break;
 	}
-		if(! (((GPIO_ReadOutputData(GPIOA)&0x8A10)<0x8A10) | ((GPIO_ReadOutputData(GPIOB)&0xAC00)<0xAC00)\
-		| ((GPIO_ReadOutputData(GPIOC)&0x1680)<0x1680) | ((GPIO_ReadOutputData(GPIOD)&0xA000)<0xA000)\
-		| ((GPIO_ReadOutputData(GPIOE)&0x780)<0x780)) )
+	//必须所有的列关闭，行才能关闭，if的条件中!0 = 1， 则所有的为0，相或才能为0；
+	//若要每个为0，则必须大于等于0x8A10,如果要等于8A10,则必须所有的都为高电平
+		if(! (((GPIO_ReadOutputData(GPIOA)&0x8A10)<0x8A10) | ((GPIO_ReadOutputData(GPIOB)&0xEC00)<0xEC00)\
+		| ((GPIO_ReadOutputData(GPIOC)&0x1680)<0x1680) | ((GPIO_ReadOutputData(GPIOD)&0xA200)<0xA200)\
+		| ((GPIO_ReadOutputData(GPIOE)&0x780)<0x780) ))//未检测10列的正反转
 		{
 			for(i = 1; i <=9; i++)
 			{
@@ -375,3 +378,50 @@ void MotorColDrive(int Dir, int Col)
 			break;
 		}
 }
+
+unsigned char CheckMotorStatus(void)
+{
+	unsigned char MotorRunning = 0;
+	//读取列与行状态,未检测第10列（正反转）
+	if(! ( ((GPIO_ReadOutputData(GPIOA)&0x8A10)<0x8A10) | ((GPIO_ReadOutputData(GPIOB)&0xEC00)<0xEC00)\
+		| ((GPIO_ReadOutputData(GPIOC)&0x1680)<0x1680) | ((GPIO_ReadOutputData(GPIOD)&0xA200)<0xA200)\
+		| ((GPIO_ReadOutputData(GPIOE)&0x780)<0x780) | ((GPIO_ReadOutputData(GPIOA)&0x1501)<0x1501)\
+		| ((GPIO_ReadOutputData(GPIOC)&0xE940)<0xE940) | ((GPIO_ReadOutputData(GPIOD)&0x5510)<0x5510)\
+		| ((GPIO_ReadOutputData(GPIOE)&0x007C)<0x007C) ))
+	{
+		MotorRunning = 0;
+	}
+	else MotorRunning = 1;
+	return MotorRunning;
+}
+/*  //process of read Row output
+	LineRight_1 -- PC11		
+	LineRight_2 -- PD4
+	LineRight_3 -- PE3
+	LineRight_4 -- PE2
+	LineRight_5 -- PE5
+	LineRight_6 -- PE4
+	LineRight_7 -- PC13
+	LineRight_8 -- PE6
+	LineRight_9 -- PC15
+	LineRight_10 -- PC14
+	LineRight_11 -- PA0
+
+	RankContrary_1 -- PD8-
+	RankContrary_2 -- PD10-
+	RankContrary_3 -- PD12-
+	RankContrary_4 -- PD14-
+	RankContrary_5 -- PC6-
+	RankContrary_6 -- PC8-
+	RankContrary_7 -- PA8-
+	RankContrary_8 -- PA10-
+	RankContrary_9 -- PA12-
+	RankContrary_10 -- P7 of I2C addressed at 0x42
+	RankContrary_11 -- P6 of I2C addressed at 0x42(第一版电机反转的电源跟地标反了)
+	
+	A 0 8 10 12-->低位 1000 0000 1010 1000--> 高位 0001 0101 0000 0001--> 0x1501
+	B -->0
+	C 11 13 15 14 6 8 -->0000 0010 1001 0111-->1110 1001 0100 0000-->0xE940
+	D 4 8 10 12 14-->0000 1000 1010 1010-->0101 0101 0001 0000-->0x5510
+	E 3 2 5 4 6 -->0011 1110 0000 0000-->0000 0000 0111 1100-->0x007C
+*/

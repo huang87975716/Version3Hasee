@@ -90,3 +90,5 @@ the main problem is the relay controlled by triode, which is now solved by the M
 
 alert: 24V directly addding to diode( H bridge) was forbidden;
 */
+
+//I2C output status is unreadable

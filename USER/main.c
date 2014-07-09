@@ -189,10 +189,11 @@ int main(void)
 		}	
 	}
 	
-	USART_printf( USART2,"entering normal mode\r\n");
+	EchoToMaster(&HandShakeToMaster[0]);
 	while (1)
 	{		
-		//if (TchScrSltStatus != 1) USART_printf( USART2,"\r\n TchScrSltStatus %d \r\n",TchScrSltStatus);	
+		if (TchScrSltStatus != 1) USART_printf( USART2,"\r\n TchScrSltStatus %d, step_timer3 %d, TchActd %d\r\n",\
+												TchScrSltStatus,step_timer3,TouchScreenActivity);
 		switch (TchScrSltStatus)
 		{
 			case MotorStoppedTop:			
@@ -207,10 +208,13 @@ int main(void)
 			case KeyPushed:
 				if( !DownLimSWCheck ) 
 				{
-					EchoToMaster(&ShelterOpened[0]);	
-					MotorStopAll();
-					MotorDrive(1,9,11,7);//backforward
-					TchScrSltStatus = MotorStartDown;
+					if(CheckMotorStatus() == 0)
+					{
+						EchoToMaster(&ShelterOpened[0]);	
+						MotorStopAll();
+						MotorDrive(1,9,11,7);//backforward
+						TchScrSltStatus = MotorStartDown;
+					}
 				}
 				else TchScrSltStatus = MotorStoppedBottom;
 				break;
@@ -222,54 +226,96 @@ int main(void)
 				}
 				break;
 			case MotorStoppedBottom:
-				I2C_PCF8574_BufferRead(&I2CInfaraedSsr, 0x42);
-				if ( (I2CInfaraedSsr &= 1<<2) ) 
+				if(TouchScreenActivity == 0)
 				{
-					TchScrSltStatus = InfraredSensorFirst;//
-					START_TIME3;
-				}
-				break;		
-			case InfraredSensorFirst:
-				if(step_timer3 >= 200) 
-				{
-					step_timer3 = 0;
-					STOP_TIME3;
 					I2C_PCF8574_BufferRead(&I2CInfaraedSsr, 0x42);
 					if ( (I2CInfaraedSsr &= 1<<2) ) 
 					{
-						TchScrSltStatus = InfraredSensorSecond;
+						TchScrSltStatus = InfraredSensorFirst;//
 						START_TIME3;
-						EchoToMaster(&ShelterClosed[0]);
 					}
-					else 
+				}
+				else 
+				{
+					TchScrSltStatus = MotorStoppedBottom;
+					step_timer3 = 0;
+					STOP_TIME3;
+				}
+				break;		
+			case InfraredSensorFirst:
+				if(TouchScreenActivity == 0)
+				{
+					if(step_timer3 >= 500) 
 					{
-						TchScrSltStatus = MotorStoppedBottom;
+						step_timer3 = 0;
+						STOP_TIME3;
+						I2C_PCF8574_BufferRead(&I2CInfaraedSsr, 0x42);
+						if ( (I2CInfaraedSsr &= 1<<2) ) 
+						{
+							TchScrSltStatus = InfraredSensorSecond;
+							START_TIME3;
+							EchoToMaster(&ShelterClosed[0]);
+						}
+						else 
+						{
+							TchScrSltStatus = MotorStoppedBottom;
+						}
 					}
+				}
+				else 
+				{
+					TchScrSltStatus = MotorStoppedBottom;
+					step_timer3 = 0;
+					STOP_TIME3;
 				}
 				break;
 			case InfraredSensorSecond:
-				if(step_timer3 >= 200) 
+				if(TouchScreenActivity == 0)
 				{
-					TchScrSltStatus = TimerTerminated;
-					STOP_TIME3;
+					if(step_timer3 >= 500) 
+					{
+						TchScrSltStatus = TimerTerminated;
+						STOP_TIME3;
+						step_timer3 = 0;
+					}
+				}
+				else 
+				{
+					TchScrSltStatus = MotorStoppedBottom;
 					step_timer3 = 0;
+					STOP_TIME3;
 				}
 				break;
 			case TimerTerminated:
-				if( UpLimSWCheck )
+				if(TouchScreenActivity == 0)
 				{
-					MotorStopAll();
-					MotorDrive(0,9,11,7);
-					TchScrSltStatus = MotorstartUp;
+					if( UpLimSWCheck )
+					{
+						if(CheckMotorStatus() == 0)
+						{
+							MotorStopAll();
+							MotorDrive(0,9,11,7);
+							TchScrSltStatus = MotorstartUp;
+						}
+					}
+					else TchScrSltStatus = MotorStoppedTop;
 				}
-				else TchScrSltStatus = MotorStoppedTop;
+				else TchScrSltStatus = MotorStoppedBottom;
 				break;
 			case MotorstartUp:
-				if( (!DownLimSWCheck) && (!UpLimSWCheck ) ) 
+				if(TouchScreenActivity == 0)
 				{
-					Delay_us(100);
-					MotorStopAll();
+					if( (!DownLimSWCheck) && (!UpLimSWCheck ) ) 
+					{
+						Delay_us(100);
+						MotorStopAll();
+						TchScrSltStatus = MotorStoppedTop;
+					}
+				}
+				else 
+				{
 					TchScrSltStatus = MotorStoppedTop;
+					MotorStopAll();
 				}
 				break;
 			case DoingNothing:
@@ -285,55 +331,63 @@ int main(void)
 			switch (gU2RecvBuff.command)
 			{	
 				case MotorForward: 
-					motor_row =( (gU2RecvBuff.data[0]<<8) | gU2RecvBuff.data[1] );
-					motor_col =( (gU2RecvBuff.data[2]<<8) | gU2RecvBuff.data[3] );			
-					for(i=0;i<11;i++)
+					if(CheckMotorStatus() == 0)
 					{
-						if (( (motor_row >>i) & 0x01 ) == 0x01) 
+						motor_row =( (gU2RecvBuff.data[0]<<8) | gU2RecvBuff.data[1] );
+						motor_col =( (gU2RecvBuff.data[2]<<8) | gU2RecvBuff.data[3] );			
+						for(i=0;i<11;i++)
 						{
-							for (j = 0; j<11;j++)
+							if (( (motor_row >>i) & 0x01 ) == 0x01) 
 							{
-								if (( (motor_col >>j) & 0x01 ) == 0x01) 
+								for (j = 0; j<11;j++)
 								{
-									MotorStartInfo[2] = (i+1);
-									MotorStartInfo[3] = (j+1);
-									MotorStopAll();
-									MotorStartInfo[4] = MotorDrive( 1, i+1, j+1,7) ;
-									MotorStartInfo[6] = (0xB7+i+j+MotorStartInfo[4]);									
-									EchoToMaster(&MotorStartInfo[0]);
+									if (( (motor_col >>j) & 0x01 ) == 0x01) 
+									{
+										MotorStartInfo[2] = (i+1);
+										MotorStartInfo[3] = (j+1);
+										MotorStopAll();
+										MotorStartInfo[4] = MotorDrive( 1, i+1, j+1,7) ;
+										MotorStartInfo[6] = (0xB7+i+j+MotorStartInfo[4]);									
+										EchoToMaster(&MotorStartInfo[0]);
+									}
 								}
 							}
 						}
+						Delay_us(500);
 					}
-					Delay_us(500);
+					else EchoToMaster(&MotorRunningTryLater[0]);
 					break;
 				case MotorBackward:
-					motor_row =( (gU2RecvBuff.data[0]<<8) | gU2RecvBuff.data[1] );
-					motor_col =( (gU2RecvBuff.data[2]<<8) | gU2RecvBuff.data[3] );			
-					for(i=0;i<11;i++)
+					if(CheckMotorStatus() == 0)
 					{
-						if (( (motor_row >>i) & 0x01 ) == 0x01) 
+						motor_row =( (gU2RecvBuff.data[0]<<8) | gU2RecvBuff.data[1] );
+						motor_col =( (gU2RecvBuff.data[2]<<8) | gU2RecvBuff.data[3] );			
+						for(i=0;i<11;i++)
 						{
-							for (j = 0; j<11;j++)
+							if (( (motor_row >>i) & 0x01 ) == 0x01) 
 							{
-								if (( (motor_col >>j) & 0x01 ) == 0x01) 
+								for (j = 0; j<11;j++)
 								{
-									MotorStartInfo[2] = (i+1);
-									MotorStartInfo[3] = (j+1);
-									MotorStopAll();
-									MotorStartInfo[4] = MotorDrive( 0, i+1, j+1,7) ;
-									MotorStartInfo[6] = (0xB7+i+j+MotorStartInfo[4]);									
-									EchoToMaster(&MotorStartInfo[0]);
+									if (( (motor_col >>j) & 0x01 ) == 0x01) 
+									{
+										MotorStartInfo[2] = (i+1);
+										MotorStartInfo[3] = (j+1);
+										MotorStopAll();
+										MotorStartInfo[4] = MotorDrive( 0, i+1, j+1,7) ;
+										MotorStartInfo[6] = (0xB7+i+j+MotorStartInfo[4]);									
+										EchoToMaster(&MotorStartInfo[0]);
+									}
 								}
 							}
 						}
+						Delay_us(400);
 					}
-					Delay_us(400);
+					else EchoToMaster(&MotorRunningTryLater[0]);
 					break;
 				case StopAllMotor: 
 					MotorStopAll();
-					if(! (((GPIO_ReadOutputData(GPIOA)&0x8A10)<0x8A10) | ((GPIO_ReadOutputData(GPIOB)&0xAC00)<0xAC00)\
-					| ((GPIO_ReadOutputData(GPIOC)&0x1680)<0x1680) | ((GPIO_ReadOutputData(GPIOD)&0xA000)<0xA000)\
+					if(! (((GPIO_ReadOutputData(GPIOA)&0x8A10)<0x8A10) | ((GPIO_ReadOutputData(GPIOB)&0xEC00)<0xEC00)\
+					| ((GPIO_ReadOutputData(GPIOC)&0x1680)<0x1680) | ((GPIO_ReadOutputData(GPIOD)&0xA200)<0xA200)\
 					| ((GPIO_ReadOutputData(GPIOE)&0x780)<0x780)) )//need to be verfied
 					{
 						EchoToMaster(&AllMotorStopped[0]);
@@ -432,7 +486,7 @@ int main(void)
 					}
 					break;
 				case ShelterUpToLimitSW:
-					if (UpLimSWCheck)	
+					if (UpLimSWCheck &&((TchScrSltStatus == MotorStoppedTop)|| (TchScrSltStatus == DoingNothing) ) )	
 					{
 						MotorStopAll();
 						MotorDrive(0,9,11,7);//Up
@@ -440,7 +494,7 @@ int main(void)
 					}
 					break;
 				case ShelterDownToLimitSW:
-					if(!DownLimSWCheck)	
+					if( (!DownLimSWCheck) && (TchScrSltStatus == MotorStoppedTop))
 					{
 						MotorStopAll();
 						MotorDrive(1,9,11,7);//Down
@@ -452,6 +506,12 @@ int main(void)
 					{
 						USART_printf(USART2,"\r\n the current of Column %d is %d/4620A.\r\n",i+1,ADC_ConvertedValue[i]);
 					}
+					break;
+				case TouchScreenStart:
+					TouchScreenActivity = 1;
+					break;
+				case TouchScreenEnd:
+					TouchScreenActivity = 0;
 					break;
 				default:
 					break;

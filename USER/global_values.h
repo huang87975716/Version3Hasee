@@ -14,11 +14,13 @@
 	unsigned char 	I2CStatus = 0;
 	unsigned char 	I2CTouchKey = 0;
 	unsigned char 	I2CInfaraedSsr = 0;
-	unsigned int 		PtoEtcSWCheckResult = 0;
+	unsigned int 	PtoEtcSWCheckResult = 0;
+	unsigned char 	IsMotorRunning = 1;// 1 means Running, 0 means stopped
+	unsigned char 	TouchScreenActivity = 0;
 	
 	PROTOCOL_t gU2RecvBuff;//usart information
 	
-	#define RunModeNormal 	0x00
+	#define RunModeNormal 		0x00
 	#define RunModeTest 		0x0A
 	#define LimitCurrent 		3696 	// 3234/3/4096*2.66 = 0.7A
 																// 3696/3/4096*2.66 = 0.8A
@@ -41,6 +43,8 @@
 	#define ShelterUpToLimitSW 	0x0F
 	#define ShelterDownToLimitSW 	0x10
 	#define ReadAllCurrent		0x11
+	#define TouchScreenStart	0x12
+	#define TouchScreenEnd		0x13
 	
 	unsigned char HandShakeToMaster[7] = 			{0xAA, 0xBB, 00, 00, 00, 00, 0x65};//
 	unsigned char PCBID[7] = 						{0xAA, 0x01, 00, 00, 00, 00, 0xAB};//
@@ -56,6 +60,7 @@
 	unsigned char MotorStartInfo[7] = 				{0xAA, 0x0B, 00, 00, 00, 00, 0xB5};//
 	unsigned char ShelterOpened[7] =				{0xAA, 0x0C, 00, 00, 00, 00, 0xB6};//
 	unsigned char ShelterClosed[7] =				{0xAA, 0x0D, 00, 00, 00, 00, 0xB7};//
+	unsigned char MotorRunningTryLater[7] = 		{0xAA, 0x0E, 00, 00, 00, 00, 0xB7};//
 	
 	unsigned int motor_col = 0;
 	unsigned int motor_row = 0;
@@ -72,14 +77,14 @@
 	typedef enum
 	{
 		MotorStoppedTop = 1,
-		KeyPushed = 2,
-		MotorStartDown = 3,
-		MotorStoppedBottom = 4,
-		InfraredSensorFirst = 5,
-		InfraredSensorSecond = 6,
-		TimerTerminated = 7,
-		MotorstartUp = 8,
-		DoingNothing = 9,
+		KeyPushed ,
+		MotorStartDown ,
+		MotorStoppedBottom ,
+		InfraredSensorFirst ,
+		InfraredSensorSecond ,
+		TimerTerminated ,
+		MotorstartUp ,
+		DoingNothing ,
 	}TchScrSltStatus_TypeDef;
 	volatile TchScrSltStatus_TypeDef TchScrSltStatus = MotorStoppedTop;
 	
