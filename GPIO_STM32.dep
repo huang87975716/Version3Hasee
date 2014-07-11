@@ -330,7 +330,7 @@ I (.\FWlib\inc\misc.h)(0x4D783BB4)
 I (USER\PCF8574_I2C.h)(0x5382A395)
 I (C:\Keil\ARM\ARMCC\bin\..\include\stdbool.h)(0x50F96150)
 I (USER\SysTick.h)(0x522D9399)
-F (.\USER\main.c)(0x53BCDFAA)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I.\CMSIS -I.\USER -I.\FWlib\inc -I.\FWlib\src -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\ST\STM32F10x -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD -o ".\Output\main.o" --omf_browse ".\Output\main.crf" --depend ".\Output\main.d")
+F (.\USER\main.c)(0x53BD0A09)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I.\CMSIS -I.\USER -I.\FWlib\inc -I.\FWlib\src -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\ST\STM32F10x -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD -o ".\Output\main.o" --omf_browse ".\Output\main.crf" --depend ".\Output\main.d")
 I (USER\includes.h)(0x53956BF7)
 I (.\CMSIS\stm32f10x.h)(0x4D783CB4)
 I (.\CMSIS\core_cm3.h)(0x4D523B58)
@@ -357,7 +357,7 @@ I (USER\protocol.h)(0x53849D19)
 I (USER\adc.h)(0x5386CA64)
 I (USER\PCF8574_I2C.h)(0x5382A395)
 I (C:\Keil\ARM\ARMCC\bin\..\include\stdbool.h)(0x50F96150)
-I (USER\global_values.h)(0x53BCDAB1)
+I (USER\global_values.h)(0x53BD0CDE)
 I (USER\PtoEtcSW_Check.h)(0x5386EA08)
 F (.\USER\timer.c)(0x53956B10)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork -I.\CMSIS -I.\USER -I.\FWlib\inc -I.\FWlib\src -I C:\Keil\ARM\RV31\INC -I C:\Keil\ARM\CMSIS\Include -I C:\Keil\ARM\Inc\ST\STM32F10x -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD -o ".\Output\timer.o" --omf_browse ".\Output\timer.crf" --depend ".\Output\timer.d")
 I (USER\timer.h)(0x53956BDF)

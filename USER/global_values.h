@@ -42,9 +42,9 @@
 	#define L298Driver			0x0E
 	#define ShelterUpToLimitSW 	0x0F
 	#define ShelterDownToLimitSW 	0x10
-	#define ReadAllCurrent		0x11
-	#define TouchScreenStart	0x12
-	#define TouchScreenEnd		0x13
+	#define TouchScreenStart	0x11
+	#define TouchScreenEnd		0x12
+	#define ReadAllCurrent		0x13
 	
 	unsigned char HandShakeToMaster[7] = 			{0xAA, 0xBB, 00, 00, 00, 00, 0x65};//
 	unsigned char PCBID[7] = 						{0xAA, 0x01, 00, 00, 00, 00, 0xAB};//

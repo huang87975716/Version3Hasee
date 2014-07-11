@@ -192,8 +192,8 @@ int main(void)
 	EchoToMaster(&HandShakeToMaster[0]);
 	while (1)
 	{		
-		if (TchScrSltStatus != 1) USART_printf( USART2,"\r\n TchScrSltStatus %d, step_timer3 %d, TchActd %d\r\n",\
-												TchScrSltStatus,step_timer3,TouchScreenActivity);
+		//if (TchScrSltStatus != 1) USART_printf( USART2,"\r\n TchScrSltStatus %d, step_timer3 %d, TchActd %d\r\n",\
+		//										TchScrSltStatus,step_timer3,TouchScreenActivity);
 		switch (TchScrSltStatus)
 		{
 			case MotorStoppedTop:			
