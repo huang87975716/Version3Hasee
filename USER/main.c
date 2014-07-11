@@ -23,7 +23,7 @@ int main(void)
 	TIM2_Configuration();
 	TIM3_NVIC_Configuration();
 	TIM3_Configuration();
-	printf("\r\n\ get started \r\n");
+	printf("\r\n get started \r\n");
 	IWDG_Configuration();
 	IWDG_Enable();
 	if(RCC_GetFlagStatus(RCC_FLAG_IWDGRST) != RESET)
@@ -33,7 +33,11 @@ int main(void)
 	}
 	while(1)
 	{
-	IWDG_ReloadCounter();//Î¹¹·
+		if(GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_14)) 
+		{
+			IWDG_ReloadCounter();
+			Delay_us(1000);
+		}
 	}
 	
 }
