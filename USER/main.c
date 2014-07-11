@@ -33,6 +33,9 @@ int main(void)
 	}
 	while(1)
 	{
+		
+		printf("\r\n running now \r\n");
+		Delay_us(1000);
 		if(GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_14)) 
 		{
 			IWDG_ReloadCounter();
