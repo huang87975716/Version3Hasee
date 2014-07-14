@@ -23,13 +23,13 @@ int main(void)
 	TIM2_Configuration();
 	TIM3_NVIC_Configuration();
 	TIM3_Configuration();
-	IWDG_Configuration();
+	//IWDG_Configuration();
 	
-	if(RCC_GetFlagStatus(RCC_FLAG_IWDGRST) != RESET)
-	{ 
-		printf("WatchDog Reset\r\n"); 
-		RCC_ClearFlag();
-	}
+// 	if(RCC_GetFlagStatus(RCC_FLAG_IWDGRST) != RESET)
+// 	{ 
+// 		printf("WatchDog Reset\r\n"); 
+// 		RCC_ClearFlag();
+// 	}
 	
 	if ( I2C_PCF8574_BufferRead( &IDOfPCB, 0x40 ) ) 	
 	{
@@ -201,7 +201,7 @@ int main(void)
 	{		
 		//if (TchScrSltStatus != 1) USART_printf( USART2,"\r\n TchScrSltStatus %d, step_timer3 %d, TchActd %d\r\n",\
 		//										TchScrSltStatus,step_timer3,TouchScreenActivity);
-		IWDG_ReloadCounter();
+		//IWDG_ReloadCounter();
 		switch (TchScrSltStatus)
 		{
 			case MotorStoppedTop:			
