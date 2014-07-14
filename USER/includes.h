@@ -12,4 +12,5 @@
 	#include "PCF8574_I2C.h"
 	#include "global_values.h"
 	#include "PtoEtcSW_Check.h"
+	#include "IWDG.h"
 #endif

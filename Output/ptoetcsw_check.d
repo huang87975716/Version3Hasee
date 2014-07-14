@@ -12,6 +12,7 @@
 .\Output\ptoetcsw_check.o: .\FWlib\inc\stm32f10x_exti.h
 .\Output\ptoetcsw_check.o: .\FWlib\inc\stm32f10x_gpio.h
 .\Output\ptoetcsw_check.o: .\FWlib\inc\stm32f10x_i2c.h
+.\Output\ptoetcsw_check.o: .\FWlib\inc\stm32f10x_iwdg.h
 .\Output\ptoetcsw_check.o: .\FWlib\inc\stm32f10x_rcc.h
 .\Output\ptoetcsw_check.o: .\FWlib\inc\stm32f10x_tim.h
 .\Output\ptoetcsw_check.o: .\FWlib\inc\stm32f10x_usart.h

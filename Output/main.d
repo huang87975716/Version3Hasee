@@ -12,6 +12,7 @@
 .\Output\main.o: .\FWlib\inc\stm32f10x_exti.h
 .\Output\main.o: .\FWlib\inc\stm32f10x_gpio.h
 .\Output\main.o: .\FWlib\inc\stm32f10x_i2c.h
+.\Output\main.o: .\FWlib\inc\stm32f10x_iwdg.h
 .\Output\main.o: .\FWlib\inc\stm32f10x_rcc.h
 .\Output\main.o: .\FWlib\inc\stm32f10x_tim.h
 .\Output\main.o: .\FWlib\inc\stm32f10x_usart.h
@@ -29,3 +30,4 @@
 .\Output\main.o: USER\global_values.h
 .\Output\main.o: USER\protocol.h
 .\Output\main.o: USER\PtoEtcSW_Check.h
+.\Output\main.o: USER\IWDG.h

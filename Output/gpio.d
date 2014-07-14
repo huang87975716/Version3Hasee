@@ -12,6 +12,7 @@
 .\Output\gpio.o: .\FWlib\inc\stm32f10x_exti.h
 .\Output\gpio.o: .\FWlib\inc\stm32f10x_gpio.h
 .\Output\gpio.o: .\FWlib\inc\stm32f10x_i2c.h
+.\Output\gpio.o: .\FWlib\inc\stm32f10x_iwdg.h
 .\Output\gpio.o: .\FWlib\inc\stm32f10x_rcc.h
 .\Output\gpio.o: .\FWlib\inc\stm32f10x_tim.h
 .\Output\gpio.o: .\FWlib\inc\stm32f10x_usart.h

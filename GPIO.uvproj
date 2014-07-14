@@ -456,6 +456,11 @@
               <FileType>1</FileType>
               <FilePath>.\FWlib\src\stm32f10x_dma.c</FilePath>
             </File>
+            <File>
+              <FileName>stm32f10x_iwdg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FWlib\src\stm32f10x_iwdg.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -515,6 +520,11 @@
               <FileName>timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\USER\timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>IWDG.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\IWDG.c</FilePath>
             </File>
           </Files>
         </Group>
