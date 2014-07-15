@@ -2,15 +2,11 @@
 
 电脑控制门
 
-语音那提示	 
-
 初始状态：升降门最上，读取红外，读取限位，升降门下降，读取红外，读取限位，反馈结果
 
 branch Odd Even 反了(不知道是否解决)
 
-添加aabb00并回复aabb00--done
-
-有时候读取不到其中一个光耦的IO值，用万用表点一下就可以检测到
+有时候读取不到其中一个光耦的IO值，用万用表点一下就可以检测到?????????????
 
 编号为2的电路板4行电压没有？？？
 编号为3的电路板电机前进过程中动动停停???
@@ -21,20 +17,29 @@ MotorStopAll()中删除了10列MOS管的关闭；
 
 MotorColStop增加了对第11列的检测
 
-AA 0E 告诉孙坤
+编号为1跟5的电路板烧写了15号晚上的出厂程序，但是引脚之间是否短路未测试；
 
-1.2 --好的
-1.4 --问题
-1.9 --问题
-2.1 --问题
-3.3 --好的
-3.4--后端卡得太紧
-3.8--好的
-7.2--好的
-7.7--中间卡
-8.5--好的
-9.1--中间卡
-9.6--好的
+2014年7月17日16:36:57
+编号为6的电路板出现发烫的现象，怀疑跟稳压电源断电顺序有关，因为出厂的时候是测试完毕断电出厂的；
+通过命令发现所有的电流采样端口电流值未出现异常（将电路板拆下来后读取所有的电流值）
+the current of Column 1 is 1611/4620A.
 
+ the current of Column 2 is 1938/4620A.
 
-6行4列后退响，5列后退响
+ the current of Column 3 is 2101/4620A.
+
+ the current of Column 4 is 1950/4620A.
+
+ the current of Column 5 is 2110/4620A.
+
+ the current of Column 6 is 1940/4620A.
+
+ the current of Column 7 is 2109/4620A.
+
+ the current of Column 8 is 1950/4620A.
+
+ the current of Column 9 is 2107/4620A.
+
+ the current of Column 10 is 548/4620A.
+
+ the current of Column 11 is 894/4620A.

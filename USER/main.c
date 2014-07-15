@@ -575,7 +575,7 @@ int main(void)
 				ColCurrentOverRange[2] = 0;
 				ColCurrentOverRange[6] = 0xB4;
 				TchScrSltStatus = MotorStoppedTop;
-				MotorColStop(11);
+				MotorStopAll();
 			}
 			MeanRunningCurrent = 0;
 			//for(j=0;j<50;j++);//just for time Delay_us;
