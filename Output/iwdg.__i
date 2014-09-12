@@ -2,4 +2,4 @@
 -I C:\Keil\ARM\RV31\INC 
 -I C:\Keil\ARM\CMSIS\Include 
 -I C:\Keil\ARM\Inc\ST\STM32F10x 
--DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD -o ".\Output\iwdg.o" --omf_browse ".\Output\iwdg.crf" --depend ".\Output\iwdg.d" "USER\IWDG.c"
+-DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -o ".\Output\iwdg.o" --omf_browse ".\Output\iwdg.crf" --depend ".\Output\iwdg.d" "USER\IWDG.c"
