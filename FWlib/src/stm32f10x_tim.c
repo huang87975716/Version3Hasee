@@ -27,9 +27,9 @@
 
 extern void ClearProtocol(void);
 extern PROTOCOL_t gU2RecvBuff;//usart information
-extern unsigned char FlashWriteBuff[5];
-extern unsigned char FlashReadBuff[5] ;
-extern const unsigned char FlashUnlock[5] ;
+extern unsigned char FlashWriteBuff[6];
+extern unsigned char FlashReadBuff[6] ;
+extern const unsigned char FlashUnlock[6] ;
 extern unsigned char FlashLocked;
 /** @addtogroup STM32F10x_StdPeriph_Driver
   * @{
@@ -148,8 +148,10 @@ void TIM_CheckFlash(void)
 									USART_printf( USART2," %d %d", FlashReadBuff[3],FlashReadBuff[4]);
 									break;
 								case 0x15:
-									STMFLASH_Write(FLASH_SAVE_ADDR,(u16*)FlashUnlock,3);
-									USART_printf( USART2," flash unlocked \r\n");
+									FlashWriteBuff[3] = 0;
+									FlashWriteBuff[4] = 0;
+									STMFLASH_Read(FLASH_SAVE_ADDR,(u16*)FlashReadBuff,3);
+									USART_printf( USART2," %d %d", FlashReadBuff[3],FlashReadBuff[4]);
 									FlashLocked = 0;
 									break;
 								default:

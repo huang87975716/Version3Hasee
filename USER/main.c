@@ -535,7 +535,9 @@ int main(void)
 					USART_printf( USART2," %d %d", FlashReadBuff[3],FlashReadBuff[4]);
 					break;
 				case WriteFlash:
-					STMFLASH_Write(FLASH_SAVE_ADDR,(u16*)FlashUnlock,3);
+					FlashWriteBuff[3] = 0;
+					FlashWriteBuff[4] = 0;
+					STMFLASH_Write(FLASH_SAVE_ADDR,(u16*)FlashWriteBuff,3);
 					STMFLASH_Read(FLASH_SAVE_ADDR,(u16*)FlashReadBuff,3);
 					USART_printf( USART2," %d %d", FlashReadBuff[3],FlashReadBuff[4]);
 					break;

@@ -5,7 +5,6 @@
 	unsigned int i = 0, j = 0;	//used for for loop and should be initialled
 	unsigned char FlashWriteBuff[6] = {0x88, 0x11, 0x07, 0x01, 0x00, 0};
 	unsigned char FlashReadBuff[6] = {0, 0, 0, 0, 0,0};
-	const unsigned short int FlashUnlock[6] = {0x88, 0x11, 0x07, 0x00, 0x00, 0};
 	unsigned char FlashLocked = 1;
 
 
