@@ -71,7 +71,8 @@ void TIM3_Configuration(void)
     TIM_ITConfig(TIM3,TIM_IT_Update,ENABLE);
     TIM_Cmd(TIM3, ENABLE);																		/* 开启时钟 */
     
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3 , DISABLE);		/*先关闭等待使用*/    
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3 , DISABLE);		/*先关闭等待使用*/
+		TIM_CheckFlash();
 }
 
 /******************* (C) COPYRIGHT 2012 WildFire Team *****END OF FILE************/

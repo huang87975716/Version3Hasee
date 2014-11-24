@@ -10,6 +10,7 @@
 .\Output\pcf8574_i2c.o: .\FWlib\inc\stm32f10x_can.h
 .\Output\pcf8574_i2c.o: .\FWlib\inc\stm32f10x_dma.h
 .\Output\pcf8574_i2c.o: .\FWlib\inc\stm32f10x_exti.h
+.\Output\pcf8574_i2c.o: .\FWlib\inc\stm32f10x_flashh.h
 .\Output\pcf8574_i2c.o: .\FWlib\inc\stm32f10x_gpio.h
 .\Output\pcf8574_i2c.o: .\FWlib\inc\stm32f10x_i2c.h
 .\Output\pcf8574_i2c.o: .\FWlib\inc\stm32f10x_iwdg.h

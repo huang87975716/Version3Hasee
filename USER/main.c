@@ -10,6 +10,7 @@ unsigned char temp_readbyte, readbyte,sucess;
 unsigned char i_testloop = 0, j_testloop = 0;
 unsigned char StartTimes = 0;
 
+
 int main(void)
 {
 	SysTick_Init();	
@@ -30,6 +31,14 @@ int main(void)
 // 		printf("WatchDog Reset\r\n"); 
 // 		RCC_ClearFlag();
 // 	}
+	
+	
+		
+/*		
+		those code should be deeply hidden
+		normal time should also be able to unlock
+		should know how much time left and whether unlocked
+*/	
 	
 	if ( I2C_PCF8574_BufferRead( &IDOfPCB, 0x40 ) ) 	
 	{
@@ -520,6 +529,15 @@ int main(void)
 					break;
 				case TouchScreenEnd:
 					TouchScreenActivity = 0;
+					break;
+				case ReadFlash:
+					STMFLASH_Read(FLASH_SAVE_ADDR,(u16*)FlashReadBuff,3);
+					USART_printf( USART2," %d %d", FlashReadBuff[3],FlashReadBuff[4]);
+					break;
+				case WriteFlash:
+					STMFLASH_Write(FLASH_SAVE_ADDR,(u16*)FlashUnlock,3);
+					STMFLASH_Read(FLASH_SAVE_ADDR,(u16*)FlashReadBuff,3);
+					USART_printf( USART2," %d %d", FlashReadBuff[3],FlashReadBuff[4]);
 					break;
 				default:
 					break;

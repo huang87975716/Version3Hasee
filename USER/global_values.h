@@ -3,6 +3,11 @@
 #include "stm32f10x.h"
 #include "protocol.h"
 	unsigned int i = 0, j = 0;	//used for for loop and should be initialled
+	unsigned char FlashWriteBuff[6] = {0x88, 0x11, 0x07, 0x01, 0x00, 0};
+	unsigned char FlashReadBuff[6] = {0, 0, 0, 0, 0,0};
+	const unsigned short int FlashUnlock[6] = {0x88, 0x11, 0x07, 0x00, 0x00, 0};
+	unsigned char FlashLocked = 1;
+
 
 	// 局部变量，用于存从flash读到的电压值			 
 	float ADC_ConvertedValueLocal; 
@@ -45,6 +50,8 @@
 	#define TouchScreenStart	0x11
 	#define TouchScreenEnd		0x12
 	#define ReadAllCurrent		0x13
+	#define ReadFlash 0x14					//not available
+	#define WriteFlash 0x15		////not available
 	
 	unsigned char HandShakeToMaster[7] = 			{0xAA, 0xBB, 00, 00, 00, 00, 0x65};//
 	unsigned char PCBID[7] = 						{0xAA, 0x01, 00, 00, 00, 00, 0xAB};//
@@ -61,6 +68,7 @@
 	unsigned char ShelterOpened[7] =				{0xAA, 0x0C, 00, 00, 00, 00, 0xB6};//
 	unsigned char ShelterClosed[7] =				{0xAA, 0x0D, 00, 00, 00, 00, 0xB7};//
 	unsigned char MotorRunningTryLater[7] = 		{0xAA, 0x0E, 00, 00, 00, 00, 0xB7};//
+	unsigned char FlashInfo[7] = {0xAA,0,0,0,0,0,0};
 	
 	unsigned int motor_col = 0;
 	unsigned int motor_row = 0;
@@ -97,4 +105,5 @@
 	}MotorStatus_TypeDef;
 	
 	MotorStatus_TypeDef MotorStatus = Stopped;
+	
 #endif

@@ -10,6 +10,7 @@
 .\Output\timer.o: .\FWlib\inc\stm32f10x_can.h
 .\Output\timer.o: .\FWlib\inc\stm32f10x_dma.h
 .\Output\timer.o: .\FWlib\inc\stm32f10x_exti.h
+.\Output\timer.o: .\FWlib\inc\stm32f10x_flashh.h
 .\Output\timer.o: .\FWlib\inc\stm32f10x_gpio.h
 .\Output\timer.o: .\FWlib\inc\stm32f10x_i2c.h
 .\Output\timer.o: .\FWlib\inc\stm32f10x_iwdg.h

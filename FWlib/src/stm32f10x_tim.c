@@ -22,7 +22,15 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_tim.h"
 #include "stm32f10x_rcc.h"
+#include "usart.h"
+#include "protocol.h"
 
+extern void ClearProtocol(void);
+extern PROTOCOL_t gU2RecvBuff;//usart information
+extern unsigned char FlashWriteBuff[5];
+extern unsigned char FlashReadBuff[5] ;
+extern const unsigned char FlashUnlock[5] ;
+extern unsigned char FlashLocked;
 /** @addtogroup STM32F10x_StdPeriph_Driver
   * @{
   */
@@ -113,7 +121,53 @@ static void TI4_Config(TIM_TypeDef* TIMx, uint16_t TIM_ICPolarity, uint16_t TIM_
 /** @defgroup TIM_Private_Functions
   * @{
   */
-
+void TIM_CheckFlash(void)
+{
+		STMFLASH_Read(FLASH_SAVE_ADDR,(u16*)FlashReadBuff,3);//read flash buff
+		if( (FlashReadBuff[0] == 0x88)&&(FlashReadBuff[1] == 0x11)&&(FlashReadBuff[2] == 0x07) )//check initial
+		{
+			if (FlashReadBuff[3] == 1)//check locked or unlocked, 1 is locked
+			{
+				if(FlashReadBuff[4] < 250)
+				{
+					FlashWriteBuff[4] = FlashReadBuff[4] + 1;
+					STMFLASH_Write(FLASH_SAVE_ADDR,(u16*)FlashWriteBuff,3);
+				}
+				else
+				{
+					
+					while(1)
+					{
+						if (gU2RecvBuff.protocol_ok)
+						{
+							gU2RecvBuff.protocol_ok = 0;
+							switch (gU2RecvBuff.command)
+							{
+								case 0x14:
+									STMFLASH_Read(FLASH_SAVE_ADDR,(u16*)FlashReadBuff,3);//read flash buff;
+									USART_printf( USART2," %d %d", FlashReadBuff[3],FlashReadBuff[4]);
+									break;
+								case 0x15:
+									STMFLASH_Write(FLASH_SAVE_ADDR,(u16*)FlashUnlock,3);
+									USART_printf( USART2," flash unlocked \r\n");
+									FlashLocked = 0;
+									break;
+								default:
+									break;
+							}
+							ClearProtocol();
+						}
+						if(FlashLocked == 0) break;
+					}
+				}
+			}
+		}
+		else 
+		{
+			FlashWriteBuff[4] = 0;
+			STMFLASH_Write(FLASH_SAVE_ADDR,(u16*)FlashWriteBuff,3);
+		}
+}
 /**
   * @brief  Deinitializes the TIMx peripheral registers to their default reset values.
   * @param  TIMx: where x can be 1 to 17 to select the TIM peripheral.

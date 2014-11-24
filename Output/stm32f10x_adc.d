@@ -10,6 +10,7 @@
 .\Output\stm32f10x_adc.o: .\CMSIS\stm32f10x.h
 .\Output\stm32f10x_adc.o: .\FWlib\inc\stm32f10x_dma.h
 .\Output\stm32f10x_adc.o: .\FWlib\inc\stm32f10x_exti.h
+.\Output\stm32f10x_adc.o: .\FWlib\inc\stm32f10x_flashh.h
 .\Output\stm32f10x_adc.o: .\FWlib\inc\stm32f10x_gpio.h
 .\Output\stm32f10x_adc.o: .\FWlib\inc\stm32f10x_i2c.h
 .\Output\stm32f10x_adc.o: .\FWlib\inc\stm32f10x_iwdg.h

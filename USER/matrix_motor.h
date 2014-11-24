@@ -9,4 +9,3 @@
 	void MotorRowStop(int Row);
 	unsigned char CheckMotorStatus(void);
 #endif
-

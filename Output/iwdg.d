@@ -10,6 +10,7 @@
 .\Output\iwdg.o: .\FWlib\inc\stm32f10x_can.h
 .\Output\iwdg.o: .\FWlib\inc\stm32f10x_dma.h
 .\Output\iwdg.o: .\FWlib\inc\stm32f10x_exti.h
+.\Output\iwdg.o: .\FWlib\inc\stm32f10x_flashh.h
 .\Output\iwdg.o: .\FWlib\inc\stm32f10x_gpio.h
 .\Output\iwdg.o: .\FWlib\inc\stm32f10x_i2c.h
 .\Output\iwdg.o: .\FWlib\inc\stm32f10x_iwdg.h

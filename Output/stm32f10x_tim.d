@@ -10,6 +10,7 @@
 .\Output\stm32f10x_tim.o: .\FWlib\inc\stm32f10x_can.h
 .\Output\stm32f10x_tim.o: .\FWlib\inc\stm32f10x_dma.h
 .\Output\stm32f10x_tim.o: .\FWlib\inc\stm32f10x_exti.h
+.\Output\stm32f10x_tim.o: .\FWlib\inc\stm32f10x_flashh.h
 .\Output\stm32f10x_tim.o: .\FWlib\inc\stm32f10x_gpio.h
 .\Output\stm32f10x_tim.o: .\FWlib\inc\stm32f10x_i2c.h
 .\Output\stm32f10x_tim.o: .\FWlib\inc\stm32f10x_iwdg.h
@@ -17,3 +18,6 @@
 .\Output\stm32f10x_tim.o: .\FWlib\inc\stm32f10x_tim.h
 .\Output\stm32f10x_tim.o: .\FWlib\inc\stm32f10x_usart.h
 .\Output\stm32f10x_tim.o: .\FWlib\inc\misc.h
+.\Output\stm32f10x_tim.o: .\USER\usart.h
+.\Output\stm32f10x_tim.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
+.\Output\stm32f10x_tim.o: .\USER\protocol.h

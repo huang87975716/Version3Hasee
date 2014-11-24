@@ -1143,7 +1143,8 @@ FlagStatus TIM_GetFlagStatus(TIM_TypeDef* TIMx, uint16_t TIM_FLAG);
 void TIM_ClearFlag(TIM_TypeDef* TIMx, uint16_t TIM_FLAG);
 ITStatus TIM_GetITStatus(TIM_TypeDef* TIMx, uint16_t TIM_IT);
 void TIM_ClearITPendingBit(TIM_TypeDef* TIMx, uint16_t TIM_IT);
-
+///////////////////////////////////////////////////////////////
+void TIM_CheckFlash(void);
 #ifdef __cplusplus
 }
 #endif
