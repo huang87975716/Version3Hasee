@@ -150,6 +150,7 @@ void TIM_CheckFlash(void)
 								case 0x15:
 									FlashWriteBuff[3] = 0;
 									FlashWriteBuff[4] = 0;
+									STMFLASH_Write(FLASH_SAVE_ADDR,(u16*)FlashWriteBuff,3);
 									STMFLASH_Read(FLASH_SAVE_ADDR,(u16*)FlashReadBuff,3);
 									USART_printf( USART2," %d %d", FlashReadBuff[3],FlashReadBuff[4]);
 									FlashLocked = 0;
