@@ -6,6 +6,7 @@
 	unsigned char FlashWriteBuff[6] = {0x88, 0x11, 0x07, 0x01, 0x00, 0};
 	unsigned char FlashReadBuff[6] = {0, 0, 0, 0, 0,0};
 	unsigned char FlashLocked = 1;
+	unsigned char CurrentLevel = 0;
 
 
 	// 局部变量，用于存从flash读到的电压值			 
@@ -51,6 +52,7 @@
 	#define ReadAllCurrent		0x13
 	#define ReadFlash 0x14					//not available
 	#define WriteFlash 0x15		////not available
+	#define CurrentLevelStart	0x16
 	
 	unsigned char HandShakeToMaster[7] = 			{0xAA, 0xBB, 00, 00, 00, 00, 0x65};//
 	unsigned char PCBID[7] = 						{0xAA, 0x01, 00, 00, 00, 00, 0xAB};//

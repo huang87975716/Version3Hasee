@@ -6,6 +6,7 @@
 
 extern volatile u16 ADC_ConvertedValue[11];
 extern unsigned char I2CValue2;
+extern unsigned char CurrentLevel ;
 
 /**/
 unsigned char MotorDrive(int Dir, int Row, int Col, int TryTimes)
@@ -25,7 +26,7 @@ unsigned char MotorDrive(int Dir, int Row, int Col, int TryTimes)
 		MotorColDrive (Dir , Col);
 		
 		Delay_us(150);
-		if (ADC_ConvertedValue[Col-1] > 1540) //1540/4096*2.66=1A
+		if ( ADC_ConvertedValue[Col-1] > 1540*(1+CurrentLevel*0.1) ) //1540/4096*2.66=1A
 		{
 			//printf("\r\n start current is %d \r\n",ADC_ConvertedValue[Col-1]);
 			MotorColStop(Col);

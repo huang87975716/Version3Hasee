@@ -10,7 +10,6 @@ unsigned char temp_readbyte, readbyte,sucess;
 unsigned char i_testloop = 0, j_testloop = 0;
 unsigned char StartTimes = 0;
 
-
 int main(void)
 {
 	SysTick_Init();	
@@ -347,11 +346,14 @@ int main(void)
 												//that slave have received the information correctly;
 			switch (gU2RecvBuff.command)
 			{	
+				case CurrentLevelStart:
+					CurrentLevel = gU2RecvBuff.data[0];
+					break;
 				case MotorForward: 
 					if(CheckMotorStatus() == 0)
 					{
 						motor_row =( (gU2RecvBuff.data[0]<<8) | gU2RecvBuff.data[1] );
-						motor_col =( (gU2RecvBuff.data[2]<<8) | gU2RecvBuff.data[3] );			
+						motor_col =( (gU2RecvBuff.data[2]<<8) | gU2RecvBuff.data[3] );	
 						for(i=0;i<11;i++)
 						{
 							if (( (motor_row >>i) & 0x01 ) == 0x01) 
@@ -373,6 +375,7 @@ int main(void)
 						Delay_us(500);
 					}
 					else EchoToMaster(&MotorRunningTryLater[0]);
+					CurrentLevel = 0;
 					break;
 				case MotorBackward:
 					if(CheckMotorStatus() == 0)
@@ -400,6 +403,7 @@ int main(void)
 						Delay_us(400);
 					}
 					else EchoToMaster(&MotorRunningTryLater[0]);
+					CurrentLevel = 0;
 					break;
 				case StopAllMotor: 
 					MotorStopAll();
